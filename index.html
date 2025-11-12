@@ -741,8 +741,8 @@
 
         /* Number tidy (hapus spinner di mobile/Chromium) */
         input[type=number]::-webkit-outer-spin-button,
-        input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
-        input[type=number]{ -moz-appearance:textfield; }
+        input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; appearance:none; margin:0; }
+        input[type=number]{ -moz-appearance:textfield; appearance:textfield; }
 
         /* Select arrow padding sudah di CSS; tambahkan height konsisten */
         select{ height:52px; }
@@ -853,11 +853,16 @@
         }
 
         /* UI/UX Mobile-First: Bottom Bar (opsional) */
-        <!-- <div class="bottom-bar">
-            <button class="btn primary">Beranda</button>
-            <button class="btn">Tes Cepat</button>
-            <button class="btn">Progres</button>
-        </div> -->
+        /* Commented out - reserved for future use
+        .bottom-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+        }
+        */
 
         /* --- NEW CHALLENGE MODE CSS --- */
         #challengeControls {
@@ -3056,11 +3061,13 @@
         }
 
         function updateProgress(value){
-            const pct = (state.test.total/state.test.target)*100;
+            // BUG FIX: Prevent division by zero
+            const target = state.test.target || 1; // Default to 1 to avoid division by zero
+            const pct = (state.test.total / target) * 100;
             const bar = qs('#bar');
-            if (bar) bar.style.width = pct+'%';
+            if (bar) bar.style.width = Math.min(100, pct) + '%'; // Cap at 100%
             const prog = qs('.progress');
-            if (prog) prog.setAttribute('aria-valuenow', Math.round(pct));
+            if (prog) prog.setAttribute('aria-valuenow', Math.round(Math.min(100, pct)));
         }
 
         function finishTest(){
@@ -4509,7 +4516,15 @@
             modalKanaGroups.youon = wasActive;
             renderCustomSetGrid();
         });
-        on('#customSetSearch', 'input', renderCustomSetGrid);
+        // BUG FIX: Tambahkan debouncing untuk search input agar tidak lag
+        let searchDebounceTimer;
+        function debouncedRenderCustomSetGrid() {
+            clearTimeout(searchDebounceTimer);
+            searchDebounceTimer = setTimeout(() => {
+                renderCustomSetGrid();
+            }, 300); // 300ms delay
+        }
+        on('#customSetSearch', 'input', debouncedRenderCustomSetGrid);
 
         on('#quickPickConfusion', 'click', () => {
             const set = modalCurrentSet;

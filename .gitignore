@@ -1,0 +1,48 @@
+# API Keys dan Secrets
+config.js
+.env
+.env.local
+.env.production
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+bower_components/
+
+# Build
+dist/
+build/
+*.map
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# User data (jika ada local storage export)
+*.backup.json
+user-progress-*.json
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.cache/

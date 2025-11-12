@@ -411,7 +411,9 @@
         const markIncorrectBtn = document.getElementById('markIncorrectBtn');
 
         // --- INTEGRASI API GEMINI ---
-        const GEMINI_API_KEY = "AIzaSyCZVyGLZrlJW-bQFSYfIgVgWhVWQ6icaeE"; 
+        // SECURITY FIX: API Key sebaiknya disimpan di backend/environment variable
+        // Untuk production, gunakan serverless function atau proxy server
+        const GEMINI_API_KEY = "GANTI_DENGAN_API_KEY_KAMU"; // ⚠️ JANGAN COMMIT KEY ASLI!
         const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
         const geminiCache = new Map(); // Cache untuk contoh AI
 
@@ -538,12 +540,13 @@
 
                 // Reset dan mulai timer hening
                 clearTimeout(listenTimer);
+                // BUG FIX: Kurangi timeout dari 15 detik jadi 8 detik untuk UX lebih baik
                 listenTimer = setTimeout(() => {
                     if (isRecognizing && !hasSpoken) {
                         recognition.stop();
                         updateAiFeedback('Sunyi, coba dekatkan mic & mulai bicara dulu.', 'wrong');
                     }
-                }, 15000); // Diperpanjang menjadi 15 detik hening
+                }, 8000); // Lebih responsif untuk user experience
             };
 
             recognition.onresult = async (event) => {
@@ -673,6 +676,7 @@ Balas ringkas (1 kalimat) dalam bahasa Indonesia.
 `;
 
             try {
+                // BUG FIX: Tambahkan try-finally untuk race condition
                 // Gunakan fetchWithTimeout
                 const response = await fetchWithTimeout(GEMINI_API_URL, {
                     method: 'POST',
@@ -732,17 +736,18 @@ Balas ringkas (1 kalimat) dalam bahasa Indonesia.
                 return;
             }
 
+            // BUG FIX: Race condition - gunakan try-finally untuk reset flag
             isFetchingExamples = true;
-            aiExamplesSection.innerHTML = `<div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Memuat contoh...</div>`;
-            aiExamplesSection.classList.add('show');
-            aiExamplesBtn.innerHTML = '<i class="fa-solid fa-lightbulb"></i> Sembunyikan Contoh';
+            try {
+                aiExamplesSection.innerHTML = `<div class="loading-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Memuat contoh...</div>`;
+                aiExamplesSection.classList.add('show');
+                aiExamplesBtn.innerHTML = '<i class="fa-solid fa-lightbulb"></i> Sembunyikan Contoh';
 
-            // Cek cache
-            if (geminiCache.has(kana)) {
-                aiExamplesSection.innerHTML = geminiCache.get(kana);
-                isFetchingExamples = false;
-                return;
-            }
+                // Cek cache
+                if (geminiCache.has(kana)) {
+                    aiExamplesSection.innerHTML = geminiCache.get(kana);
+                    return;
+                }
 
             const prompt = `Berikan 2 contoh kata atau kalimat pendek dalam bahasa Jepang menggunakan karakter '${kana}'. Sertakan juga terjemahan bahasa Indonesianya untuk setiap contoh. Format output sebagai berikut:
 [Kalimat Jepang 1]
@@ -810,6 +815,7 @@ Jangan sertakan teks lain, salam, atau penjelasan.`;
                     aiExamplesSection.innerHTML = `<p style="color:var(--warn);">Error: ${error.message}. Coba lagi nanti.</p>`;
                 }
             } finally {
+                // BUG FIX: Pastikan flag selalu direset dengan finally block
                 isFetchingExamples = false;
             }
         }
@@ -916,11 +922,14 @@ Jangan sertakan teks lain, salam, atau penjelasan.`;
             // Gabungkan kartu yang salah kembali ke deck utama untuk dipelajari lagi, dengan prioritas lebih tinggi (sederhana)
             let tempDeck = [...deck]; // Buat salinan deck asli
 
+            // BUG FIX: Cap maksimal duplikasi untuk mencegah deck didominasi 1 kartu
+            const MAX_DUPLICATES = 3;
             Array.from(incorrectCards.keys()).forEach(identifier => {
                 const originalCard = deck.find(card => (card.kana + card.romaji) === identifier);
                 if (originalCard) {
                     // Tambahkan kartu yang salah ke bagian awal tempDeck agar muncul lebih cepat
-                    for(let i=0; i < incorrectCards.get(identifier); i++) { // Lebih sering jika salah berkali-kali
+                    const timesToAdd = Math.min(incorrectCards.get(identifier), MAX_DUPLICATES);
+                    for(let i=0; i < timesToAdd; i++) {
                         tempDeck.unshift(originalCard);
                     }
                 }
