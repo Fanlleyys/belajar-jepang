@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Kosakata Bahasa Jepang — Latihan</title>
-    <meta name="description" content="Daftar kosakata dasar bahasa Jepang berdasarkan kategori. Lengkap dengan kana, romaji, arti, dan audio pelafalan." />
+    <title>Kosakata Bahasa Jepang (N5/N4) — Latihan</title>
+    <meta name="description" content="Daftar kosakata dasar bahasa Jepang N5 dan N4 berdasarkan level dan kategori. Lengkap dengan kana, romaji, arti, dan audio pelafalan." />
     <meta name="theme-color" content="#7a6cff">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,6 +71,7 @@
         transition: background-color var(--transition-duration) ease-out, border-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;}
         .card h2{font-size:16px;margin:0 0 10px 0; display: flex; align-items: center; gap: 8px;}
         .card h2 .icon { color: var(--iconColor); transition: color var(--transition-duration) ease-out;}
+        .card h3.filter-label { font-size: 14px; margin: 12px 0 8px 0; color: var(--muted); font-weight: 500;} /* Gaya baru untuk label filter */
         .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
         .btn{ min-height:52px; padding: 0 16px; border-radius: 12px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: all var(--transition-duration) ease-out; color: var(--ink); background: var(--btn); display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
         .btn:active{transform:translateY(1px)}
@@ -275,7 +276,7 @@
                 </svg>
                 <div>
                     <h1>Pelatih Kana Jepang</h1>
-                    <div class="small">Daftar Kosakata Dasar</div>
+                    <div class="small">Daftar Kosakata (N5 & N4)</div>
                 </div>
             </div>
              <!-- NAVIGASI UTAMA (LAMA - TERSEMBUNYI) -->
@@ -294,10 +295,18 @@
     <main class="wrap">
         <div class="card">
             <h2><i class="fa-solid fa-book-open icon"></i> Kosakata (単語)</h2>
-            <div class="small">Cari kosakata atau filter berdasarkan kategori. Klik pada kata untuk mendengarkan pelafalannya.</div>
+            <div class="small">Cari kosakata atau filter berdasarkan level dan kategori. Klik pada kata untuk mendengarkan pelafalannya.</div>
             <div class="spacer"></div>
             <input type="search" id="searchInput" placeholder="Cari kata (e.g., 'neko', 'kucing', 'ねこ')...">
-            <div class="spacer"></div>
+            
+            <!-- Filter Level (Baru) -->
+            <h3 class="filter-label" style="margin-top: 16px;">Filter Level</h3>
+            <div id="levelChips" class="chips">
+                <!-- Level akan digenerate oleh JavaScript -->
+            </div>
+            
+            <!-- Filter Kategori (Lama, tapi sekarang dinamis) -->
+            <h3 class="filter-label">Filter Kategori</h3>
             <div id="categoryChips" class="chips">
                 <!-- Kategori akan digenerate oleh JavaScript -->
             </div>
@@ -367,195 +376,319 @@
     </main>
 
     <script>
-        // DATA KOSAKATA
+        // DATA KOSAKATA (N5 & N4)
+        // Menambahkan properti 'level' untuk N5 dan N4
         const vocabulary = [
-            // --- Salam dan Frasa Dasar ---
-            { id: 'konnichiwa', kana: 'こんにちは', kanji: '今日は', romaji: 'konnichiwa', arti: 'Halo / Selamat siang', kategori: 'salam' },
-            { id: 'ohayougozaimasu', kana: 'おはようございます', kanji: '', romaji: 'ohayou gozaimasu', arti: 'Selamat pagi', kategori: 'salam' },
-            { id: 'konbanwa', kana: 'こんばんは', kanji: '今晩は', romaji: 'konbanwa', arti: 'Selamat malam', kategori: 'salam' },
-            { id: 'oyasuminasai', kana: 'おやすみなさい', kanji: 'お休みなさい', romaji: 'oyasuminasai', arti: 'Selamat tidur', kategori: 'salam' },
-            { id: 'sayounara', kana: 'さようなら', kanji: '', romaji: 'sayounara', arti: 'Selamat tinggal', kategori: 'salam' },
-            { id: 'arigatou', kana: 'ありがとう', kanji: '', romaji: 'arigatou', arti: 'Terima kasih', kategori: 'salam' },
-            { id: 'arigatougozaimasu', kana: 'ありがとうございます', kanji: '', romaji: 'arigatou gozaimasu', arti: 'Terima kasih (formal)', kategori: 'salam' },
-            { id: 'doumoarigatou', kana: 'どうもありがとう', kanji: '', romaji: 'doumo arigatou', arti: 'Terima kasih banyak', kategori: 'salam' },
-            { id: 'sumimasen', kana: 'すみません', kanji: '', romaji: 'sumimasen', arti: 'Maaf / Permisi / Terima kasih', kategori: 'salam' },
-            { id: 'gomennasai', kana: 'ごめんなさい', kanji: '', romaji: 'gomen nasai', arti: 'Maafkan saya', kategori: 'salam' },
-            { id: 'hai', kana: 'はい', kanji: '', romaji: 'hai', arti: 'Ya', kategori: 'dasar' },
-            { id: 'iie', kana: 'いいえ', kanji: '', romaji: 'iie', arti: 'Tidak / Bukan', kategori: 'dasar' },
-            { id: 'onegaishimasu', kana: 'おねがいします', kanji: 'お願いします', romaji: 'onegai shimasu', arti: 'Mohon / Tolong', kategori: 'dasar' },
-            { id: 'douzo', kana: 'どうぞ', kanji: '', romaji: 'douzo', arti: 'Silakan', kategori: 'dasar' },
-            { id: 'hajimemashite', kana: 'はじめまして', kanji: '', romaji: 'hajimemashite', arti: 'Senang bertemu dengan Anda (perkenalan)', kategori: 'salam' },
-            { id: 'yoroshikuonegaishimasu', kana: 'よろしくおねがいします', kanji: 'よろしくお願いします', romaji: 'yoroshiku onegai shimasu', arti: 'Mohon bantuannya (saat perkenalan)', kategori: 'salam' },
-            { id: 'itadakimasu', kana: 'いただきます', kanji: '', romaji: 'itadakimasu', arti: 'Selamat makan (sebelum makan)', kategori: 'makanan' },
-            { id: 'gochisousamadeshita', kana: 'ごちそうさまでした', kanji: '', romaji: 'gochisousama deshita', arti: 'Terima kasih atas makanannya (setelah makan)', kategori: 'makanan' },
+            // --- N5: Salam dan Frasa Dasar ---
+            { id: 'konnichiwa', kana: 'こんにちは', kanji: '今日は', romaji: 'konnichiwa', arti: 'Halo / Selamat siang', kategori: 'salam', level: 'n5' },
+            { id: 'ohayougozaimasu', kana: 'おはようございます', kanji: '', romaji: 'ohayou gozaimasu', arti: 'Selamat pagi', kategori: 'salam', level: 'n5' },
+            { id: 'konbanwa', kana: 'こんばんは', kanji: '今晩は', romaji: 'konbanwa', arti: 'Selamat malam', kategori: 'salam', level: 'n5' },
+            { id: 'oyasuminasai', kana: 'おやすみなさい', kanji: 'お休みなさい', romaji: 'oyasuminasai', arti: 'Selamat tidur', kategori: 'salam', level: 'n5' },
+            { id: 'sayounara', kana: 'さようなら', kanji: '', romaji: 'sayounara', arti: 'Selamat tinggal', kategori: 'salam', level: 'n5' },
+            { id: 'arigatou', kana: 'ありがとう', kanji: '', romaji: 'arigatou', arti: 'Terima kasih', kategori: 'salam', level: 'n5' },
+            { id: 'arigatougozaimasu', kana: 'ありがとうございます', kanji: '', romaji: 'arigatou gozaimasu', arti: 'Terima kasih (formal)', kategori: 'salam', level: 'n5' },
+            { id: 'sumimasen', kana: 'すみません', kanji: '', romaji: 'sumimasen', arti: 'Maaf / Permisi / Terima kasih', kategori: 'salam', level: 'n5' },
+            { id: 'gomennasai', kana: 'ごめんなさい', kanji: '', romaji: 'gomen nasai', arti: 'Maafkan saya', kategori: 'salam', level: 'n5' },
+            { id: 'hai', kana: 'はい', kanji: '', romaji: 'hai', arti: 'Ya', kategori: 'dasar', level: 'n5' },
+            { id: 'iie', kana: 'いいえ', kanji: '', romaji: 'iie', arti: 'Tidak / Bukan', kategori: 'dasar', level: 'n5' },
+            { id: 'onegaishimasu', kana: 'おねがいします', kanji: 'お願いします', romaji: 'onegai shimasu', arti: 'Mohon / Tolong', kategori: 'dasar', level: 'n5' },
+            { id: 'douzo', kana: 'どうぞ', kanji: '', romaji: 'douzo', arti: 'Silakan', kategori: 'dasar', level: 'n5' },
+            { id: 'hajimemashite', kana: 'はじめまして', kanji: '', romaji: 'hajimemashite', arti: 'Senang bertemu dengan Anda (perkenalan)', kategori: 'salam', level: 'n5' },
+            { id: 'yoroshikuonegaishimasu', kana: 'よろしくおねがいします', kanji: 'よろしくお願いします', romaji: 'yoroshiku onegai shimasu', arti: 'Mohon bantuannya (saat perkenalan)', kategori: 'salam', level: 'n5' },
+            { id: 'itadakimasu', kana: 'いただきます', kanji: '', romaji: 'itadakimasu', arti: 'Selamat makan (sebelum makan)', kategori: 'makanan', level: 'n5' },
+            { id: 'gochisousamadeshita', kana: 'ごちそうさまでした', kanji: '', romaji: 'gochisousama deshita', arti: 'Terima kasih atas makanannya (setelah makan)', kategori: 'makanan', level: 'n5' },
 
-            // --- Orang dan Keluarga ---
-            { id: 'watashi', kana: 'わたし', kanji: '私', romaji: 'watashi', arti: 'Saya', kategori: 'orang' },
-            { id: 'anata', kana: 'あなた', kanji: '貴方', romaji: 'anata', arti: 'Anda / Kamu', kategori: 'orang' },
-            { id: 'anohito', kana: 'あのひと', kanji: 'あの人', romaji: 'ano hito', arti: 'Orang itu', kategori: 'orang' },
-            { id: 'sensei', kana: 'せんせい', kanji: '先生', romaji: 'sensei', arti: 'Guru', kategori: 'orang' },
-            { id: 'gakusei', kana: 'がくせい', kanji: '学生', romaji: 'gakusei', arti: 'Murid / Pelajar', kategori: 'orang' },
-            { id: 'kaishain', kana: 'かいしゃいん', kanji: '会社員', romaji: 'kaishain', arti: 'Karyawan perusahaan', kategori: 'orang' },
-            { id: 'isha', kana: 'いしゃ', kanji: '医者', romaji: 'isha', arti: 'Dokter', kategori: 'orang' },
-            { id: 'otousan', kana: 'おとうさん', kanji: 'お父さん', romaji: 'otousan', arti: 'Ayah', kategori: 'keluarga' },
-            { id: 'okaasan', kana: 'おかあさん', kanji: 'お母さん', romaji: 'okaasan', arti: 'Ibu', kategori: 'keluarga' },
-            { id: 'oniisan', kana: 'おにいさん', kanji: 'お兄さん', romaji: 'oniisan', arti: 'Kakak laki-laki', kategori: 'keluarga' },
-            { id: 'oneesan', kana: 'おねえさん', kanji: 'お姉さん', romaji: 'oneesan', arti: 'Kakak perempuan', kategori: 'keluarga' },
-            { id: 'otouto', kana: 'おとうと', kanji: '弟', romaji: 'otouto', arti: 'Adik laki-laki', kategori: 'keluarga' },
-            { id: 'imouto', kana: 'いもうと', kanji: '妹', romaji: 'imouto', arti: 'Adik perempuan', kategori: 'keluarga' },
-            { id: 'kodomo', kana: 'こども', kanji: '子供', romaji: 'kodomo', arti: 'Anak-anak', kategori: 'keluarga' },
+            // --- N5: Orang dan Keluarga ---
+            { id: 'watashi', kana: 'わたし', kanji: '私', romaji: 'watashi', arti: 'Saya', kategori: 'orang', level: 'n5' },
+            { id: 'anata', kana: 'あなた', kanji: '貴方', romaji: 'anata', arti: 'Anda / Kamu', kategori: 'orang', level: 'n5' },
+            { id: 'anohito', kana: 'あのひと', kanji: 'あの人', romaji: 'ano hito', arti: 'Orang itu', kategori: 'orang', level: 'n5' },
+            { id: 'sensei', kana: 'せんせい', kanji: '先生', romaji: 'sensei', arti: 'Guru', kategori: 'orang', level: 'n5' },
+            { id: 'gakusei', kana: 'がくせい', kanji: '学生', romaji: 'gakusei', arti: 'Murid / Pelajar', kategori: 'orang', level: 'n5' },
+            { id: 'kaishain', kana: 'かいしゃいん', kanji: '会社員', romaji: 'kaishain', arti: 'Karyawan perusahaan', kategori: 'orang', level: 'n5' },
+            { id: 'isha', kana: 'いしゃ', kanji: '医者', romaji: 'isha', arti: 'Dokter', kategori: 'orang', level: 'n5' },
+            { id: 'otousan', kana: 'おとうさん', kanji: 'お父さん', romaji: 'otousan', arti: 'Ayah', kategori: 'keluarga', level: 'n5' },
+            { id: 'okaasan', kana: 'おかあさん', kanji: 'お母さん', romaji: 'okaasan', arti: 'Ibu', kategori: 'keluarga', level: 'n5' },
+            { id: 'oniisan', kana: 'おにいさん', kanji: 'お兄さん', romaji: 'oniisan', arti: 'Kakak laki-laki', kategori: 'keluarga', level: 'n5' },
+            { id: 'oneesan', kana: 'おねえさん', kanji: 'お姉さん', romaji: 'oneesan', arti: 'Kakak perempuan', kategori: 'keluarga', level: 'n5' },
+            { id: 'otouto', kana: 'おとうと', kanji: '弟', romaji: 'otouto', arti: 'Adik laki-laki', kategori: 'keluarga', level: 'n5' },
+            { id: 'imouto', kana: 'いもうと', kanji: '妹', romaji: 'imouto', arti: 'Adik perempuan', kategori: 'keluarga', level: 'n5' },
+            { id: 'kodomo', kana: 'こども', kanji: '子供', romaji: 'kodomo', arti: 'Anak-anak', kategori: 'keluarga', level: 'n5' },
+            { id: 'tomodachi', kana: 'ともだち', kanji: '友達', romaji: 'tomodachi', arti: 'Teman', kategori: 'orang', level: 'n5' },
 
-            // --- Angka ---
-            { id: 'ichi', kana: 'いち', kanji: '一', romaji: 'ichi', arti: 'Satu', kategori: 'angka' },
-            { id: 'ni', kana: 'に', kanji: '二', romaji: 'ni', arti: 'Dua', kategori: 'angka' },
-            { id: 'san', kana: 'さん', kanji: '三', romaji: 'san', arti: 'Tiga', kategori: 'angka' },
-            { id: 'shi/yon', kana: 'し / よん', kanji: '四', romaji: 'shi / yon', arti: 'Empat', kategori: 'angka' },
-            { id: 'go', kana: 'ご', kanji: '五', romaji: 'go', arti: 'Lima', kategori: 'angka' },
-            { id: 'roku', kana: 'ろく', kanji: '六', romaji: 'roku', arti: 'Enam', kategori: 'angka' },
-            { id: 'shichi/nana', kana: 'しち / なな', kanji: '七', romaji: 'shichi / nana', arti: 'Tujuh', kategori: 'angka' },
-            { id: 'hachi', kana: 'はち', kanji: '八', romaji: 'hachi', arti: 'Delapan', kategori: 'angka' },
-            { id: 'kyuu/ku', kana: 'きゅう / く', kanji: '九', romaji: 'kyuu / ku', arti: 'Sembilan', kategori: 'angka' },
-            { id: 'juu', kana: 'じゅう', kanji: '十', romaji: 'juu', arti: 'Sepuluh', kategori: 'angka' },
-            { id: 'hyaku', kana: 'ひゃく', kanji: '百', romaji: 'hyaku', arti: 'Seratus', kategori: 'angka' },
-            { id: 'sen', kana: 'せん', kanji: '千', romaji: 'sen', arti: 'Seribu', kategori: 'angka' },
-            { id: 'man', kana: 'まん', kanji: '万', romaji: 'man', arti: 'Sepuluh ribu', kategori: 'angka' },
+            // --- N5: Angka ---
+            { id: 'ichi', kana: 'いち', kanji: '一', romaji: 'ichi', arti: 'Satu', kategori: 'angka', level: 'n5' },
+            { id: 'ni', kana: 'に', kanji: '二', romaji: 'ni', arti: 'Dua', kategori: 'angka', level: 'n5' },
+            { id: 'san', kana: 'さん', kanji: '三', romaji: 'san', arti: 'Tiga', kategori: 'angka', level: 'n5' },
+            { id: 'shi/yon', kana: 'し / よん', kanji: '四', romaji: 'shi / yon', arti: 'Empat', kategori: 'angka', level: 'n5' },
+            { id: 'go', kana: 'ご', kanji: '五', romaji: 'go', arti: 'Lima', kategori: 'angka', level: 'n5' },
+            { id: 'roku', kana: 'ろく', kanji: '六', romaji: 'roku', arti: 'Enam', kategori: 'angka', level: 'n5' },
+            { id: 'shichi/nana', kana: 'しち / なな', kanji: '七', romaji: 'shichi / nana', arti: 'Tujuh', kategori: 'angka', level: 'n5' },
+            { id: 'hachi', kana: 'はち', kanji: '八', romaji: 'hachi', arti: 'Delapan', kategori: 'angka', level: 'n5' },
+            { id: 'kyuu/ku', kana: 'きゅう / く', kanji: '九', romaji: 'kyuu / ku', arti: 'Sembilan', kategori: 'angka', level: 'n5' },
+            { id: 'juu', kana: 'じゅう', kanji: '十', romaji: 'juu', arti: 'Sepuluh', kategori: 'angka', level: 'n5' },
+            { id: 'hyaku', kana: 'ひゃく', kanji: '百', romaji: 'hyaku', arti: 'Seratus', kategori: 'angka', level: 'n5' },
+            { id: 'sen', kana: 'せん', kanji: '千', romaji: 'sen', arti: 'Seribu', kategori: 'angka', level: 'n5' },
+            { id: 'man', kana: 'まん', kanji: '万', romaji: 'man', arti: 'Sepuluh ribu', kategori: 'angka', level: 'n5' },
 
-            // --- Tempat dan Lokasi ---
-            { id: 'nihon', kana: 'にほん', kanji: '日本', romaji: 'nihon', arti: 'Jepang', kategori: 'tempat' },
-            { id: 'gakkou', kana: 'がっこう', kanji: '学校', romaji: 'gakkou', arti: 'Sekolah', kategori: 'tempat' },
-            { id: 'eki', kana: 'えき', kanji: '駅', romaji: 'eki', arti: 'Stasiun', kategori: 'tempat' },
-            { id: 'ie/uchi', kana: 'いえ / うち', kanji: '家', romaji: 'ie / uchi', arti: 'Rumah', kategori: 'tempat' },
-            { id: 'kaisha', kana: 'かいしゃ', kanji: '会社', romaji: 'kaishain', arti: 'Kantor / Perusahaan', kategori: 'tempat' },
-            { id: 'ginkou', kana: 'ぎんこう', kanji: '銀行', romaji: 'ginkou', arti: 'Bank', kategori: 'tempat' },
-            { id: 'byouin', kana: 'びょういん', kanji: '病院', romaji: 'byouin', arti: 'Rumah sakit', kategori: 'tempat' },
-            { id: 'resutoran', kana: 'レストラン', kanji: '', romaji: 'resutoran', arti: 'Restoran', kategori: 'tempat' },
-            { id: 'suupaa', kana: 'スーパー', kanji: '', romaji: 'suupaa', arti: 'Supermarket', kategori: 'tempat' },
-            { id: 'depaato', kana: 'デパート', kanji: '', romaji: 'depaato', arti: 'Toserba', kategori: 'tempat' },
-            { id: 'machi', kana: 'まち', kanji: '町', romaji: 'machi', arti: 'Kota', kategori: 'tempat' },
-            { id: 'kuni', kana: 'くに', kanji: '国', romaji: 'kuni', arti: 'Negara', kategori: 'tempat' },
-            { id: 'heya', kana: 'へや', kanji: '部屋', romaji: 'heya', arti: 'Kamar', kategori: 'tempat' },
-            { id: 'toire', kana: 'トイレ', kanji: '', romaji: 'toire', arti: 'Toilet', kategori: 'tempat' },
+            // --- N5: Tempat dan Lokasi ---
+            { id: 'nihon', kana: 'にほん', kanji: '日本', romaji: 'nihon', arti: 'Jepang', kategori: 'tempat', level: 'n5' },
+            { id: 'gakkou', kana: 'がっこう', kanji: '学校', romaji: 'gakkou', arti: 'Sekolah', kategori: 'tempat', level: 'n5' },
+            { id: 'eki', kana: 'えき', kanji: '駅', romaji: 'eki', arti: 'Stasiun', kategori: 'tempat', level: 'n5' },
+            { id: 'ie/uchi', kana: 'いえ / うち', kanji: '家', romaji: 'ie / uchi', arti: 'Rumah', kategori: 'tempat', level: 'n5' },
+            { id: 'kaisha', kana: 'かいしゃ', kanji: '会社', romaji: 'kaisha', arti: 'Kantor / Perusahaan', kategori: 'tempat', level: 'n5' }, // Romaji diperbaiki
+            { id: 'ginkou', kana: 'ぎんこう', kanji: '銀行', romaji: 'ginkou', arti: 'Bank', kategori: 'tempat', level: 'n5' },
+            { id: 'byouin', kana: 'びょういん', kanji: '病院', romaji: 'byouin', arti: 'Rumah sakit', kategori: 'tempat', level: 'n5' },
+            { id: 'resutoran', kana: 'レストラン', kanji: '', romaji: 'resutoran', arti: 'Restoran', kategori: 'tempat', level: 'n5' },
+            { id: 'suupaa', kana: 'スーパー', kanji: '', romaji: 'suupaa', arti: 'Supermarket', kategori: 'tempat', level: 'n5' },
+            { id: 'depaato', kana: 'デパート', kanji: '', romaji: 'depaato', arti: 'Toserba', kategori: 'tempat', level: 'n5' },
+            { id: 'machi', kana: 'まち', kanji: '町', romaji: 'machi', arti: 'Kota', kategori: 'tempat', level: 'n5' },
+            { id: 'kuni', kana: 'くに', kanji: '国', romaji: 'kuni', arti: 'Negara', kategori: 'tempat', level: 'n5' },
+            { id: 'heya', kana: 'へや', kanji: '部屋', romaji: 'heya', arti: 'Kamar', kategori: 'tempat', level: 'n5' },
+            { id: 'toire', kana: 'トイレ', kanji: '', romaji: 'toire', arti: 'Toilet', kategori: 'tempat', level: 'n5' },
+            { id: 'daigaku', kana: 'だいがく', kanji: '大学', romaji: 'daigaku', arti: 'Universitas', kategori: 'tempat', level: 'n5' },
+            { id: 'mise', kana: 'みせ', kanji: '店', romaji: 'mise', arti: 'Toko', kategori: 'tempat', level: 'n5' },
 
-            // --- Makanan dan Minuman ---
-            { id: 'gohan', kana: 'ごはん', kanji: 'ご飯', romaji: 'gohan', arti: 'Nasi / Makanan', kategori: 'makanan' },
-            { id: 'pan', kana: 'パン', kanji: '', romaji: 'pan', arti: 'Roti', kategori: 'makanan' },
-            { id: 'mizu', kana: 'みず', kanji: '水', romaji: 'mizu', arti: 'Air', kategori: 'minuman' },
-            { id: 'ocha', kana: 'おちゃ', kanji: 'お茶', romaji: 'ocha', arti: 'Teh', kategori: 'minuman' },
-            { id: 'koohii', kana: 'コーヒー', kanji: '', romaji: 'koohii', arti: 'Kopi', kategori: 'minuman' },
-            { id: 'gyuunyuu', kana: 'ぎゅうにゅう', kanji: '牛乳', romaji: 'gyuunyuu', arti: 'Susu', kategori: 'minuman' },
-            { id: 'niku', kana: 'にく', kanji: '肉', romaji: 'niku', arti: 'Daging', kategori: 'makanan' },
-            { id: 'sakana', kana: 'さかな', kanji: '魚', romaji: 'sakana', arti: 'Ikan', kategori: 'makanan' },
-            { id: 'yasai', kana: 'やさい', kanji: '野菜', romaji: 'yasai', arti: 'Sayur', kategori: 'makanan' },
-            { id: 'kudamono', kana: 'くだもの', kanji: '果物', romaji: 'kudamono', arti: 'Buah', kategori: 'makanan' },
-            { id: 'tamago', kana: 'たまご', kanji: '卵', romaji: 'tamago', arti: 'Telur', kategori: 'makanan' },
-            { id: 'juusu', kana: 'ジュース', kanji: '', romaji: 'juusu', arti: 'Jus', kategori: 'minuman' },
-            { id: 'biiru', kana: 'ビール', kanji: '', romaji: 'biiru', arti: 'Bir', kategori: 'minuman' },
+            // --- N5: Makanan dan Minuman ---
+            { id: 'gohan', kana: 'ごはん', kanji: 'ご飯', romaji: 'gohan', arti: 'Nasi / Makanan', kategori: 'makanan', level: 'n5' },
+            { id: 'pan', kana: 'パン', kanji: '', romaji: 'pan', arti: 'Roti', kategori: 'makanan', level: 'n5' },
+            { id: 'mizu', kana: 'みず', kanji: '水', romaji: 'mizu', arti: 'Air', kategori: 'minuman', level: 'n5' },
+            { id: 'ocha', kana: 'おちゃ', kanji: 'お茶', romaji: 'ocha', arti: 'Teh', kategori: 'minuman', level: 'n5' },
+            { id: 'koohii', kana: 'コーヒー', kanji: '', romaji: 'koohii', arti: 'Kopi', kategori: 'minuman', level: 'n5' },
+            { id: 'gyuunyuu', kana: 'ぎゅうにゅう', kanji: '牛乳', romaji: 'gyuunyuu', arti: 'Susu', kategori: 'minuman', level: 'n5' },
+            { id: 'niku', kana: 'にく', kanji: '肉', romaji: 'niku', arti: 'Daging', kategori: 'makanan', level: 'n5' },
+            { id: 'sakana', kana: 'さかな', kanji: '魚', romaji: 'sakana', arti: 'Ikan', kategori: 'makanan', level: 'n5' },
+            { id: 'yasai', kana: 'やさい', kanji: '野菜', romaji: 'yasai', arti: 'Sayur', kategori: 'makanan', level: 'n5' },
+            { id: 'kudamono', kana: 'くだもの', kanji: '果物', romaji: 'kudamono', arti: 'Buah', kategori: 'makanan', level: 'n5' },
+            { id: 'tamago', kana: 'たまご', kanji: '卵', romaji: 'tamago', arti: 'Telur', kategori: 'makanan', level: 'n5' },
+            { id: 'juusu', kana: 'ジュース', kanji: '', romaji: 'juusu', arti: 'Jus', kategori: 'minuman', level: 'n5' },
+            { id: 'biiru', kana: 'ビール', kanji: '', romaji: 'biiru', arti: 'Bir', kategori: 'minuman', level: 'n5' },
 
-            // --- Kata Kerja ---
-            { id: 'taberu', kana: 'たべる', kanji: '食べる', romaji: 'taberu', arti: 'Makan', kategori: 'kerja' },
-            { id: 'nomu', kana: 'のむ', kanji: '飲む', romaji: 'nomu', arti: 'Minum', kategori: 'kerja' },
-            { id: 'miru', kana: 'みる', kanji: '見る', romaji: 'miru', arti: 'Melihat', kategori: 'kerja' },
-            { id: 'kiku', kana: 'きく', kanji: '聞く', romaji: 'kiku', arti: 'Mendengar / Bertanya', kategori: 'kerja' },
-            { id: 'hanasu', kana: 'はなす', kanji: '話す', romaji: 'hanasu', arti: 'Berbicara', kategori: 'kerja' },
-            { id: 'yomu', kana: 'よむ', kanji: '読む', romaji: 'yomu', arti: 'Membaca', kategori: 'kerja' },
-            { id: 'kaku', kana: 'かく', kanji: '書く', romaji: 'kaku', arti: 'Menulis', kategori: 'kerja' },
-            { id: 'iku', kana: 'いく', kanji: '行く', romaji: 'iku', arti: 'Pergi', kategori: 'kerja' },
-            { id: 'kuru', kana: 'くる', kanji: '来る', romaji: 'kuru', arti: 'Datang', kategori: 'kerja' },
-            { id: 'kaeru', kana: 'かえる', kanji: '帰る', romaji: 'kaeru', arti: 'Pulang', kategori: 'kerja' },
-            { id: 'neru', kana: 'ねる', kanji: '寝る', romaji: 'neru', arti: 'Tidur', kategori: 'kerja' },
-            { id: 'okiru', kana: 'おきる', kanji: '起きる', romaji: 'okiru', arti: 'Bangun', kategori: 'kerja' },
-            { id: 'benkyousuru', kana: 'べんきょうする', kanji: '勉強する', romaji: 'benkyou suru', arti: 'Belajar', kategori: 'kerja' },
-            { id: 'shigotowosuru', kana: 'しごとをする', kanji: '仕事をする', romaji: 'shigoto wo suru', arti: 'Bekerja', kategori: 'kerja' },
-            { id: 'wakaru', kana: 'わかる', kanji: '分かる', romaji: 'wakaru', arti: 'Mengerti', kategori: 'kerja' },
-            { id: 'shiru', kana: 'しる', kanji: '知る', romaji: 'shiru', arti: 'Tahu', kategori: 'kerja' },
-            { id: 'motsu', kana: 'もつ', kanji: '持つ', romaji: 'motsu', arti: 'Membawa / Memiliki', kategori: 'kerja' },
-            { id: 'kau', kana: 'かう', kanji: '買う', romaji: 'kau', arti: 'Membeli', kategori: 'kerja' },
-            { id: 'uru', kana: 'うる', kanji: '売る', romaji: 'uru', arti: 'Menjual', kategori: 'kerja' },
+            // --- N5: Kata Kerja ---
+            { id: 'taberu', kana: 'たべる', kanji: '食べる', romaji: 'taberu', arti: 'Makan', kategori: 'kerja', level: 'n5' },
+            { id: 'nomu', kana: 'のむ', kanji: '飲む', romaji: 'nomu', arti: 'Minum', kategori: 'kerja', level: 'n5' },
+            { id: 'miru', kana: 'みる', kanji: '見る', romaji: 'miru', arti: 'Melihat', kategori: 'kerja', level: 'n5' },
+            { id: 'kiku', kana: 'きく', kanji: '聞く', romaji: 'kiku', arti: 'Mendengar / Bertanya', kategori: 'kerja', level: 'n5' },
+            { id: 'hanasu', kana: 'はなす', kanji: '話す', romaji: 'hanasu', arti: 'Berbicara', kategori: 'kerja', level: 'n5' },
+            { id: 'yomu', kana: 'よむ', kanji: '読む', romaji: 'yomu', arti: 'Membaca', kategori: 'kerja', level: 'n5' },
+            { id: 'kaku', kana: 'かく', kanji: '書く', romaji: 'kaku', arti: 'Menulis', kategori: 'kerja', level: 'n5' },
+            { id: 'iku', kana: 'いく', kanji: '行く', romaji: 'iku', arti: 'Pergi', kategori: 'kerja', level: 'n5' },
+            { id: 'kuru', kana: 'くる', kanji: '来る', romaji: 'kuru', arti: 'Datang', kategori: 'kerja', level: 'n5' },
+            { id: 'kaeru', kana: 'かえる', kanji: '帰る', romaji: 'kaeru', arti: 'Pulang', kategori: 'kerja', level: 'n5' },
+            { id: 'neru', kana: 'ねる', kanji: '寝る', romaji: 'neru', arti: 'Tidur', kategori: 'kerja', level: 'n5' },
+            { id: 'okiru', kana: 'おきる', kanji: '起きる', romaji: 'okiru', arti: 'Bangun', kategori: 'kerja', level: 'n5' },
+            { id: 'benkyousuru', kana: 'べんきょうする', kanji: '勉強する', romaji: 'benkyou suru', arti: 'Belajar', kategori: 'kerja', level: 'n5' },
+            { id: 'shigotowosuru', kana: 'しごとをする', kanji: '仕事をする', romaji: 'shigoto wo suru', arti: 'Bekerja', kategori: 'kerja', level: 'n5' },
+            { id: 'wakaru', kana: 'わかる', kanji: '分かる', romaji: 'wakaru', arti: 'Mengerti', kategori: 'kerja', level: 'n5' },
+            { id: 'shiru', kana: 'しる', kanji: '知る', romaji: 'shiru', arti: 'Tahu', kategori: 'kerja', level: 'n5' },
+            { id: 'motsu', kana: 'もつ', kanji: '持つ', romaji: 'motsu', arti: 'Membawa / Memiliki', kategori: 'kerja', level: 'n5' },
+            { id: 'kau', kana: 'かう', kanji: '買う', romaji: 'kau', arti: 'Membeli', kategori: 'kerja', level: 'n5' },
+            { id: 'uru', kana: 'うる', kanji: '売る', romaji: 'uru', arti: 'Menjual', kategori: 'kerja', level: 'n5' },
+            { id: 'aru', kana: 'ある', kanji: '有る', romaji: 'aru', arti: 'Ada (benda mati)', kategori: 'kerja', level: 'n5' },
+            { id: 'iru', kana: 'いる', kanji: '居る', romaji: 'iru', arti: 'Ada (makhluk hidup)', kategori: 'kerja', level: 'n5' },
 
-            // --- Kata Sifat (i-keiyoushi) ---
-            { id: 'ookii', kana: 'おおきい', kanji: '大きい', romaji: 'ookii', arti: 'Besar', kategori: 'sifat' },
-            { id: 'chiisai', kana: 'ちいさい', kanji: '小さい', romaji: 'chiisai', arti: 'Kecil', kategori: 'sifat' },
-            { id: 'atarashii', kana: 'あたらしい', kanji: '新しい', romaji: 'atarashii', arti: 'Baru', kategori: 'sifat' },
-            { id: 'furui', kana: 'ふるい', kanji: '古い', romaji: 'furui', arti: 'Lama / Tua', kategori: 'sifat' },
-            { id: 'yoi/ii', kana: 'よい / いい', kanji: '良い', romaji: 'yoi / ii', arti: 'Baik', kategori: 'sifat' },
-            { id: 'warui', kana: 'わるい', kanji: '悪い', romaji: 'warui', arti: 'Jelek / Buruk', kategori: 'sifat' },
-            { id: 'takai', kana: 'たかい', kanji: '高い', romaji: 'takai', arti: 'Tinggi / Mahal', kategori: 'sifat' },
-            { id: 'yasui', kana: 'やすい', kanji: '安い', romaji: 'yasui', arti: 'Murah', kategori: 'sifat' },
-            { id: 'samui', kana: 'さむい', kanji: '寒い', romaji: 'samui', arti: 'Dingin (cuaca)', kategori: 'sifat' },
-            { id: 'atsui', kana: 'あつい', kanji: '暑い', romaji: 'atsui', arti: 'Panas (cuaca)', kategori: 'sifat' },
-            { id: 'isogashii', kana: 'いそがしい', kanji: '忙しい', romaji: 'isogashii', arti: 'Sibuk', kategori: 'sifat' },
-            { id: 'tanoshii', kana: 'たのしい', kanji: '楽しい', romaji: 'tanoshii', arti: 'Menyenangkan', kategori: 'sifat' },
-            { id: 'muzukashii', kana: 'むずかしい', kanji: '難しい', romaji: 'muzukashii', arti: 'Sulit', kategori: 'sifat' },
-            { id: 'yasashii', kana: 'やさしい', kanji: '易しい', romaji: 'yasashii', arti: 'Mudah / Baik hati', kategori: 'sifat' },
+            // --- N5: Kata Sifat (i-keiyoushi) ---
+            { id: 'ookii', kana: 'おおきい', kanji: '大きい', romaji: 'ookii', arti: 'Besar', kategori: 'sifat-i', level: 'n5' },
+            { id: 'chiisai', kana: 'ちいさい', kanji: '小さい', romaji: 'chiisai', arti: 'Kecil', kategori: 'sifat-i', level: 'n5' },
+            { id: 'atarashii', kana: 'あたらしい', kanji: '新しい', romaji: 'atarashii', arti: 'Baru', kategori: 'sifat-i', level: 'n5' },
+            { id: 'furui', kana: 'ふるい', kanji: '古い', romaji: 'furui', arti: 'Lama / Tua', kategori: 'sifat-i', level: 'n5' },
+            { id: 'yoi/ii', kana: 'よい / いい', kanji: '良い', romaji: 'yoi / ii', arti: 'Baik', kategori: 'sifat-i', level: 'n5' },
+            { id: 'warui', kana: 'わるい', kanji: '悪い', romaji: 'warui', arti: 'Jelek / Buruk', kategori: 'sifat-i', level: 'n5' },
+            { id: 'takai', kana: 'たかい', kanji: '高い', romaji: 'takai', arti: 'Tinggi / Mahal', kategori: 'sifat-i', level: 'n5' },
+            { id: 'yasui', kana: 'やすい', kanji: '安い', romaji: 'yasui', arti: 'Murah', kategori: 'sifat-i', level: 'n5' },
+            { id: 'hikui', kana: 'ひくい', kanji: '低い', romaji: 'hikui', arti: 'Rendah', kategori: 'sifat-i', level: 'n5' },
+            { id: 'samui', kana: 'さむい', kanji: '寒い', romaji: 'samui', arti: 'Dingin (cuaca)', kategori: 'sifat-i', level: 'n5' },
+            { id: 'atsui_weather', kana: 'あつい', kanji: '暑い', romaji: 'atsui', arti: 'Panas (cuaca)', kategori: 'sifat-i', level: 'n5' },
+            { id: 'tsumetai', kana: 'つめたい', kanji: '冷たい', romaji: 'tsumetai', arti: 'Dingin (benda)', kategori: 'sifat-i', level: 'n5' },
+            { id: 'isogashii', kana: 'いそがしい', kanji: '忙しい', romaji: 'isogashii', arti: 'Sibuk', kategori: 'sifat-i', level: 'n5' },
+            { id: 'tanoshii', kana: 'たのしい', kanji: '楽しい', romaji: 'tanoshii', arti: 'Menyenangkan', kategori: 'sifat-i', level: 'n5' },
+            { id: 'muzukashii', kana: 'むずかしい', kanji: '難しい', romaji: 'muzukashii', arti: 'Sulit', kategori: 'sifat-i', level: 'n5' },
+            { id: 'yasashii', kana: 'やさしい', kanji: '易しい', romaji: 'yasashii', arti: 'Mudah', kategori: 'sifat-i', level: 'n5' },
+            { id: 'yasashii_kind', kana: 'やさしい', kanji: '優しい', romaji: 'yasashii', arti: 'Baik hati', kategori: 'sifat-i', level: 'n5' },
+            { id: 'oishii', kana: 'おいしい', kanji: '美味しい', romaji: 'oishii', arti: 'Enak', kategori: 'sifat-i', level: 'n5' },
+            { id: 'mazui', kana: 'まずい', kanji: '不味い', romaji: 'mazui', arti: 'Tidak enak', kategori: 'sifat-i', level: 'n5' },
 
-            // --- Kata Sifat (na-keiyoushi) ---
-            { id: 'kirei', kana: 'きれい', kanji: '綺麗', romaji: 'kirei', arti: 'Cantik / Bersih', kategori: 'sifat' },
-            { id: 'shizuka', kana: 'しずか', kanji: '静か', romaji: 'shizuka', arti: 'Tenang / Sunyi', kategori: 'sifat' },
-            { id: 'nigiyaka', kana: 'にぎやか', kanji: '賑やか', romaji: 'nigiyaka', arti: 'Ramai / Sibuk (tempat)', kategori: 'sifat' },
-            { id: 'yuumei', kana: 'ゆうめい', kanji: '有名', romaji: 'yuumei', arti: 'Terkenal', kategori: 'sifat' },
-            { id: 'genki', kana: 'げんき', kanji: '元気', romaji: 'genki', arti: 'Sehat / Semangat', kategori: 'sifat' },
-            { id: 'benri', kana: 'べんり', kanji: '便利', romaji: 'benri', arti: 'Praktis / Nyaman', kategori: 'sifat' },
-            { id: 'fuben', kana: 'ふべん', kanji: '不便', romaji: 'fuben', arti: 'Tidak praktis / Tidak nyaman', kategori: 'sifat' },
-            { id: 'jouzu', kana: 'じょうず', kanji: '上手', romaji: 'jouzu', arti: 'Mahir / Pandai', kategori: 'sifat' },
-            { id: 'heta', kana: 'へた', kanji: '下手', romaji: 'heta', arti: 'Tidak mahir / Canggung', kategori: 'sifat' },
+            // --- N5: Kata Sifat (na-keiyoushi) ---
+            { id: 'kirei', kana: 'きれい', kanji: '綺麗', romaji: 'kirei', arti: 'Cantik / Bersih', kategori: 'sifat-na', level: 'n5' },
+            { id: 'shizuka', kana: 'しずか', kanji: '静か', romaji: 'shizuka', arti: 'Tenang / Sunyi', kategori: 'sifat-na', level: 'n5' },
+            { id: 'nigiyaka', kana: 'にぎやか', kanji: '賑やか', romaji: 'nigiyaka', arti: 'Ramai / Sibuk (tempat)', kategori: 'sifat-na', level: 'n5' },
+            { id: 'yuumei', kana: 'ゆうめい', kanji: '有名', romaji: 'yuumei', arti: 'Terkenal', kategori: 'sifat-na', level: 'n5' },
+            { id: 'genki', kana: 'げんき', kanji: '元気', romaji: 'genki', arti: 'Sehat / Semangat', kategori: 'sifat-na', level: 'n5' },
+            { id: 'benri', kana: 'べんり', kanji: '便利', romaji: 'benri', arti: 'Praktis / Nyaman', kategori: 'sifat-na', level: 'n5' },
+            { id: 'fuben', kana: 'ふべん', kanji: '不便', romaji: 'fuben', arti: 'Tidak praktis / Tidak nyaman', kategori: 'sifat-na', level: 'n5' },
+            { id: 'jouzu', kana: 'じょうず', kanji: '上手', romaji: 'jouzu', arti: 'Mahir / Pandai', kategori: 'sifat-na', level: 'n5' },
+            { id: 'heta', kana: 'へた', kanji: '下手', romaji: 'heta', arti: 'Tidak mahir / Canggung', kategori: 'sifat-na', level: 'n5' },
+            { id: 'hima', kana: 'ひま', kanji: '暇', romaji: 'hima', arti: 'Senggang / Luang', kategori: 'sifat-na', level: 'n5' },
+            { id: 'suki', kana: 'すき', kanji: '好き', romaji: 'suki', arti: 'Suka', kategori: 'sifat-na', level: 'n5' },
+            { id: 'kirai', kana: 'きらい', kanji: '嫌い', romaji: 'kirai', arti: 'Benci', kategori: 'sifat-na', level: 'n5' },
 
-            // --- Kata Benda Umum ---
-            { id: 'hon', kana: 'ほん', kanji: '本', romaji: 'hon', arti: 'Buku', kategori: 'benda' },
-            { id: 'kaban', kana: 'かばん', kanji: '', romaji: 'kaban', arti: 'Tas', kategori: 'benda' },
-            { id: 'tsukue', kana: 'つくえ', kanji: '机', romaji: 'tsukue', arti: 'Meja', kategori: 'benda' },
-            { id: 'isu', kana: 'いす', kanji: '椅子', romaji: 'isu', arti: 'Kursi', kategori: 'benda' },
-            { id: 'tegami', kana: 'てがみ', kanji: '手紙', romaji: 'tegami', arti: 'Surat', kategori: 'benda' },
-            { id: 'eiga', kana: 'えいが', kanji: '映画', romaji: 'eiga', arti: 'Film', kategori: 'benda' },
-            { id: 'ongaku', kana: 'おんがく', kanji: '音楽', romaji: 'ongaku', arti: 'Musik', kategori: 'benda' },
-            { id: 'terebi', kana: 'テレビ', kanji: '', romaji: 'terebi', arti: 'Televisi', kategori: 'benda' },
-            { id: 'kuruma', kana: 'くるま', kanji: '車', romaji: 'kuruma', arti: 'Mobil', kategori: 'transportasi' },
-            { id: 'densha', kana: 'でんしゃ', kanji: '電車', romaji: 'densha', arti: 'Kereta listrik', kategori: 'transportasi' },
-            { id: 'basu', kana: 'バス', kanji: '', romaji: 'basu', arti: 'Bus', kategori: 'transportasi' },
-            { id: 'hikouki', kana: 'ひこうき', kanji: '飛行機', romaji: 'hikouki', arti: 'Pesawat terbang', kategori: 'transportasi' },
-            { id: 'denwa', kana: 'でんわ', kanji: '電話', romaji: 'denwa', arti: 'Telepon', kategori: 'benda' },
-            { id: 'okane', kana: 'おかね', kanji: 'お金', romaji: 'okane', arti: 'Uang', kategori: 'benda' },
-            { id: 'jikan', kana: 'じかん', kanji: '時間', romaji: 'jikan', arti: 'Waktu', kategori: 'waktu' },
-            { id: 'kyou', kana: 'きょう', kanji: '今日', romaji: 'kyou', arti: 'Hari ini', kategori: 'waktu' },
-            { id: 'ashita', kana: 'あした', kanji: '明日', romaji: 'ashita', arti: 'Besok', kategori: 'waktu' },
-            { id: 'kinou', kana: 'きのう', kanji: '昨日', romaji: 'kinou', arti: 'Kemarin', kategori: 'waktu' },
-            { id: 'maiasa', kana: 'まいあさ', kanji: '毎朝', romaji: 'maiasa', arti: 'Setiap pagi', kategori: 'waktu' },
-            { id: 'mainichi', kana: 'まいにち', kanji: '毎日', romaji: 'mainichi', arti: 'Setiap hari', kategori: 'waktu' },
-            { id: 'raishuu', kana: 'らいしゅう', kanji: '来週', romaji: 'raishuu', arti: 'Minggu depan', kategori: 'waktu' },
-            { id: 'senshuu', kana: 'せんしゅう', kanji: '先週', romaji: 'senshuu', arti: 'Minggu lalu', kategori: 'waktu' },
-            { id: 'ima', kana: 'いま', kanji: '今', romaji: 'ima', arti: 'Sekarang', kategori: 'waktu' },
-            { id: 'gozen', kana: 'ごぜん', kanji: '午前', romaji: 'gozen', arti: 'Pagi (AM)', kategori: 'waktu' },
-            { id: 'gogo', kana: 'ごご', kanji: '午後', romaji: 'gogo', arti: 'Sore (PM)', kategori: 'waktu' },
+            // --- N5: Kata Benda Umum ---
+            { id: 'hon', kana: 'ほん', kanji: '本', romaji: 'hon', arti: 'Buku', kategori: 'benda', level: 'n5' },
+            { id: 'kaban', kana: 'かばん', kanji: '', romaji: 'kaban', arti: 'Tas', kategori: 'benda', level: 'n5' },
+            { id: 'tsukue', kana: 'つくえ', kanji: '机', romaji: 'tsukue', arti: 'Meja', kategori: 'benda', level: 'n5' },
+            { id: 'isu', kana: 'いす', kanji: '椅子', romaji: 'isu', arti: 'Kursi', kategori: 'benda', level: 'n5' },
+            { id: 'tegami', kana: 'てがみ', kanji: '手紙', romaji: 'tegami', arti: 'Surat', kategori: 'benda', level: 'n5' },
+            { id: 'eiga', kana: 'えいが', kanji: '映画', romaji: 'eiga', arti: 'Film', kategori: 'benda', level: 'n5' },
+            { id: 'ongaku', kana: 'おんがく', kanji: '音楽', romaji: 'ongaku', arti: 'Musik', kategori: 'benda', level: 'n5' },
+            { id: 'terebi', kana: 'テレビ', kanji: '', romaji: 'terebi', arti: 'Televisi', kategori: 'benda', level: 'n5' },
+            { id: 'kuruma', kana: 'くるま', kanji: '車', romaji: 'kuruma', arti: 'Mobil', kategori: 'transportasi', level: 'n5' },
+            { id: 'densha', kana: 'でんしゃ', kanji: '電車', romaji: 'densha', arti: 'Kereta listrik', kategori: 'transportasi', level: 'n5' },
+            { id: 'basu', kana: 'バス', kanji: '', romaji: 'basu', arti: 'Bus', kategori: 'transportasi', level: 'n5' },
+            { id: 'hikouki', kana: 'ひこうき', kanji: '飛行機', romaji: 'hikouki', arti: 'Pesawat terbang', kategori: 'transportasi', level: 'n5' },
+            { id: 'denwa', kana: 'でんわ', kanji: '電話', romaji: 'denwa', arti: 'Telepon', kategori: 'benda', level: 'n5' },
+            { id: 'okane', kana: 'おかね', kanji: 'お金', romaji: 'okane', arti: 'Uang', kategori: 'benda', level: 'n5' },
 
-            // --- Hewan ---
-            { id: 'neko', kana: 'ねこ', kanji: '猫', romaji: 'neko', arti: 'Kucing', kategori: 'hewan' },
-            { id: 'inu', kana: 'いぬ', kanji: '犬', romaji: 'inu', arti: 'Anjing', kategori: 'hewan' },
-            { id: 'tori', kana: 'とり', kanji: '鳥', romaji: 'tori', arti: 'Burung', kategori: 'hewan' },
-            { id: 'uma', kana: 'うま', kanji: '馬', romaji: 'uma', arti: 'Kuda', kategori: 'hewan' },
-            { id: 'zou', kana: 'ぞう', kanji: '象', romaji: 'zou', arti: 'Gajah', kategori: 'hewan' },
+            // --- N5: Waktu ---
+            { id: 'jikan', kana: 'じかん', kanji: '時間', romaji: 'jikan', arti: 'Waktu', kategori: 'waktu', level: 'n5' },
+            { id: 'kyou', kana: 'きょう', kanji: '今日', romaji: 'kyou', arti: 'Hari ini', kategori: 'waktu', level: 'n5' },
+            { id: 'ashita', kana: 'あした', kanji: '明日', romaji: 'ashita', arti: 'Besok', kategori: 'waktu', level: 'n5' },
+            { id: 'kinou', kana: 'きのう', kanji: '昨日', romaji: 'kinou', arti: 'Kemarin', kategori: 'waktu', level: 'n5' },
+            { id: 'asa', kana: 'あさ', kanji: '朝', romaji: 'asa', arti: 'Pagi', kategori: 'waktu', level: 'n5' },
+            { id: 'hiru', kana: 'ひる', kanji: '昼', romaji: 'hiru', arti: 'Siang', kategori: 'waktu', level: 'n5' },
+            { id: 'yoru', kana: 'よる', kanji: '夜', romaji: 'yoru', arti: 'Malam', kategori: 'waktu', level: 'n5' },
+            { id: 'maiasa', kana: 'まいあさ', kanji: '毎朝', romaji: 'maiasa', arti: 'Setiap pagi', kategori: 'waktu', level: 'n5' },
+            { id: 'mainichi', kana: 'まいにち', kanji: '毎日', romaji: 'mainichi', arti: 'Setiap hari', kategori: 'waktu', level: 'n5' },
+            { id: 'raishuu', kana: 'らいしゅう', kanji: '来週', romaji: 'raishuu', arti: 'Minggu depan', kategori: 'waktu', level: 'n5' },
+            { id: 'senshuu', kana: 'せんしゅう', kanji: '先週', romaji: 'senshuu', arti: 'Minggu lalu', kategori: 'waktu', level: 'n5' },
+            { id: 'ima', kana: 'いま', kanji: '今', romaji: 'ima', arti: 'Sekarang', kategori: 'waktu', level: 'n5' },
+            { id: 'gozen', kana: 'ごぜん', kanji: '午前', romaji: 'gozen', arti: 'Pagi (AM)', kategori: 'waktu', level: 'n5' },
+            { id: 'gogo', kana: 'ごご', kanji: '午後', romaji: 'gogo', arti: 'Sore (PM)', kategori: 'waktu', level: 'n5' },
 
-            // --- Cuaca ---
-            { id: 'tenki', kana: 'てんき', kanji: '天気', romaji: 'tenki', arti: 'Cuaca', kategori: 'cuaca' },
-            { id: 'hare', kana: 'はれ', kanji: '晴れ', romaji: 'hare', arti: 'Cerah', kategori: 'cuaca' },
-            { id: 'ame', kana: 'あめ', kanji: '雨', romaji: 'ame', arti: 'Hujan', kategori: 'cuaca' },
-            { id: 'yuki', kana: 'ゆき', kanji: '雪', romaji: 'yuki', arti: 'Salju', kategori: 'cuaca' },
-            { id: 'kumori', kana: 'くもり', kanji: '曇り', romaji: 'kumori', arti: 'Berawan', kategori: 'cuaca' },
+            // --- N5: Hewan ---
+            { id: 'neko', kana: 'ねこ', kanji: '猫', romaji: 'neko', arti: 'Kucing', kategori: 'hewan', level: 'n5' },
+            { id: 'inu', kana: 'いぬ', kanji: '犬', romaji: 'inu', arti: 'Anjing', kategori: 'hewan', level: 'n5' },
+            { id: 'tori', kana: 'とり', kanji: '鳥', romaji: 'tori', arti: 'Burung', kategori: 'hewan', level: 'n5' },
+            
+            // --- N5: Cuaca ---
+            { id: 'tenki', kana: 'てんき', kanji: '天気', romaji: 'tenki', arti: 'Cuaca', kategori: 'cuaca', level: 'n5' },
+            { id: 'hare', kana: 'はれ', kanji: '晴れ', romaji: 'hare', arti: 'Cerah', kategori: 'cuaca', level: 'n5' },
+            { id: 'ame', kana: 'あめ', kanji: '雨', romaji: 'ame', arti: 'Hujan', kategori: 'cuaca', level: 'n5' },
+            { id: 'yuki', kana: 'ゆき', kanji: '雪', romaji: 'yuki', arti: 'Salju', kategori: 'cuaca', level: 'n5' },
+            { id: 'kumori', kana: 'くもり', kanji: '曇り', romaji: 'kumori', arti: 'Berawan', kategori: 'cuaca', level: 'n5' },
 
-            // --- Warna ---
-            { id: 'aka', kana: 'あか', kanji: '赤', romaji: 'aka', arti: 'Merah', kategori: 'warna' },
-            { id: 'ao', kana: 'あお', kanji: '青', romaji: 'ao', arti: 'Biru', kategori: 'warna' },
-            { id: 'shiro', kana: 'しろ', kanji: '白', romaji: 'shiro', arti: 'Putih', kategori: 'warna' },
-            { id: 'kuro', kana: 'くろ', kanji: '黒', romaji: 'kuro', arti: 'Hitam', kategori: 'warna' },
-            { id: 'kiiro', kana: 'きいろ', kanji: '黄色', romaji: 'kiiro', arti: 'Kuning', kategori: 'warna' },
-            { id: 'midori', kana: 'みどり', kanji: '緑', romaji: 'midori', arti: 'Hijau', kategori: 'warna' },
+            // --- N5: Warna ---
+            { id: 'aka', kana: 'あか', kanji: '赤', romaji: 'aka', arti: 'Merah', kategori: 'warna', level: 'n5' },
+            { id: 'ao', kana: 'あお', kanji: '青', romaji: 'ao', arti: 'Biru', kategori: 'warna', level: 'n5' },
+            { id: 'shiro', kana: 'しろ', kanji: '白', romaji: 'shiro', arti: 'Putih', kategori: 'warna', level: 'n5' },
+            { id: 'kuro', kana: 'くろ', kanji: '黒', romaji: 'kuro', arti: 'Hitam', kategori: 'warna', level: 'n5' },
+            { id: 'kiiro', kana: 'きいろ', kanji: '黄色', romaji: 'kiiro', arti: 'Kuning', kategori: 'warna', level: 'n5' },
+            { id: 'midori', kana: 'みどり', kanji: '緑', romaji: 'midori', arti: 'Hijau', kategori: 'warna', level: 'n5' },
 
-            // --- Pakaian ---
-            { id: 'fuku', kana: 'ふく', kanji: '服', romaji: 'fuku', arti: 'Pakaian', kategori: 'pakaian' },
-            { id: 'shatsu', kana: 'シャツ', kanji: '', romaji: 'shatsu', arti: 'Kemeja', kategori: 'pakaian' },
-            { id: 'zubon', kana: 'ズボン', kanji: '', romaji: 'zubon', arti: 'Celana', kategori: 'pakaian' },
-            { id: 'sukaato', kana: 'スカート', kanji: '', romaji: 'sukaato', arti: 'Rok', kategori: 'pakaian' },
-            { id: 'kutsu', kana: 'くつ', kanji: '靴', romaji: 'kutsu', arti: 'Sepatu', kategori: 'pakaian' },
-            { id: 'boushi', kana: 'ぼうし', kanji: '帽子', romaji: 'boushi', arti: 'Topi', kategori: 'pakaian' },
+            // --- N5: Pakaian ---
+            { id: 'fuku', kana: 'ふく', kanji: '服', romaji: 'fuku', arti: 'Pakaian', kategori: 'pakaian', level: 'n5' },
+            { id: 'shatsu', kana: 'シャツ', kanji: '', romaji: 'shatsu', arti: 'Kemeja', kategori: 'pakaian', level: 'n5' },
+            { id: 'zubon', kana: 'ズボン', kanji: '', romaji: 'zubon', arti: 'Celana', kategori: 'pakaian', level: 'n5' },
+            { id: 'sukaato', kana: 'スカート', kanji: '', romaji: 'sukaato', arti: 'Rok', kategori: 'pakaian', level: 'n5' },
+            { id: 'kutsu', kana: 'くつ', kanji: '靴', romaji: 'kutsu', arti: 'Sepatu', kategori: 'pakaian', level: 'n5' },
+            { id: 'boushi', kana: 'ぼうし', kanji: '帽子', romaji: 'boushi', arti: 'Topi', kategori: 'pakaian', level: 'n5' },
+
+            // --- N5: Lain-lain (diambil dari daftar lama yg belum masuk) ---
+            { id: 'uma', kana: 'うま', kanji: '馬', romaji: 'uma', arti: 'Kuda', kategori: 'hewan', level: 'n5' },
+            { id: 'zou', kana: 'ぞう', kanji: '象', romaji: 'zou', arti: 'Gajah', kategori: 'hewan', level: 'n5' },
+            { id: 'doumoarigatou', kana: 'どうもありがとう', kanji: '', romaji: 'doumo arigatou', arti: 'Terima kasih banyak', kategori: 'salam', level: 'n5' },
+
+
+            // ===========================================
+            // === MULAI KOSAKATA N4 ===
+            // ===========================================
+
+            // --- N4: Kata Kerja ---
+            { id: 'ageru', kana: 'あげる', kanji: '上げる', romaji: 'ageru', arti: 'Memberi', kategori: 'kerja', level: 'n4' },
+            { id: 'morau', kana: 'もらう', kanji: '貰う', romaji: 'morau', arti: 'Menerima', kategori: 'kerja', level: 'n4' },
+            { id: 'kureru', kana: 'くれる', kanji: '呉れる', romaji: 'kureru', arti: 'Memberi (kepada saya)', kategori: 'kerja', level: 'n4' },
+            { id: 'hajimaru', kana: 'はじまる', kanji: '始まる', romaji: 'hajimaru', arti: 'Mulai (intransitif)', kategori: 'kerja', level: 'n4' },
+            { id: 'owaru', kana: 'おわる', kanji: '終わる', romaji: 'owaru', arti: 'Selesai', kategori: 'kerja', level: 'n4' },
+            { id: 'nugu', kana: 'ぬぐ', kanji: '脱ぐ', romaji: 'nugu', arti: 'Melepas (pakaian/sepatu)', kategori: 'kerja', level: 'n4' },
+            { id: 'kiru_wear', kana: 'きる', kanji: '着る', romaji: 'kiru', arti: 'Memakai (pakaian atas)', kategori: 'kerja', level: 'n4' },
+            { id: 'haku', kana: 'はく', kanji: '履く', romaji: 'haku', arti: 'Memakai (pakaian bawah/sepatu)', kategori: 'kerja', level: 'n4' },
+            { id: 'wasureru', kana: 'わすれる', kanji: '忘れる', romaji: 'wasureru', arti: 'Lupa', kategori: 'kerja', level: 'n4' },
+            { id: 'oboeru', kana: 'おぼえる', kanji: '覚える', romaji: 'oboeru', arti: 'Mengingat', kategori: 'kerja', level: 'n4' },
+            { id: 'shiraberu', kana: 'しらべる', kanji: '調べる', romaji: 'shiraberu', arti: 'Mencari tahu / Memeriksa', kategori: 'kerja', level: 'n4' },
+            { id: 'suteru', kana: 'すてる', kanji: '捨てる', romaji: 'suteru', arti: 'Membuang', kategori: 'kerja', level: 'n4' },
+            { id: 'hirowu', kana: 'ひろう', kanji: '拾う', romaji: 'hirowu', arti: 'Memungut', kategori: 'kerja', level: 'n4' },
+            { id: 'matsu', kana: 'まつ', kanji: '待つ', romaji: 'matsu', arti: 'Menunggu', kategori: 'kerja', level: 'n4' },
+            { id: 'yobu', kana: 'よぶ', kanji: '呼ぶ', romaji: 'yobu', arti: 'Memanggil', kategori: 'kerja', level: 'n4' },
+            { id: 'dekiru', kana: 'できる', kanji: '出来る', romaji: 'dekiru', arti: 'Bisa / Dapat', kategori: 'kerja', level: 'n4' },
+            { id: 'asobu', kana: 'あそぶ', kanji: '遊ぶ', romaji: 'asobu', arti: 'Bermain', kategori: 'kerja', level: 'n4' },
+            { id: 'aruku', kana: 'あるく', kanji: '歩く', romaji: 'aruku', arti: 'Berjalan', kategori: 'kerja', level: 'n4' },
+            { id: 'hashiru', kana: 'はしる', kanji: '走る', romaji: 'hashiru', arti: 'Berlari', kategori: 'kerja', level: 'n4' },
+            { id: 'tsukuru', kana: 'つくる', kanji: '作る', romaji: 'tsukuru', arti: 'Membuat', kategori: 'kerja', level: 'n4' },
+            { id: 'naosu', kana: 'なおす', kanji: '直す', romaji: 'naosu', arti: 'Memperbaiki', kategori: 'kerja', level: 'n4' },
+            { id: 'shinu', kana: 'しぬ', kanji: '死ぬ', romaji: 'shinu', arti: 'Mati', kategori: 'kerja', level: 'n4' },
+
+            // --- N4: Kata Sifat (i-keiyoushi) ---
+            { id: 'atsui_thick', kana: 'あつい', kanji: '厚い', romaji: 'atsui', arti: 'Tebal', kategori: 'sifat-i', level: 'n4' },
+            { id: 'usui', kana: 'うすい', kanji: '薄い', romaji: 'usui', arti: 'Tipis', kategori: 'sifat-i', level: 'n4' },
+            { id: 'hidoi', kana: 'ひどい', kanji: '酷い', romaji: 'hidoi', arti: 'Parah / Kejam', kategori: 'sifat-i', level: 'n4' },
+            { id: 'sugoi', kana: 'すごい', kanji: '凄い', romaji: 'sugoi', arti: 'Hebat / Luar biasa', kategori: 'sifat-i', level: 'n4' },
+            { id: 'wakai', kana: 'わかい', kanji: '若い', romaji: 'wakai', arti: 'Muda', kategori: 'sifat-i', level: 'n4' },
+            { id: 'nemui', kana: 'ねむい', kanji: '眠い', romaji: 'nemui', arti: 'Mengantuk', kategori: 'sifat-i', level: 'n4' },
+            { id: 'itai', kana: 'いたい', kanji: '痛い', romaji: 'itai', arti: 'Sakit', kategori: 'sifat-i', level: 'n4' },
+
+            // --- N4: Kata Sifat (na-keiyoushi) ---
+            { id: 'shinsetsu', kana: 'しんせつ', kanji: '親切', romaji: 'shinsetsu', arti: 'Ramah / Baik hati', kategori: 'sifat-na', level: 'n4' },
+            { id: 'anzen', kana: 'あんぜん', kanji: '安全', romaji: 'anzen', arti: 'Aman', kategori: 'sifat-na', level: 'n4' },
+            { id: 'kiken', kana: 'きけん', kanji: '危険', romaji: 'kiken', arti: 'Berbahaya', kategori: 'sifat-na', level: 'n4' },
+            { id: 'taisetsu', kana: 'たいせつ', kanji: '大切', romaji: 'taisetsu', arti: 'Penting', kategori: 'sifat-na', level: 'n4' },
+            { id: 'daiji', kana: 'だいじ', kanji: '大事', romaji: 'daiji', arti: 'Penting / Berharga', kategori: 'sifat-na', level: 'n4' },
+            { id: 'teinei', kana: 'ていねい', kanji: '丁寧', romaji: 'teinei', arti: 'Sopan', kategori: 'sifat-na', level: 'n4' },
+            { id: 'jiyuu', kana: 'じゆう', kanji: '自由', romaji: 'jiyuu', arti: 'Bebas', kategori: 'sifat-na', level: 'n4' },
+            { id: 'muri', kana: 'むり', kanji: '無理', romaji: 'muri', arti: 'Tidak mungkin / Memaksa diri', kategori: 'sifat-na', level: 'n4' },
+
+            // --- N4: Kata Benda ---
+            { id: 'jisho', kana: 'じしょ', kanji: '辞書', romaji: 'jisho', arti: 'Kamus', kategori: 'benda', level: 'n4' },
+            { id: 'chizu', kana: 'ちず', kanji: '地図', romaji: 'chizu', arti: 'Peta', kategori: 'benda', level: 'n4' },
+            { id: 'mado', kana: 'まど', kanji: '窓', romaji: 'mado', arti: 'Jendela', kategori: 'benda', level: 'n4' },
+            { id: 'doa', kana: 'ドア', kanji: '', romaji: 'doa', arti: 'Pintu', kategori: 'benda', level: 'n4' },
+            { id: 'nimotsu', kana: 'にもつ', kanji: '荷物', romaji: 'nimotsu', arti: 'Barang bawaan', kategori: 'benda', level: 'n4' },
+            { id: 'genkan', kana: 'げんかん', kanji: '玄関', romaji: 'genkan', arti: 'Area pintu masuk rumah', kategori: 'tempat', level: 'n4' },
+            { id: 'daidokoro', kana: 'だいどころ', kanji: '台所', romaji: 'daidokoro', arti: 'Dapur', kategori: 'tempat', level: 'n4' },
+            { id: 'shorui', kana: 'しょるい', kanji: '書類', romaji: 'shorui', arti: 'Dokumen', kategori: 'benda', level: 'n4' },
+            { id: 'kagi', kana: 'かぎ', kanji: '鍵', romaji: 'kagi', arti: 'Kunci', kategori: 'benda', level: 'n4' },
+            { id: 'riyuu', kana: 'りゆう', kanji: '理由', romaji: 'riyuu', arti: 'Alasan', kategori: 'dasar', level: 'n4' },
+            { id: 'mondai', kana: 'もんだい', kanji: '問題', romaji: 'mondai', arti: 'Masalah / Soal', kategori: 'dasar', level: 'n4' },
+            { id: 'kotae', kana: 'こたえ', kanji: '答え', romaji: 'kotae', arti: 'Jawaban', kategori: 'dasar', level: 'n4' },
+            { id: 'shumi', kana: 'しゅみ', kanji: '趣味', romaji: 'shumi', arti: 'Hobi', kategori: 'dasar', level: 'n4' },
+
+            // --- N4: Tempat ---
+            { id: 'kyoukai', kana: 'きょうかい', kanji: '教会', romaji: 'kyoukai', arti: 'Gereja', kategori: 'tempat', level: 'n4' },
+            { id: 'taishikan', kana: 'たいしかん', kanji: '大使館', romaji: 'taishikan', arti: 'Kedutaan besar', kategori: 'tempat', level: 'n4' },
+            { id: 'kawa', kana: 'かわ', kanji: '川', romaji: 'kawa', arti: 'Sungai', kategori: 'tempat', level: 'n4' },
+            { id: 'yama', kana: 'やま', kanji: '山', romaji: 'yama', arti: 'Gunung', kategori: 'tempat', level: 'n4' },
+            { id: 'onsen', kana: 'おんせん', kanji: '温泉', romaji: 'onsen', arti: 'Pemandian air panas', kategori: 'tempat', level: 'n4' },
+            { id: 'koujou', kana: 'こうじょう', kanji: '工場', romaji: 'koujou', arti: 'Pabrik', kategori: 'tempat', level: 'n4' },
+
+            // --- N4: Waktu & Keterangan ---
+            { id: 'saikin', kana: 'さいきん', kanji: '最近', romaji: 'saikin', arti: 'Akhir-akhir ini', kategori: 'waktu', level: 'n4' },
+            { id: 'suguni', kana: 'すぐに', kanji: '', romaji: 'suguni', arti: 'Segera', kategori: 'keterangan', level: 'n4' },
+            { id: 'yukkuri', kana: 'ゆっくり', kanji: '', romaji: 'yukkuri', arti: 'Perlahan-lahan', kategori: 'keterangan', level: 'n4' },
+            { id: 'mou sugu', kana: 'もうすぐ', kanji: '', romaji: 'mou sugu', arti: 'Segera / Sebentar lagi', kategori: 'waktu', level: 'n4' },
+            { id: 'tabun', kana: 'たぶん', kanji: '多分', romaji: 'tabun', arti: 'Mungkin', kategori: 'keterangan', level: 'n4' },
+            { id: 'kitto', kana: 'きっと', kanji: '', romaji: 'kitto', arti: 'Pasti', kategori: 'keterangan', level: 'n4' },
+            { id: 'moshi', kana: 'もし', kanji: '', romaji: 'moshi', arti: 'Jika / Seandainya', kategori: 'keterangan', level: 'n4' },
+            { id: 'ikura', kana: 'いくら', kanji: '', romaji: 'ikura', arti: 'Berapa (harga)', kategori: 'keterangan', level: 'n4' },
+            { id: 'daitai', kana: 'だいたい', kanji: '大体', romaji: 'daitai', arti: 'Kira-kira / Pada umumnya', kategori: 'keterangan', level: 'n4' },
+            { id: 'chanto', kana: 'ちゃんと', kanji: '', romaji: 'chanto', arti: 'Dengan benar / Dengan baik', kategori: 'keterangan', level: 'n4' },
+
+            // ===========================================
+            // === BARU: KOSAKATA KERJA / KEIGO (N4) ===
+            // ===========================================
+            { id: 'otsukaresama', kana: 'おつかれさま', kanji: 'お疲れ様', romaji: 'otsukaresama', arti: 'Terima kasih atas kerja kerasnya (sapaan di kantor)', kategori: 'keigo', level: 'n4' },
+            { id: 'osakini', kana: 'おさきに', kanji: 'お先に', romaji: 'osaki ni shitsurei shimasu', arti: 'Permisi duluan (saat pulang kerja)', kategori: 'keigo', level: 'n4' },
+            { id: 'kashikomarimashita', kana: 'かしこまりました', kanji: '', romaji: 'kashikomarimashita', arti: 'Baik, saya mengerti (sangat sopan)', kategori: 'keigo', level: 'n4' },
+            { id: 'shouchi', kana: 'しょうち', kanji: '承知', romaji: 'shouchi itashimashita', arti: 'Baik, saya pahami (sangat sopan)', kategori: 'keigo', level: 'n4' },
+            { id: 'moushiwake', kana: 'もうしわけ', kanji: '申し訳', romaji: 'moushiwake gozaimasen', arti: 'Mohon maaf (sangat formal)', kategori: 'keigo', level: 'n4' },
+            { id: 'yoroshii', kana: 'よろしい', kanji: '宜しい', romaji: 'yoroshii desu ka', arti: 'Apakah boleh? / Apakah Anda ada waktu?', kategori: 'keigo', level: 'n4' },
+            { id: 'kaigi', kana: 'かいぎ', kanji: '会議', romaji: 'kaigi', arti: 'Rapat / Meeting', kategori: 'keigo', level: 'n4' },
+            { id: 'shiryou', kana: 'しりょう', kanji: '資料', romaji: 'shiryou', arti: 'Dokumen / Materi', kategori: 'keigo', level: 'n4' },
+            { id: 'meishi', kana: 'めいし', kanji: '名刺', romaji: 'meishi', arti: 'Kartu nama', kategori: 'keigo', level: 'n4' },
+            { id: 'zangyou', kana: 'ざんぎょう', kanji: '残業', romaji: 'zangyou', arti: 'Lembur', kategori: 'keigo', level: 'n4' },
+            { id: 'kyuukei', kana: 'きゅうけい', kanji: '休憩', romaji: 'kyuukei', arti: 'Istirahat', kategori: 'keigo', level: 'n4' },
+            { id: 'shachou', kana: 'しゃちょう', kanji: '社長', romaji: 'shachou', arti: 'Presiden Direktur', kategori: 'keigo', level: 'n4' },
+            { id: 'buchou', kana: 'ぶちょう', kanji: '部長', romaji: 'buchou', arti: 'Kepala Departemen', kategori: 'keigo', level: 'n4' },
+            { id: 'denwa_deru', kana: 'でんわにでる', kanji: '電話に出る', romaji: 'denwa ni deru', arti: 'Menjawab telepon', kategori: 'keigo', level: 'n4' },
+            { id: 'renraku', kana: 'れんらく', kanji: '連絡', romaji: 'renraku suru', arti: 'Menghubungi / Mengontak', kategori: 'keigo', level: 'n4' },
         ];
+
 
         // STATE (untuk favorit dan SRS)
         const VOCAB_KEY = 'kanaTrainer_vocab_v1';
@@ -627,15 +760,59 @@
 
         // Elemen DOM
         const searchInput = document.getElementById('searchInput');
+        const levelChips = document.getElementById('levelChips'); // Elemen baru
         const categoryChips = document.getElementById('categoryChips');
         const vocabList = document.getElementById('vocabList');
 
+        // State Filter Baru
+        let activeLevel = 'semua';
         let activeCategory = 'semua';
         let currentFilteredVocab = []; // Global variable for filtered vocab
 
+        // Fungsi baru untuk render level
+        function renderLevelChips() {
+            const levels = ['semua', 'n5', 'n4'];
+            levelChips.innerHTML = '';
+            levels.forEach(level => {
+                const chip = document.createElement('button');
+                chip.className = 'chip';
+                // Capitalize
+                let text = level.charAt(0).toUpperCase() + level.slice(1);
+                if (level === 'semua') text = 'Semua Level';
+                
+                chip.textContent = text;
+                chip.dataset.level = level;
+                if (level === activeLevel) {
+                    chip.classList.add('active');
+                }
+                chip.addEventListener('click', () => {
+                    activeLevel = level;
+                    activeCategory = 'semua'; // Reset kategori saat ganti level
+                    renderLevelChips();  // Render ulang level
+                    renderCategories();  // Render ulang kategori berdasarkan level
+                    renderVocabList(); // Render ulang daftar kosakata
+                });
+                levelChips.appendChild(chip);
+            });
+        }
+
         function renderCategories() {
-            const categories = ['semua', ...new Set(vocabulary.map(item => item.kategori))];
+            // 1. Filter vocab berdasarkan level yang aktif
+            const vocabByLevel = vocabulary.filter(item => {
+                return activeLevel === 'semua' || item.level === activeLevel;
+            });
+
+            // 2. Dapatkan kategori unik dari vocab yang sudah difilter
+            const categories = ['semua', ...new Set(vocabByLevel.map(item => item.kategori))].sort();
+            
             categoryChips.innerHTML = '';
+            
+            // Jangan tampilkan filter kategori jika level 'semua' dan kategori hanya 'semua' (tidak ada data)
+            if (categories.length <= 1) {
+                 categoryChips.innerHTML = '<div class="small">Tidak ada kategori untuk level ini.</div>';
+                 return;
+            }
+
             categories.forEach(category => {
                 const chip = document.createElement('button');
                 chip.className = 'chip';
@@ -658,12 +835,18 @@
             const searchTerm = searchInput.value.toLowerCase();
             
             currentFilteredVocab = vocabulary.filter(item => {
+                // Filter berdasarkan Level
+                const inLevel = activeLevel === 'semua' || item.level === activeLevel;
+                // Filter berdasarkan Kategori
                 const inCategory = activeCategory === 'semua' || item.kategori === activeCategory;
+                
+                // Filter berdasarkan Search
                 const matchesSearch = item.kana.includes(searchTerm) ||
                                             item.romaji.includes(searchTerm) ||
                                             item.arti.toLowerCase().includes(searchTerm) ||
-                                            (item.kanji && item.kanji.includes(searchTerm)); // Periksa kanji jika ada
-                return inCategory && matchesSearch;
+                                            (item.kanji && item.kanji.includes(searchTerm));
+                
+                return inLevel && inCategory && matchesSearch;
             });
 
             vocabList.innerHTML = ''; // Kosongkan daftar saat ini
@@ -678,7 +861,7 @@
                 li.innerHTML = `
                     <div class="vocab-jp">
                         <span class="kanji">${item.kanji || item.kana}</span>
-                        ${item.kanji ? `<span class="kana">${item.kana}</span>` : ''}
+                        ${item.kanji && item.kanji !== item.kana ? `<span class="kana">${item.kana}</span>` : ''}
                     </div>
                     <div class="vocab-id">
                         <span class="arti">${item.arti}</span>
@@ -711,7 +894,12 @@
 
         // Fungsi kotak pesan kustom (menggantikan alert)
         function displayMessageBox(message) {
+            // Hapus dulu jika ada message box lama
+            const oldBox = document.getElementById('customMessageBox');
+            if (oldBox) oldBox.remove();
+            
             const messageBox = document.createElement('div');
+            messageBox.id = 'customMessageBox'; // Beri ID agar mudah dihapus
             messageBox.style.cssText = `
                 position: fixed;
                 top: 50%;
@@ -740,8 +928,9 @@
 
         // Inisialisasi
         document.addEventListener('DOMContentLoaded', () => {
-            renderCategories();
-            renderVocabList();
+            renderLevelChips();  // Panggil render level dulu
+            renderCategories();  // Baru render kategori
+            renderVocabList();   // Terakhir render list
         });
 
         // Logika pengalih tema (dari index.html asli, ditambahkan untuk kelengkapan)
@@ -809,16 +998,28 @@
             const fcFeed   = document.getElementById('fcFeedback');
 
             // --- Gemini API Configuration ---
-            // Replace with your actual API key.
-            // If left empty, Canvas will automatically provide it in runtime in the fetch call.
-            const GEMINI_API_KEY = "AIzaSyCZVyGLZrlJW-bQFSYfIgVgWhVWQ6icaeE"; 
+            // Dibiarkan kosong, Canvas akan menyediakannya saat runtime.
+            const GEMINI_API_KEY = ""; 
             const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
 
             // Ambil list sesuai pilihan sumber
             function getPool(){
+                // Gunakan currentFilteredVocab yang sudah ter-update
                 let list = (window.currentFilteredVocab && currentFilteredVocab.length) ? currentFilteredVocab.slice() : (vocabulary || []);
-                if(fcSource.value === 'fav' && state?.fav){ list = list.filter(v => state.fav.has(v.id)); }
-                if(fcSource.value === 'rand20'){ list = shuffle(list).slice(0,20); }
+                
+                // Jika sumbernya "fav", filter ulang berdasarkan favorit
+                if(fcSource.value === 'fav' && state?.fav){ 
+                    list = vocabulary.filter(v => state.fav.has(v.id)); 
+                }
+                
+                // Jika sumbernya "rand20", acak dari semua vocab (bukan hanya yg terfilter)
+                if(fcSource.value === 'rand20'){ 
+                    list = shuffle(vocabulary.slice()).slice(0,20); 
+                }
+                
+                // Jika sumbernya "filter", kita gunakan list yg sudah difilter di awal
+                // (tidak perlu melakukan apa-apa lagi)
+                
                 return list;
             }
 
@@ -832,18 +1033,24 @@
                     'ro_jp' : { q: item.romaji,              accept: [item.kanji || item.kana] },
                     'ai_gen_jp_idn': { q: item.kana, accept: [item.arti] } // For AI generated questions
                 }[fcMode.value];
-                // Add kana as an alternative answer for JP questions if kanji is the primary
+                
+                // Tambahkan kana sebagai jawaban alternatif jika ada kanji
                 if (fcMode.value === 'idn_jp' || fcMode.value === 'ro_jp') {
                     if (item.kanji && item.kana && item.kanji !== item.kana) {
                         conf.accept.push(item.kana);
                     }
                 }
+                // Tambahkan romaji sebagai jawaban alternatif jika targetnya adalah JP
+                if (fcMode.value === 'idn_jp' || fcMode.value === 'ro_jp') {
+                     conf.accept.push(item.romaji);
+                }
+                
                 return { q: conf.q, a: conf.accept };
             }
 
             let deck = []; let idx = 0; let correct = 0;
 
-            function updateProg(){ fcProg.textContent = `${Math.min(idx, deck.length)} / ${deck.length}`; }
+            function updateProg(){ fcProg.textContent = `${Math.min(idx + 1, deck.length)} / ${deck.length}`; }
 
             async function showCard(){
                 const it = deck[idx];
@@ -856,7 +1063,12 @@
                     fcFeed.textContent = '';
                     
                     try {
-                        const generatedQuestion = await generateQuestionWithAI(activeCategory);
+                        // Gunakan level dan kategori yang aktif untuk prompt AI
+                        let categoryPrompt = activeCategory === 'semua' ? 'acak' : activeCategory;
+                        let levelPrompt = activeLevel === 'semua' ? 'N5 atau N4' : activeLevel;
+                        
+                        const generatedQuestion = await generateQuestionWithAI(categoryPrompt, levelPrompt);
+                        
                         deck[idx] = { // Update current item with AI-generated data
                             id: generatedQuestion.id,
                             kana: generatedQuestion.kana,
@@ -882,6 +1094,8 @@
                     fcInput.value = ''; fcInput.focus();
                     fcFeed.textContent = ''; fcFeed.className = 'small center';
                     fcNext.disabled = true;
+                    fcCheck.disabled = false; // Pastikan tombol cek aktif
+                    fcReveal.disabled = false; // Pastikan tombol lihat jawaban aktif
                 }
                 updateProg();
             }
@@ -889,63 +1103,100 @@
             function check(){
                 const it = deck[idx]; if(!it) return;
                 const qa = buildQA(it);
-                const ok = qa.a.some(x => norm(x) === norm(fcInput.value));
+                const answer = norm(fcInput.value);
+                const ok = qa.a.some(x => norm(x) === answer); // Cek jawaban
+                
                 if(ok){
                     correct++;
-                    fcFeed.textContent = 'Benar! ✅'; fcFeed.classList.add('ok');
+                    fcFeed.textContent = 'Benar! ✅'; fcFeed.className = 'small center ok';
                     try{ if(window.srsMark) { srsMark(it.id, true); /* Update SRS */ } }catch(e){}
                 }else{
-                    fcFeed.innerHTML = `Salah. Jawaban: <b>${qa.a[0]}</b> ❌`; fcFeed.classList.add('bad');
+                    fcFeed.innerHTML = `Salah. Jawaban: <b>${qa.a[0]}</b> ❌`; fcFeed.className = 'small center bad';
                     try{ if(window.srsMark) { srsMark(it.id, false); /* Update SRS */ } }catch(e){}
                 }
                 fcNext.disabled = false;
+                fcCheck.disabled = true;
+                fcReveal.disabled = true;
+                fcNext.focus(); // Fokus ke tombol berikutnya
             }
 
             function reveal(){
                 const it = deck[idx]; if(!it) return;
                 const qa = buildQA(it);
                 fcFeed.innerHTML = `Jawaban: <b>${qa.a[0]}</b>`;
+                fcFeed.className = 'small center';
                 fcNext.disabled = false;
+                fcCheck.disabled = true;
+                fcReveal.disabled = true;
+                fcNext.focus(); // Fokus ke tombol berikutnya
             }
 
-            function next(){ idx++; showCard(); }
+            function next(){ 
+                idx++; 
+                if (idx >= deck.length) {
+                    finish();
+                } else {
+                    showCard(); 
+                }
+            }
 
             function finish(){
                 fcPrompt.textContent = 'Selesai! 🎉';
                 fcInput.value = '';
+                fcInput.disabled = true;
                 fcFeed.innerHTML = `Skor: <b>${correct}</b> / ${deck.length}`;
                 fcNext.disabled = true;
-                updateProg();
+                fcCheck.disabled = true;
+                fcReveal.disabled = true;
+                fcStart.focus(); // Fokus kembali ke tombol Mulai
             }
 
             fcStart.addEventListener('click', async () => {
                 let pool = [];
                 if (fcSource.value === 'ai_gen') {
-                    // Start with a dummy pool for AI generation mode
-                    // We'll generate questions one by one in showCard()
-                    pool = Array(10).fill({ id: 'ai_placeholder', kategori: activeCategory }); // Generate 10 AI questions
+                    // Buat 10 soal AI
+                    pool = Array(10).fill({ id: 'ai_placeholder', kategori: activeCategory });
                 } else {
                     pool = getPool();
                 }
                 
-                if(!pool.length){ fcArea.hidden = false; fcPrompt.textContent = 'Kosong. Atur filter atau tambahkan favorit dulu ya 🙏'; fcFeed.textContent = ''; return; }
+                if(!pool.length){ 
+                    fcArea.hidden = false; 
+                    fcPrompt.textContent = 'Kosong. Atur filter atau tambahkan favorit dulu ya 🙏'; 
+                    fcFeed.textContent = ''; 
+                    fcInput.disabled = true;
+                    return; 
+                }
                 
-                deck = shuffle(pool).slice(0, Math.min(30, pool.length)); // Limit to 30 for a reasonable quiz length
-                idx = 0; correct = 0; fcArea.hidden = false; showCard();
+                deck = shuffle(pool).slice(0, Math.min(30, pool.length)); // Batasi maks 30 soal
+                idx = 0; correct = 0; 
+                fcArea.hidden = false; 
+                fcInput.disabled = false;
+                showCard();
             });
+            
             fcCheck.addEventListener('click', check);
             fcReveal.addEventListener('click', reveal);
             fcNext.addEventListener('click', next);
+            
             fcInput.addEventListener('keydown', (e)=>{ 
-                if(e.key==='Enter'){ e.preventDefault(); check(); } 
-                if(e.key==='Tab'){ e.preventDefault(); if(!fcNext.disabled) next(); } 
+                if(e.key==='Enter'){ 
+                    e.preventDefault(); 
+                    if (!fcCheck.disabled) check(); // Hanya cek jika tombol aktif
+                } 
+                // Ganti Tab dengan Enter untuk pindah ke soal berikutnya
+                if(e.key==='Enter' && fcCheck.disabled){ 
+                    e.preventDefault();
+                    if (!fcNext.disabled) next(); // Pindah jika tombol Next aktif
+                } 
             });
 
             function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 
             // --- Gemini API Call Function ---
-            async function generateQuestionWithAI(category, retries = 0) {
-                const prompt = `Generate a Japanese vocabulary word related to the category "${category}", its romaji, kanji (if applicable, otherwise use kana), and Indonesian meaning. Provide the output in JSON format, like this: {"id": "unique_id", "kana": "kana_form", "kanji": "kanji_form", "romaji": "romaji_form", "arti": "indonesian_meaning", "kategori": "category_name"}. Ensure the word is not too common but still useful for a beginner.`;
+            async function generateQuestionWithAI(category, level, retries = 0) {
+                // Prompt diperbarui untuk meminta level dan kategori
+                const prompt = `Generate a Japanese vocabulary word for level ${level}, related to the category "${category}", its romaji, kanji (if applicable, otherwise use kana), and Indonesian meaning. Provide the output in JSON format, like this: {"id": "unique_id", "kana": "kana_form", "kanji": "kanji_form", "romaji": "romaji_form", "arti": "indonesian_meaning", "kategori": "category_name"}. Ensure the word is not already in the N5 list.`;
                 
                 const payload = {
                     contents: [{ role: "user", parts: [{ text: prompt }] }],
@@ -977,11 +1228,11 @@
                         const errorData = await response.json();
                         console.error('Gemini API Error:', errorData);
                         if (response.status === 429 && retries < 5) { // Too Many Requests
-                            const delay = Math.pow(2, retries) * 1000; // 1s, 2s, 4s, ...
+                            const delay = Math.pow(2, retries) * 1000 + Math.random() * 1000; // Exponential backoff + jitter
                             await new Promise(resolve => setTimeout(resolve, delay));
-                            return generateQuestionWithAI(category, retries + 1);
+                            return generateQuestionWithAI(category, level, retries + 1);
                         }
-                        throw new Error(errorData.error.message || 'Terjadi kesalahan saat menghubungi API.');
+                        throw new Error(errorData.error?.message || 'Terjadi kesalahan saat menghubungi API.');
                     }
 
                     const result = await response.json();
@@ -1001,9 +1252,15 @@
                     }
                 } catch (error) {
                     console.error('Fetch Error:', error);
+                    if (retries < 5) { // Retry on network error
+                        const delay = Math.pow(2, retries) * 1000 + Math.random() * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                        return generateQuestionWithAI(category, level, retries + 1);
+                    }
                     throw new Error(`Network or API issue: ${error.message}`);
                 }
             }
+
 
             // --- Update fcMode and fcSource change listeners ---
             fcMode.addEventListener('change', () => {
