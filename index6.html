@@ -596,6 +596,54 @@
                 font-size: 12px;
             }
         }
+
+        /* Feedback Area Styles */
+        #feedbackArea {
+            margin-top: 16px;
+            padding: 16px;
+            border-radius: var(--radius);
+            background: var(--soft);
+            border: 1px solid var(--border);
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            min-height: 60px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        #feedbackArea:empty {
+            display: none;
+        }
+
+        #feedbackArea.correct {
+            background: rgba(47, 184, 117, .12);
+            border-color: var(--ok);
+            color: var(--ink);
+        }
+
+        #feedbackArea.wrong {
+            background: rgba(255, 123, 123, .12);
+            border-color: var(--warn);
+            color: var(--ink);
+        }
+
+        .spinner {
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--border);
+            border-top-color: var(--pri);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            flex-shrink: 0;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 
@@ -1160,6 +1208,9 @@
             if (isCheckingDrawing) return; // Prevent multiple clicks
 
             const expectedKana = writerCurrentChar();
+            const expectedRomaji = state.writer.kana;
+            const expectedSet = state.writer.set === 'hira' ? 'Hiragana' : 'Katakana';
+
             if (!expectedKana) {
                 showCustomAlert('Pilih karakter Kana terlebih dahulu.');
                 return;
@@ -1175,37 +1226,72 @@
             updateFeedback('loading');
             qs('#checkDrawingBtn').disabled = true; // Disable button during check
 
-            const prompt = `Is this a drawing of the Japanese character '${expectedKana}'? Answer with 'YES' if it is clearly that character, 'NO' if it is not, and briefly explain why.`;
+            // Prompt yang lebih ketat dan detail untuk analisis
+            const prompt = `You are a STRICT Japanese calligraphy teacher evaluating a student's handwritten ${expectedSet} character.
+
+The student is trying to write: '${expectedKana}' (romaji: ${expectedRomaji})
+
+EVALUATION CRITERIA (be very strict):
+1. **Stroke Count**: Does the drawing have the correct number of strokes for '${expectedKana}'?
+2. **Stroke Order & Direction**: Are strokes drawn in approximately correct positions?
+3. **Proportions**: Is the character balanced and properly proportioned?
+4. **Key Features**: Does it have the distinctive features of '${expectedKana}'? 
+5. **Readability**: Would a native Japanese reader recognize this as '${expectedKana}'?
+
+IMPORTANT: Be STRICT in your evaluation. Only say PASS if the character is clearly recognizable and well-formed. Minor imperfections are okay, but the fundamental shape must be correct.
+
+Respond in this exact format:
+RESULT: [PASS or FAIL]
+SCORE: [1-10]
+ANALYSIS:
+- Stroke accuracy: [comment]
+- Proportions: [comment]  
+- Readability: [comment]
+TIPS: [specific improvement suggestions in Indonesian]`;
 
             try {
                 const geminiResponse = await callGeminiVisionAPI(prompt, base64ImageData);
                 console.log("Gemini Response:", geminiResponse);
 
-                let isCorrect = false;
-                let feedbackMessage = "Tidak dapat menentukan.";
+                // Parse response
+                const isPassing = geminiResponse.toUpperCase().includes('RESULT: PASS') ||
+                    geminiResponse.toUpperCase().includes('RESULT:PASS');
 
-                // Simple keyword matching for "YES" or "NO"
-                if (geminiResponse.toUpperCase().includes('YES')) {
-                    isCorrect = true;
-                    feedbackMessage = `Benar! Gambar Anda terlihat seperti '${expectedKana}'.`;
-                    // Try to extract more details if available
-                    const explanationMatch = geminiResponse.match(/YES\s*(.*)/i);
-                    if (explanationMatch && explanationMatch[1].trim()) {
-                        feedbackMessage += ` ${explanationMatch[1].trim()}`;
-                    }
-                } else if (geminiResponse.toUpperCase().includes('NO')) {
-                    isCorrect = false;
-                    feedbackMessage = `Salah. Gambar Anda tidak terlihat seperti '${expectedKana}'.`;
-                    const explanationMatch = geminiResponse.match(/NO\s*(.*)/i);
-                    if (explanationMatch && explanationMatch[1].trim()) {
-                        feedbackMessage += ` ${explanationMatch[1].trim()}`;
-                    }
+                // Extract score
+                const scoreMatch = geminiResponse.match(/SCORE:\s*(\d+)/i);
+                const score = scoreMatch ? parseInt(scoreMatch[1], 10) : 0;
+
+                // Extract analysis section
+                const analysisMatch = geminiResponse.match(/ANALYSIS:([\s\S]*?)(?:TIPS:|$)/i);
+                const analysis = analysisMatch ? analysisMatch[1].trim() : '';
+
+                // Extract tips
+                const tipsMatch = geminiResponse.match(/TIPS:([\s\S]*?)$/i);
+                const tips = tipsMatch ? tipsMatch[1].trim() : '';
+
+                let feedbackMessage = '';
+                let feedbackType = 'wrong';
+
+                if (isPassing && score >= 7) {
+                    feedbackType = 'correct';
+                    feedbackMessage = `✅ Benar! Skor: ${score}/10\n\n`;
+                } else if (isPassing && score >= 5) {
+                    feedbackType = 'correct';
+                    feedbackMessage = `⚠️ Hampir benar! Skor: ${score}/10\n\n`;
                 } else {
-                    // Fallback if Gemini doesn't follow the exact YES/NO format
-                    feedbackMessage = `Umpan balik AI: ${geminiResponse}`;
+                    feedbackType = 'wrong';
+                    feedbackMessage = `❌ Perlu perbaikan. Skor: ${score}/10\n\n`;
                 }
 
-                updateFeedback(feedbackMessage, isCorrect ? 'correct' : 'wrong');
+                if (analysis) {
+                    feedbackMessage += `📊 Analisis:\n${analysis}\n\n`;
+                }
+
+                if (tips) {
+                    feedbackMessage += `💡 Tips:\n${tips}`;
+                }
+
+                updateFeedback(feedbackMessage, feedbackType);
 
             } catch (error) {
                 console.error('Error during AI check:', error);
