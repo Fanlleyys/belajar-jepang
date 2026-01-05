@@ -24,28 +24,43 @@ items.forEach(item => {
             // Recursive copy for directories (if any added later)
             fs.cpSync(srcPath, destPath, { recursive: true });
         } else {
-            // Special handling for index4.html to inject API Key
-            if (item === 'index4.html') {
+            // Special handling for HTML files to inject API Key
+            const htmlFilesWithGemini = ['index4.html', 'index5.html', 'index6.html', 'index8.html'];
+            if (htmlFilesWithGemini.includes(item)) {
                 let content = fs.readFileSync(srcPath, 'utf8');
                 const apiKey = process.env.VITE_GEMINI_API_KEY || '';
-                // Inject key if available
-                if (apiKey) {
-                    console.log('Injecting VITE_GEMINI_API_KEY into index4.html');
-                    // We look for the line: let GEMINI_API_KEY = localStorage.getItem...
-                    // And prepend the injection or replace empty string fallback
-                    // Strategy: Replace `|| ""` with `|| "${apiKey}" || ""` to be safe, or just set it.
-                    // Actually, let's look for a placeholder or just inject it as a slightly higher priority default
 
-                    // Use regex to match with any indentation
-                    const regex = /let\s+GEMINI_API_KEY\s*=\s*localStorage\.getItem\('user_gemini_api_key'\)\s*\|\|\s*"";/;
-                    if (regex.test(content)) {
+                if (apiKey) {
+                    console.log(`Injecting VITE_GEMINI_API_KEY into ${item}`);
+                    let injected = false;
+
+                    // Pattern 1: let GEMINI_API_KEY = localStorage.getItem('user_gemini_api_key') || "";
+                    const regex1 = /let\s+GEMINI_API_KEY\s*=\s*localStorage\.getItem\('user_gemini_api_key'\)\s*\|\|\s*"";/;
+                    if (regex1.test(content)) {
                         content = content.replace(
-                            regex,
+                            regex1,
                             `let GEMINI_API_KEY = "${apiKey}" || localStorage.getItem('user_gemini_api_key') || "";`
                         );
-                        console.log('Successfully injected API Key');
+                        injected = true;
+                    }
+
+                    // Pattern 2: const GEMINI_API_KEY = "any_existing_value";
+                    const regex2 = /const\s+GEMINI_API_KEY\s*=\s*"[^"]*";/g;
+                    if (regex2.test(content)) {
+                        content = content.replace(
+                            regex2,
+                            `const GEMINI_API_KEY = "${apiKey}";`
+                        );
+                        injected = true;
+                    }
+
+                    // Pattern 3: For index4.html's getGeminiApiUrl function - already handles localStorage fallback
+                    // No change needed, the function already checks localStorage first
+
+                    if (injected) {
+                        console.log(`Successfully injected API Key into ${item}`);
                     } else {
-                        console.warn('Could not find GEMINI_API_KEY definition line to replace!');
+                        console.warn(`Could not find GEMINI_API_KEY definition in ${item}!`);
                     }
                 }
                 fs.writeFileSync(destPath, content);
