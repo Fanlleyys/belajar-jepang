@@ -1,0 +1,67 @@
+{
+    "$schema": "https://openapi.vercel.sh/vercel.json",
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "headers": [
+        {
+            "source": "/(.*)",
+            "headers": [
+                {
+                    "key": "X-Content-Type-Options",
+                    "value": "nosniff"
+                },
+                {
+                    "key": "X-Frame-Options",
+                    "value": "DENY"
+                },
+                {
+                    "key": "X-XSS-Protection",
+                    "value": "1; mode=block"
+                }
+            ]
+        },
+        {
+            "source": "/audio/(.*)",
+            "headers": [
+                {
+                    "key": "Cache-Control",
+                    "value": "public, max-age=31536000, immutable"
+                }
+            ]
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/latihan",
+            "destination": "/index.html"
+        },
+        {
+            "source": "/flashcard",
+            "destination": "/index2.html"
+        },
+        {
+            "source": "/tabel",
+            "destination": "/index3.html"
+        },
+        {
+            "source": "/kosakata",
+            "destination": "/index4.html"
+        },
+        {
+            "source": "/ungkapan",
+            "destination": "/index5.html"
+        },
+        {
+            "source": "/menulis",
+            "destination": "/index6.html"
+        },
+        {
+            "source": "/tebak-arti",
+            "destination": "/index7.html"
+        },
+        {
+            "source": "/membaca",
+            "destination": "/index8.html"
+        }
+    ]
+}

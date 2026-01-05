@@ -1,0 +1,13 @@
+{
+  "name": "belajar-jepang",
+  "version": "9.0.0",
+  "description": "Pelatih Kana Jepang - Aplikasi belajar Hiragana & Katakana",
+  "scripts": {
+    "dev": "npx serve .",
+    "build": "echo 'Static site - no build needed'",
+    "start": "npx serve ."
+  },
+  "keywords": ["japanese", "kana", "hiragana", "katakana", "learning"],
+  "author": "Alfan",
+  "license": "MIT"
+}
