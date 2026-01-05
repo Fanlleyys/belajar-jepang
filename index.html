@@ -3861,25 +3861,8 @@
             renderReview();
             updatePointsAndLevelDisplay();
             renderStats();
-            // Setelah tes selesai, tawarkan "Latih yang Membingungkan"
-            // Mengganti confirm() dengan showCustomConfirm()
-            showCustomConfirm('Tes selesai! Apakah kamu ingin melatih pasangan yang membingungkan?', (confirmed) => {
-                if (confirmed) {
-                    state.test.subset = 'confusion';
-                    state.test.target = 20; // Default 20 soal untuk latihan ulang
-                    state.test.qType = 'k2r'; // Default k2r untuk confusion
-                    state.test.mode = 'mc'; // Default MC
-                    save();
-                    // Update UI controls
-                    qs('#testCount').value = state.test.target;
-                    qs('#qType').value = state.test.qType;
-                    qs('#answerMode').value = state.test.mode;
-                    buildSubsetChips(); // Rebuild chips to set 'confusion' as active
-                    updateRangeUI(); // Update range UI (will hide range controls)
-                    updateTestInfo(); // Update info text
-                    startTest();
-                }
-            });
+            // Opsi "Latih yang Membingungkan" dihapus atas permintaan user karena sering error (empty subset)
+            // showCustomConfirm('Tes selesai! Apakah kamu ingin melatih pasangan yang membingungkan?', (confirmed) => { ... });
             // Clear last session wrong list
             state.lastSessionWrong[state.test.set] = [];
             save();
