@@ -1,15 +1,20 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="utf-8">
+    <script src="theme-sync.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Pelatih Membaca (JP)</title>
-    <meta name="description" content="Latih kemampuan membaca hiragana, katakana, dan kanji dengan filter subset kana." />
+    <meta name="description"
+        content="Latih kemampuan membaca hiragana, katakana, dan kanji dengan filter subset kana." />
     <meta name="theme-color" content="#1a1a1a">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         /* CSS Variabel (konsisten dengan index7.html) */
@@ -25,8 +30,9 @@
             --warning: #ff7b7b;
             --radius: 12px;
             --space: 12px;
-            --maxw: 760px; /* Target HP 720p */
-            --shadow: 0 4px 12px rgba(0,0,0,0.3);
+            --maxw: 760px;
+            /* Target HP 720p */
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             --transition-duration: 0.2s;
         }
 
@@ -34,6 +40,7 @@
         * {
             box-sizing: border-box;
         }
+
         body {
             font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
             margin: 0;
@@ -60,7 +67,8 @@
 
         @media (min-width: 860px) {
             .container {
-                max-width: 1100px; /* Lebar lebih besar untuk desktop */
+                max-width: 1100px;
+                /* Lebar lebih besar untuk desktop */
             }
         }
 
@@ -78,9 +86,11 @@
             margin: 0 0 8px;
             text-align: center;
         }
+
         h2 {
             margin-top: 0;
         }
+
         h3 {
             font-size: clamp(16px, 4vw, 18px);
             margin-bottom: 10px;
@@ -95,7 +105,8 @@
         }
 
         .btn {
-            min-height: 48px; /* Ramah jempol */
+            min-height: 48px;
+            /* Ramah jempol */
             padding: 0 16px;
             border-radius: var(--radius);
             border: none;
@@ -110,18 +121,22 @@
             text-decoration: none;
             flex-grow: 1;
         }
+
         .btn.primary {
             background: var(--primary);
             color: #fff;
         }
+
         .btn.secondary {
             background: var(--panel);
             color: var(--text);
             border: 1px solid var(--border);
         }
+
         .btn:hover:not(:disabled) {
             opacity: 0.9;
         }
+
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
@@ -130,6 +145,7 @@
         .hidden {
             display: none !important;
         }
+
         .sr-only {
             position: absolute;
             width: 1px;
@@ -137,13 +153,15 @@
             padding: 0;
             margin: -1px;
             overflow: hidden;
-            clip: rect(0,0,0,0);
+            clip: rect(0, 0, 0, 0);
             white-space: nowrap;
             border: 0;
         }
+
         .text-center {
             text-align: center;
         }
+
         .spacer {
             height: var(--space);
         }
@@ -165,38 +183,115 @@
             max-width: calc(100% - 40px);
             text-align: center;
         }
+
         .toast.show {
             opacity: 1;
         }
+
         .toast.warn {
             background-color: var(--warning);
             color: #333;
         }
 
         /* === Sidebar === (konsisten dengan index7.html) */
-        .sidebar{
-            position:fixed; top:0; left:-300px; width:280px; height:100%;
-            background:var(--panel); box-shadow:var(--shadow); z-index:1000;
-            transition:left .3s ease-in-out; padding:20px; padding-top:calc(20px + env(safe-area-inset-top));
-            display:flex; flex-direction:column; gap:10px; overflow-y:auto; border-right:1px solid var(--border);
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background: var(--panel);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: left .3s ease-in-out;
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top));
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
         }
-        .sidebar.is-open{ left:0; }
-        .sidebar .menu{ list-style:none; margin:0; padding:0; }
-        .sidebar .menu li a{ display:flex; gap:.5rem; align-items:center; padding:.75rem 1rem; border-radius:12px; color:var(--text); text-decoration:none; }
-        .sidebar .menu li a:hover{ background: rgba(255, 255, 255, 0.08); }
-        .sidebar .menu li a.active{ background:rgba(107,139,255,.18); font-weight:600; }
-        .sidebar-toggle-btn{
-            position:fixed; top:16px; left:16px; z-index:1001; background:var(--panel); border:1px solid var(--border);
-            border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow);
+
+        .sidebar.is-open {
+            left: 0;
         }
-        .sidebar-toggle-btn i{ color:var(--text); font-size:20px; }
-        @media (min-width:768px){ body.sidebar-open{ padding-left:280px; } }
-        @media (max-width:640px){ .sidebar{ width:84vw; max-width:320px; } }
+
+        .sidebar .menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar .menu li a {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            padding: .75rem 1rem;
+            border-radius: 12px;
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        .sidebar .menu li a:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .sidebar .menu li a.active {
+            background: rgba(107, 139, 255, .18);
+            font-weight: 600;
+        }
+
+        .sidebar-toggle-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-toggle-btn i {
+            color: var(--text);
+            font-size: 20px;
+        }
+
+        @media (min-width:768px) {
+            body.sidebar-open {
+                padding-left: 280px;
+            }
+        }
+
+        @media (max-width:640px) {
+            .sidebar {
+                width: 84vw;
+                max-width: 320px;
+            }
+        }
+
         /* Biar header gak ketutup tombol */
-        header .brand{ position:relative; z-index:1002; padding-left:60px; }
-        @media (max-width:767px){
-            header .brand{ padding-left:0; }
-            .sidebar-toggle-btn{ top:calc(16px + env(safe-area-inset-top)); }
+        header .brand {
+            position: relative;
+            z-index: 1002;
+            padding-left: 60px;
+        }
+
+        @media (max-width:767px) {
+            header .brand {
+                padding-left: 0;
+            }
+
+            .sidebar-toggle-btn {
+                top: calc(16px + env(safe-area-inset-top));
+            }
         }
 
         /* --- Reading Trainer Specific Styles (rdg-) --- */
@@ -225,6 +320,7 @@
             outline: none;
             transition: background 0.2s ease;
         }
+
         .rdg-control-group input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
@@ -235,6 +331,7 @@
             cursor: pointer;
             box-shadow: 0 0 0 3px rgba(107, 139, 255, 0.2);
         }
+
         .rdg-control-group input[type="range"]::-moz-range-thumb {
             width: 20px;
             height: 20px;
@@ -243,6 +340,7 @@
             cursor: pointer;
             box-shadow: 0 0 0 3px rgba(107, 139, 255, 0.2);
         }
+
         .rdg-control-group input[type="number"] {
             width: 60px;
             height: 36px;
@@ -255,6 +353,7 @@
             text-align: center;
             -moz-appearance: textfield;
         }
+
         .rdg-control-group input[type="number"]::-webkit-outer-spin-button,
         .rdg-control-group input[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
@@ -272,9 +371,9 @@
             line-height: 1.8;
             word-break: break-word;
             white-space: pre-wrap;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
         }
-        
+
         /* Script Selector (Button Group) */
         .rdg-button-group {
             display: flex;
@@ -282,6 +381,7 @@
             gap: 8px;
             margin-bottom: var(--space);
         }
+
         .rdg-button-group button {
             flex-grow: 1;
             padding: 10px 15px;
@@ -292,11 +392,13 @@
             cursor: pointer;
             transition: all var(--transition-duration) ease;
         }
+
         .rdg-button-group button.active {
             background: var(--primary);
             border-color: var(--primary);
             color: #fff;
         }
+
         .rdg-button-group button:hover {
             opacity: 0.9;
         }
@@ -308,6 +410,7 @@
             gap: 8px;
             margin-bottom: var(--space);
         }
+
         .rdg-checkbox-group .checkbox-item {
             display: flex;
             align-items: center;
@@ -315,6 +418,7 @@
             cursor: pointer;
             font-size: clamp(14px, 3.5vw, 16px);
         }
+
         .rdg-checkbox-group input[type="checkbox"] {
             width: 20px;
             height: 20px;
@@ -328,8 +432,10 @@
             flex-shrink: 0;
             transition: all 0.2s ease;
         }
+
         .rdg-checkbox-group input[type="checkbox"]::before {
-            content: "\f00c"; /* Font Awesome check icon */
+            content: "\f00c";
+            /* Font Awesome check icon */
             font-family: "Font Awesome 6 Free";
             font-weight: 900;
             font-size: 14px;
@@ -337,13 +443,16 @@
             transform: scale(0);
             transition: transform 0.1s ease-in-out;
         }
+
         .rdg-checkbox-group input[type="checkbox"]:checked {
             background-color: var(--primary);
             border-color: var(--primary);
         }
+
         .rdg-checkbox-group input[type="checkbox"]:checked::before {
             transform: scale(1);
         }
+
         .rdg-checkbox-group input[type="checkbox"]:disabled {
             opacity: 0.6;
             cursor: not-allowed;
@@ -356,23 +465,29 @@
             gap: 8px;
             margin-bottom: var(--space);
         }
+
         .rdg-radio-group .radio-item {
             display: flex;
             align-items: center;
-            gap: 10px; /* Sedikit lebih lebar */
+            gap: 10px;
+            /* Sedikit lebih lebar */
             cursor: pointer;
             font-size: clamp(14px, 3.5vw, 16px);
-            padding: 8px; /* Tambah padding agar area klik lebih besar */
+            padding: 8px;
+            /* Tambah padding agar area klik lebih besar */
             border-radius: 8px;
             transition: background-color 0.2s ease;
         }
+
         .rdg-radio-group .radio-item:hover {
-            background-color: rgba(255,255,255,0.05);
+            background-color: rgba(255, 255, 255, 0.05);
         }
+
         .rdg-radio-group input[type="radio"] {
             width: 20px;
             height: 20px;
-            border-radius: 50%; /* Bulat */
+            border-radius: 50%;
+            /* Bulat */
             border: 1px solid var(--border);
             background: var(--bg);
             appearance: none;
@@ -382,22 +497,27 @@
             flex-shrink: 0;
             transition: all 0.2s ease;
         }
+
         .rdg-radio-group input[type="radio"]::before {
             content: "";
-            width: 10px; /* Lingkaran dalam */
+            width: 10px;
+            /* Lingkaran dalam */
             height: 10px;
             border-radius: 50%;
             background-color: #fff;
             transform: scale(0);
             transition: transform 0.1s ease-in-out;
         }
+
         .rdg-radio-group input[type="radio"]:checked {
             background-color: var(--primary);
             border-color: var(--primary);
         }
+
         .rdg-radio-group input[type="radio"]:checked::before {
             transform: scale(1);
         }
+
         /* === AKHIR BARU === */
 
 
@@ -409,8 +529,10 @@
             color: var(--muted);
             font-size: clamp(12px, 3vw, 14px);
         }
+
         .rdg-slider-control span {
-            min-width: 30px; /* Lebar minimum untuk persentase */
+            min-width: 30px;
+            /* Lebar minimum untuk persentase */
             text-align: right;
         }
 
@@ -419,22 +541,25 @@
             position: relative;
             display: inline-block;
         }
+
         .tooltip-icon {
             color: var(--muted);
             font-size: 0.9em;
             margin-left: 4px;
             cursor: help;
         }
+
         .tooltip-text {
             visibility: hidden;
-            background-color: rgba(0,0,0,0.85);
+            background-color: rgba(0, 0, 0, 0.85);
             color: #fff;
             text-align: center;
             border-radius: 6px;
             padding: 8px 12px;
             position: absolute;
             z-index: 1;
-            bottom: 125%; /* Atas elemen */
+            bottom: 125%;
+            /* Atas elemen */
             left: 50%;
             transform: translateX(-50%);
             opacity: 0;
@@ -442,6 +567,7 @@
             white-space: nowrap;
             font-size: 0.8em;
         }
+
         .tooltip-text::after {
             content: "";
             position: absolute;
@@ -450,8 +576,9 @@
             margin-left: -5px;
             border-width: 5px;
             border-style: solid;
-            border-color: rgba(0,0,0,0.85) transparent transparent transparent;
+            border-color: rgba(0, 0, 0, 0.85) transparent transparent transparent;
         }
+
         .tooltip-container:hover .tooltip-text {
             visibility: visible;
             opacity: 1;
@@ -471,37 +598,39 @@
             margin-bottom: var(--space);
             flex-wrap: wrap;
         }
+
         .rdg-preset-buttons .btn {
             flex-grow: 1;
         }
     </style>
 </head>
+
 <body>
     <!-- Toggle Button -->
     <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar">
-      <i class="fa-solid fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
     </button>
 
     <!-- Sidebar -->
     <nav id="sidebar" class="sidebar">
-      <div class="row" style="justify-content: space-between; align-items: center;">
-        <h3 style="margin:0;">Navigasi</h3>
-        <button class="btn secondary" id="closeSidebar" aria-label="Tutup Sidebar">
-          <i class="fa-solid fa-times"></i>
-        </button>
-      </div>
-      <hr style="border:none;border-top:1px solid var(--border);width:100%;">
-      <ul class="menu">
-        <li><a href="index.html">📖 Latihan</a></li>
-        <li><a href="index2.html">🗂️ Flashcard</a></li>
-        <li><a href="index3.html">🧮 Tabel Kana</a></li>
-        <li><a href="index4.html">🗒️ Kosakata</a></li>
-        <li><a href="index5.html">💬 Ungkapan</a></li>
-        <li><a href="index7.html">🧠 Tebak Arti</a></li>
-        <li><a href="index6.html">✍️ Menulis</a></li>
-        <li><a href="index8.html" class="active">📚 Pelatih Membaca</a></li>
-        <li><a href="index9.html">🔄 Konversi Kana</a></li> <!-- New: Kana Conversion Challenge -->
-      </ul>
+        <div class="row" style="justify-content: space-between; align-items: center;">
+            <h3 style="margin:0;">Navigasi</h3>
+            <button class="btn secondary" id="closeSidebar" aria-label="Tutup Sidebar">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+        <hr style="border:none;border-top:1px solid var(--border);width:100%;">
+        <ul class="menu">
+            <li><a href="index.html">📖 Latihan</a></li>
+            <li><a href="index2.html">🗂️ Flashcard</a></li>
+            <li><a href="index3.html">🧮 Tabel Kana</a></li>
+            <li><a href="index4.html">🗒️ Kosakata</a></li>
+            <li><a href="index5.html">💬 Ungkapan</a></li>
+            <li><a href="index7.html">🧠 Tebak Arti</a></li>
+            <li><a href="index6.html">✍️ Menulis</a></li>
+            <li><a href="index8.html" class="active">📚 Pelatih Membaca</a></li>
+            <li><a href="index9.html">🔄 Konversi Kana</a></li> <!-- New: Kana Conversion Challenge -->
+        </ul>
     </nav>
 
     <div class="container">
@@ -521,7 +650,7 @@
                     <button class="btn secondary" data-preset="advanced">Lanjutan (Kanji+Furigana)</button>
                 </div>
             </div>
-            
+
             <!-- === PERUBAHAN UTAMA: UI KONTROL BARU === -->
             <div class="rdg-control-group">
                 <h3>Mode Tampilan</h3>
@@ -554,7 +683,8 @@
                         <input type="checkbox" id="rdg-subset-gojuon" checked data-subset="gojuon">
                         Dasar (gojūon)
                         <i class="fa-solid fa-circle-question tooltip-icon"></i>
-                        <span class="tooltip-text">Hiragana/Katakana dasar (a, ka, sa, ta, na, ha, ma, ya, ra, wa, n).</span>
+                        <span class="tooltip-text">Hiragana/Katakana dasar (a, ka, sa, ta, na, ha, ma, ya, ra, wa,
+                            n).</span>
                     </label>
                     <label class="checkbox-item tooltip-container">
                         <input type="checkbox" id="rdg-subset-dakuon" data-subset="dakuon">
@@ -572,7 +702,8 @@
                         <input type="checkbox" id="rdg-subset-youon" data-subset="youon">
                         Youon (きゃ/しゃ/…)
                         <i class="fa-solid fa-circle-question tooltip-icon"></i>
-                        <span class="tooltip-text">Kombinasi karakter (kya, shu, cho, nya, hya, mya, rya, gya, ja, bya, pya, dll.).</span>
+                        <span class="tooltip-text">Kombinasi karakter (kya, shu, cho, nya, hya, mya, rya, gya, ja, bya,
+                            pya, dll.).</span>
                     </label>
                 </div>
             </div>
@@ -591,7 +722,8 @@
                     <input type="range" id="rdg-choon-slider" min="0" max="60" step="5" value="20" disabled>
                     <span id="rdg-choon-display">20%</span>
                     <i class="fa-solid fa-circle-question tooltip-icon"></i>
-                    <span class="tooltip-text">Frekuensi injeksi karakter "ー" (garis panjang) untuk vokal panjang (hanya jika Katakana diizinkan).</span>
+                    <span class="tooltip-text">Frekuensi injeksi karakter "ー" (garis panjang) untuk vokal panjang (hanya
+                        jika Katakana diizinkan).</span>
                 </div>
             </div>
 
@@ -609,7 +741,8 @@
             </div>
 
             <div class="rdg-action-buttons">
-                <button class="btn primary" id="rdg-generate-btn"><i class="fa-solid fa-sync-alt"></i> Hasilkan Teks</button>
+                <button class="btn primary" id="rdg-generate-btn"><i class="fa-solid fa-sync-alt"></i> Hasilkan
+                    Teks</button>
                 <button class="btn secondary" id="rdg-copy-btn"><i class="fa-solid fa-copy"></i> Salin</button>
                 <button class="btn secondary" id="rdg-speak-btn"><i class="fa-solid fa-volume-up"></i> Bicara</button>
                 <button class="btn secondary" id="rdg-stop-btn"><i class="fa-solid fa-stop"></i> Stop Bicara</button>
@@ -684,19 +817,19 @@
             { j: '酸っぱい', k: 'すっぱい' }, { j: '苦い', k: 'にがい' }, { j: '重い', k: 'おもい' },
             { j: '軽い', k: 'かるい' }, { j: '狭い', k: 'せまい' }, { j: '広い', k: 'ひろい' },
             { j: '遠い', k: 'とおい' }, { j: '近い', k: 'ちかい' }, { j: '早い', k: 'はやい' },
-            { j: '遅い', k: 'おそい' }, { j: '速い', k: 'はやい' }, 
+            { j: '遅い', k: 'おそい' }, { j: '速い', k: 'はやい' },
             { j: '強い', k: 'つよい' }, { j: '弱い', k: 'よわい' }, { j: '良い', k: 'よい' },
             { j: '悪い', k: 'わるい' }, { j: '多い', k: 'おおい' }, { j: '少ない', k: 'すくない' },
-            { j: 'ながい', k: 'ながい' }, { j: '短い', k: 'みじかい' }, 
+            { j: 'ながい', k: 'ながい' }, { j: '短い', k: 'みじかい' },
             { j: '美しい', k: 'うつくしい' }, { j: '可愛い', k: 'かわいい' },
-            { j: '怖い', k: 'こわい' }, { j: '眠い', k: 'ねむい' }, 
-            { j: '暇', k: 'ひま' }, 
-            { j: '上手', k: 'じょうず' }, { j: '下手', k: 'へた' }, 
+            { j: '怖い', k: 'こわい' }, { j: '眠い', k: 'ねむい' },
+            { j: '暇', k: 'ひま' },
+            { j: '上手', k: 'じょうず' }, { j: '下手', k: 'へた' },
             { j: '不便', k: 'ふべん' }, { j: '結構', k: 'けっこう' }, { j: '結構です', k: 'けっこうです' },
             { j: '問題', k: 'もんだい' }, { j: '質問', k: 'しつもん' },
-            { j: '答え', k: 'こたえ' }, { j: '分かる', k: 'わかる' }, 
+            { j: '答え', k: 'こたえ' }, { j: '分かる', k: 'わかる' },
             { j: 'できる', k: 'できる' }, { j: 'できない', k: 'できない' }, { j: '使う', k: 'つかう' },
-            { j: '作る', k: 'つくる' }, { j: '売る', k: 'うる' }, 
+            { j: '作る', k: 'つくる' }, { j: '売る', k: 'うる' },
             { j: '勉強', k: 'べんきょう' }, { j: '運動', k: 'うんどう' }, { j: '仕事', k: 'しごと' },
             { j: '休み', k: 'やすみ' }, { j: '旅行', k: 'りょこう' }, { j: '音楽', k: 'おんがく' },
             { j: '映画', k: 'えいが' }, { j: 'テレビ', k: 'テレビ' }, { j: 'ラジオ', k: 'ラジオ' },
@@ -718,7 +851,7 @@
             { j: '降る', k: 'ふる' }, { j: '晴れる', k: 'はれる' }, { j: '曇る', k: 'くもる' },
             { j: '吹く', k: 'ふく' }, { j: '鳴く', k: 'なく' }, { j: '咲く', k: 'さく' },
             { j: '枯れる', k: 'かれる' }
-        ].filter((item, index, self) => 
+        ].filter((item, index, self) =>
             index === self.findIndex((t) => (t.j === item.j && t.k === item.k))
         );
 
@@ -741,7 +874,7 @@
         // Valid Sokuon preceding characters (k, s, t, p lines ONLY)
         const SOKUON_VALID_NEXT_HIRA_START = 'かきくけこさしすせそたちつてとぱぴぷぺぽ';
         const SOKUON_VALID_NEXT_KATA_START = 'カキクケコサシスセソタチツテトパピプペポ';
-        
+
         // Samakan definisi PUNCTUATION
         const PUNCTUATION = '。、「」、・？！'; // Punctuation always allowed
 
@@ -758,7 +891,7 @@
 
         // --- DOM ELEMENTS (BARU & LAMA) ---
         const rdgDisplayMode = document.getElementById('rdg-display-mode');
-        
+
         const rdgPresetButtons = document.querySelector('.rdg-preset-buttons');
         const rdgSubsetControls = document.querySelector('.rdg-subset-controls');
         const rdgSubsetGojuon = document.getElementById('rdg-subset-gojuon');
@@ -827,7 +960,7 @@
             if (char === 'は') return 'ワ'; // 'ha' sebagai partikel
             if (char === 'へ') return 'エ'; // 'he' sebagai partikel
             if (char === 'を') return 'オ'; // 'wo' sebagai partikel
-            
+
             const code = char.charCodeAt(0);
             if (code >= 0x3041 && code <= 0x3096) { // Hiragana range
                 return String.fromCharCode(code + 0x60); // Offset ke Katakana
@@ -870,7 +1003,7 @@
 
         function isKanaSmall(char) {
             return HIRA_SMALL_YO.includes(char) || KATA_SMALL_YO.includes(char) ||
-                   HIRA_SMALL_VOWELS.includes(char) || KATA_SMALL_VOWELS.includes(char);
+                HIRA_SMALL_VOWELS.includes(char) || KATA_SMALL_VOWELS.includes(char);
         }
 
         function ensureSentenceEnding(s) {
@@ -882,7 +1015,7 @@
         // Cek ada youon/dakuon/choon di suatu string (untuk satisfy slider/checkbox)
         const HAS_YOUON = /[ゃゅょャュョぁぃぅぇぉァィゥェォ]/;
         const HAS_DAKUON = /[がぎぐげござじずぜぞだぢづでどばびぶべぼガギグゲゴザジズゼゾダヂヅデドバビブベボ]/;
-        const HAS_CHOON  = /ー/;
+        const HAS_CHOON = /ー/;
 
         // --- CORE LOGIC ---
 
@@ -901,22 +1034,22 @@
             const allowKata = true;
 
             if (settings.gojuon) {
-                if(allowHira) HIRA_BASE.split('').forEach(c => setHira.add(c));
-                if(allowKata) KATA_BASE.split('').forEach(c => setKata.add(c));
+                if (allowHira) HIRA_BASE.split('').forEach(c => setHira.add(c));
+                if (allowKata) KATA_BASE.split('').forEach(c => setKata.add(c));
             }
             if (settings.dakuon) {
-                if(allowHira) HIRA_DAKUON.split('').forEach(c => setHira.add(c));
-                if(allowKata) KATA_DAKUON.split('').forEach(c => setKata.add(c));
+                if (allowHira) HIRA_DAKUON.split('').forEach(c => setHira.add(c));
+                if (allowKata) KATA_DAKUON.split('').forEach(c => setKata.add(c));
             }
             if (settings.handakuon) {
-                if(allowHira) HIRA_HANDAKUON.split('').forEach(c => setHira.add(c));
-                if(allowKata) KATA_HANDAKUON.split('').forEach(c => setKata.add(c));
+                if (allowHira) HIRA_HANDAKUON.split('').forEach(c => setHira.add(c));
+                if (allowKata) KATA_HANDAKUON.split('').forEach(c => setKata.add(c));
             }
             if (settings.youon) {
-                if(allowHira) HIRA_SMALL_YO.split('').forEach(c => setHira.add(c));
-                if(allowKata) KATA_SMALL_YO.split('').forEach(c => setKata.add(c));
-                if(allowHira) HIRA_SMALL_VOWELS.split('').forEach(c => setHira.add(c));
-                if(allowKata) KATA_SMALL_VOWELS.split('').forEach(c => setKata.add(c));
+                if (allowHira) HIRA_SMALL_YO.split('').forEach(c => setHira.add(c));
+                if (allowKata) KATA_SMALL_YO.split('').forEach(c => setKata.add(c));
+                if (allowHira) HIRA_SMALL_VOWELS.split('').forEach(c => setHira.add(c));
+                if (allowKata) KATA_SMALL_VOWELS.split('').forEach(c => setKata.add(c));
             }
 
             // Tanda baca selalu diizinkan
@@ -956,7 +1089,7 @@
                     // Choon (ー) adalah valid jika 'allowChoon' true,
                     // tapi kita tidak memfilternya di sini karena 'allow'
                     // hanya untuk subset. Kita biarkan lolos.
-                    continue; 
+                    continue;
                 }
 
                 // Cek kana lainnya
@@ -977,21 +1110,21 @@
          */
         function filterDictionary(dict, allow) {
             const isFuriganaMode = state.displayMode === 'furigana';
-            
+
             const filtered = dict.filter(item => {
                 const kana = item.k;
                 const hasKanji = item.j !== item.k;
-                
+
                 // 1. Cek Mode (Hanya filter Kanji)
                 if (!isFuriganaMode && hasKanji) {
                     return false; // Mode "Kana", tapi kata ini punya Kanji
                 }
-                
+
                 // 2. Cek Filter Subset (Gojuon, Dakuon, dll)
                 // Ini penting: kata harus lolos filter subset
                 return wordAllowed(kana, allow);
             });
-            
+
             return filtered;
         }
 
@@ -1009,7 +1142,7 @@
                 const char = sentence[i];
                 result += char;
 
-                if (i === sentence.length - 1 || !isKana(sentence[i]) || !isKana(sentence[i+1])) continue;
+                if (i === sentence.length - 1 || !isKana(sentence[i]) || !isKana(sentence[i + 1])) continue;
 
                 const nextChar = sentence[i + 1];
                 let isValidNextForSokuon = false;
@@ -1022,7 +1155,7 @@
                     isValidNextForSokuon = true;
                     sokuonChar = KATA_SOKUON;
                 }
-                
+
                 // Jika mode kata_only, paksa sokuon jadi Katakana
                 if (state.displayMode === 'kata_only') {
                     sokuonChar = KATA_SOKUON;
@@ -1061,8 +1194,8 @@
 
                 // Hanya untuk Katakana dan jika bukan karakter terakhir
                 if (isKatakana(char) && i < sentence.length - 1) {
-                    const nextChar = sentence[i+1];
-                    
+                    const nextChar = sentence[i + 1];
+
                     const isVowelKatakana = ['ア', 'イ', 'ウ', 'エ', 'オ', 'ァ', 'ィ', 'ゥ', 'ェ', 'ォ'].includes(char);
                     const isNextCharVowelKatakana = ['ア', 'イ', 'ウ', 'エ', 'オ', 'ァ', 'ィ', 'ゥ', 'ェ', 'ォ'].includes(nextChar);
 
@@ -1092,8 +1225,8 @@
             for (const wordObj of words) {
                 let currentWord; // Ini akan menjadi string teks/HTML
                 let kanaToProcess = wordObj.k; // Selalu mulai dengan data kana
-                
-                switch(state.displayMode) {
+
+                switch (state.displayMode) {
                     case 'furigana':
                         if (wordObj.j && wordObj.j !== wordObj.k) {
                             currentWord = `<ruby>${wordObj.j}<rt>${wordObj.k}</rt></ruby>`;
@@ -1111,7 +1244,7 @@
                         break;
                     case 'kana_mixed':
                         // Tampilkan apa adanya (Hira tetap Hira, Kata tetap Kata)
-                        currentWord = kanaToProcess; 
+                        currentWord = kanaToProcess;
                         break;
                 }
                 sentenceParts.push(currentWord);
@@ -1138,10 +1271,10 @@
          * @param {boolean} needChoon - True jika Chōon harus ada.
          * @returns {boolean} True jika kalimat memenuhi syarat fitur yang dibutuhkan.
          */
-        function mustHaveFeature(sentence, needYouon, needDakuon, needChoon){
+        function mustHaveFeature(sentence, needYouon, needDakuon, needChoon) {
             if (needYouon && !HAS_YOUON.test(sentence)) return false;
             if (needDakuon && !HAS_DAKUON.test(sentence)) return false;
-            if (needChoon && !HAS_CHOON.test(sentence))  return false;
+            if (needChoon && !HAS_CHOON.test(sentence)) return false;
             return true;
         }
 
@@ -1171,17 +1304,17 @@
 
             // 3. Filter Kamus Utama berdasarkan mode (kanji/tidak) DAN subset
             const filteredDict = filterDictionary(DICTIONARY, allowedChars);
-            
+
             // 4. Cek apakah kamus yang difilter mencukupi
             if (filteredDict.length === 0) {
-                 rdgOutput.innerHTML = `<p style="color:var(--muted); text-align:center;">
+                rdgOutput.innerHTML = `<p style="color:var(--muted); text-align:center;">
                     Kamus tidak cukup untuk kombinasi filter ini.<br>
                     Coba luaskan filter 'Filter Subset'.
                 </p>`;
                 showToast("Kamus tidak cukup. Coba luaskan filter.", 'warn');
                 return;
             } else if (filteredDict.length < state.targetLength) {
-                 showToast("Kamus terbatas, hasil mungkin berulang.", 'info');
+                showToast("Kamus terbatas, hasil mungkin berulang.", 'info');
             }
 
             // 5. Hasilkan Teks
@@ -1191,7 +1324,7 @@
                 for (let s = 0; s < state.sentencePerParagraph; s++) {
                     let sent;
                     let attempts = 0;
-                    const maxAttempts = 20; 
+                    const maxAttempts = 20;
 
                     // Ambil kata-kata
                     const parts = [];
@@ -1207,20 +1340,20 @@
                     do {
                         // Gabungkan jadi kalimat (DI DALAM LOOP)
                         // agar injeksi sokuon/choon bisa dievaluasi ulang
-                        sent = composeSentence(parts, allowedChars); 
-                        
+                        sent = composeSentence(parts, allowedChars);
+
                         attempts++;
                         if (attempts > maxAttempts) {
                             console.warn("Max attempts reached for generating feature-rich sentence. Proceeding.");
-                            break; 
+                            break;
                         }
-                    } while(!mustHaveFeature(
+                    } while (!mustHaveFeature(
                         sent,
                         state.subset.youon,
                         state.subset.dakuon || state.subset.handakuon,
                         allowedChars.allowChoon // Cek dari whitelist
                     ));
-                    paragraphText += sent; 
+                    paragraphText += sent;
                 }
                 fullTextHtml += `<p>${paragraphText}</p>`;
             }
@@ -1267,7 +1400,7 @@
 
         if ('speechSynthesis' in window) {
             speechSynthesis.onvoiceschanged = loadJapaneseVoices;
-            loadJapaneseVoices(); 
+            loadJapaneseVoices();
         }
 
         /**
@@ -1480,26 +1613,26 @@
 
         // --- SIDEBAR JS (konsisten dengan index7.html) ---
         (() => {
-            const sidebar  = document.getElementById('sidebar');
-            const toggle   = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
             const closeBtn = document.getElementById('closeSidebar');
 
-            function open(){ sidebar.classList.add('is-open'); document.body.classList.add('sidebar-open'); }
-            function close(){ sidebar.classList.remove('is-open'); document.body.classList.remove('sidebar-open'); }
+            function open() { sidebar.classList.add('is-open'); document.body.classList.add('sidebar-open'); }
+            function close() { sidebar.classList.remove('is-open'); document.body.classList.remove('sidebar-open'); }
 
             toggle?.addEventListener('click', open);
             closeBtn?.addEventListener('click', close);
 
-            document.addEventListener('click', (e)=>{
-                if(!sidebar.classList.contains('is-open')) return;
+            document.addEventListener('click', (e) => {
+                if (!sidebar.classList.contains('is-open')) return;
                 const hit = sidebar.contains(e.target) || toggle.contains(e.target);
-                if(!hit) close();
+                if (!hit) close();
             });
-            document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
-            document.querySelectorAll('#sidebar a').forEach(a=>{
+            document.querySelectorAll('#sidebar a').forEach(a => {
                 const href = a.getAttribute('href');
-                if(href && location.pathname.endsWith(href)) {
+                if (href && location.pathname.endsWith(href)) {
                     a.classList.add('active');
                 } else {
                     a.classList.remove('active');
@@ -1512,8 +1645,9 @@
             initializeUI();
             bindEventListeners();
             // Generate initial text on load for a better first experience
-            generateText(); 
+            generateText();
         });
     </script>
 </body>
+
 </html>

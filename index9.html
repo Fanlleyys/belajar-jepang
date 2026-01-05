@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
+    <script src="theme-sync.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Pelatih Kana Jepang — v9</title>
-    <meta name="description" content="Aplikasi web offline untuk latihan Hiragana dan Katakana, dirancang untuk membantu Anda membaca lebih lancar 10 menit per hari.">
-    
+    <meta name="description"
+        content="Aplikasi web offline untuk latihan Hiragana dan Katakana, dirancang untuk membantu Anda membaca lebih lancar 10 menit per hari.">
+
     <style>
         /* ========================================================== */
         /* === GLOBAL VARIABLES & COLORS === */
         /* ========================================================== */
-        :root{
-            --bg:#f8fbff; --panel:#ffffff; --soft:#f2f6ff; --ink:#132030; --muted:#76849c;
-            --pri:#7a6cff; --sec:#16c6a1; --warn:#ff7b7b; --ok:#2fb875; --accent:#ffd166;
-            --btn:#e9eefc; --btnText:#0b101a; --border:rgba(19,32,48,.10);
-            --radius:18px;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,.12);
-            --shadow-md: 0 8px 24px rgba(0,0,0,.18);
-            --shadow-lg: 0 16px 40px rgba(0,0,0,.22);
+        :root {
+            --bg: #f8fbff;
+            --panel: #ffffff;
+            --soft: #f2f6ff;
+            --ink: #132030;
+            --muted: #76849c;
+            --pri: #7a6cff;
+            --sec: #16c6a1;
+            --warn: #ff7b7b;
+            --ok: #2fb875;
+            --accent: #ffd166;
+            --btn: #e9eefc;
+            --btnText: #0b101a;
+            --border: rgba(19, 32, 48, .10);
+            --radius: 18px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, .12);
+            --shadow-md: 0 8px 24px rgba(0, 0, 0, .18);
+            --shadow-lg: 0 16px 40px rgba(0, 0, 0, .22);
             --ring: 0 0 0 3px color-mix(in srgb, var(--pri) 60%, white 40%);
             --iconColor: var(--muted);
             --transition-duration: .2s;
@@ -32,37 +45,50 @@
         }
 
         /* Dark Mode */
-        [data-theme="dark"]{
-            --bg:#0a0f1a; --panel:#0f1626; --soft:#0c1220; --ink:#e6efff; --muted:#9fb0cc;
-            --pri:#8fa8ff; --sec:#3dd8b5; --warn:#ff8c8c; --ok:#7be0b3; --accent:#ffd98a;
-            --btn:#18243a;
-            --btnText:#e6efff;
-            --border:rgba(230,239,255,.12);
-            --ring: 0 0 0 3px rgba(143,168,255,.35);
+        [data-theme="dark"] {
+            --bg: #0a0f1a;
+            --panel: #0f1626;
+            --soft: #0c1220;
+            --ink: #e6efff;
+            --muted: #9fb0cc;
+            --pri: #8fa8ff;
+            --sec: #3dd8b5;
+            --warn: #ff8c8c;
+            --ok: #7be0b3;
+            --accent: #ffd98a;
+            --btn: #18243a;
+            --btnText: #e6efff;
+            --border: rgba(230, 239, 255, .12);
+            --ring: 0 0 0 3px rgba(143, 168, 255, .35);
             --iconColor: var(--ink);
         }
 
         /* ========================================================== */
         /* === BASE STYLES === */
         /* ========================================================== */
-        html, body {
+        html,
+        body {
             max-width: 100%;
             overflow-x: hidden;
         }
+
         body {
             min-height: 100vh;
             margin: 0;
             font-family: var(--font-inter);
             background:
-                radial-gradient(900px 420px at -10% -20%, rgba(122,108,255,.10), transparent),
-                radial-gradient(900px 420px at 110% -30%, rgba(22,198,161,.12), transparent),
+                radial-gradient(900px 420px at -10% -20%, rgba(122, 108, 255, .10), transparent),
+                radial-gradient(900px 420px at 110% -30%, rgba(22, 198, 161, .12), transparent),
                 var(--bg);
             color: var(--ink);
             transition: background-color var(--transition-duration) ease-out, color var(--transition-duration) ease-out;
             line-height: 1.6;
             font-size: var(--fs-body);
         }
-        *, *::before, *::after {
+
+        *,
+        *::before,
+        *::after {
             box-sizing: border-box;
             -webkit-tap-highlight-color: transparent;
         }
@@ -74,7 +100,8 @@
             padding: 16px;
             max-width: 1200px;
             margin: auto;
-            padding-bottom: 72px; /* Untuk bottom nav */
+            padding-bottom: 72px;
+            /* Untuk bottom nav */
             padding-left: calc(16px + env(safe-area-inset-left));
             padding-right: calc(16px + env(safe-area-inset-right));
         }
@@ -92,16 +119,19 @@
             border: 1px solid var(--border);
             transition: all var(--transition-duration) ease-out;
         }
+
         @media (hover: hover) {
             .card:hover {
                 box-shadow: var(--shadow-lg);
                 transform: translateY(-2px);
             }
         }
+
         .card.no-hover:hover {
             box-shadow: var(--shadow-md);
             transform: none;
         }
+
         .card h2 {
             font-size: var(--fs-h2);
             margin: 0 0 8px 0;
@@ -110,23 +140,32 @@
             gap: 12px;
             font-weight: 700;
         }
+
         .card h3 {
             font-size: calc(var(--fs-body) * 1.2);
             margin: 16px 0 8px 0;
             color: var(--muted);
         }
+
         .text-small {
             font-size: var(--fs-small);
             color: var(--muted);
         }
+
         .row {
             display: flex;
             gap: 8px;
             flex-wrap: wrap;
             align-items: center;
         }
-        .spacer { height: 16px; }
-        .full-width { width: 100%; }
+
+        .spacer {
+            height: 16px;
+        }
+
+        .full-width {
+            width: 100%;
+        }
 
         .btn {
             display: inline-flex;
@@ -147,34 +186,41 @@
             position: relative;
             overflow: hidden;
         }
+
         .btn.primary {
             background: linear-gradient(135deg, var(--pri), var(--sec));
             color: white;
             box-shadow: var(--shadow-sm);
         }
+
         .btn.primary:hover {
             box-shadow: var(--shadow-md);
             transform: translateY(-2px);
         }
+
         .btn.ghost {
             background: transparent;
             outline: 1px solid var(--border);
             color: var(--ink);
         }
+
         .btn.danger {
             background-color: var(--warn);
             color: white;
         }
+
         .btn:active {
             transform: translateY(1px) scale(0.99);
             box-shadow: var(--shadow-sm);
         }
+
         @media (hover: hover) {
             .btn:hover {
                 transform: translateY(-2px) scale(1.01);
                 box-shadow: var(--shadow-lg);
             }
         }
+
         .btn:focus-visible {
             outline: none;
             box-shadow: var(--ring);
@@ -188,6 +234,7 @@
             overflow: hidden;
             transition: border-color var(--transition-duration) ease-out;
         }
+
         .seg button {
             flex: 1;
             background: var(--soft);
@@ -199,13 +246,15 @@
             color: var(--ink);
             font-weight: 500;
         }
+
         .seg button.active {
-            background: linear-gradient(135deg, rgba(122,108,255,.18), rgba(22,198,161,.18));
+            background: linear-gradient(135deg, rgba(122, 108, 255, .18), rgba(22, 198, 161, .18));
             color: var(--ink);
             font-weight: 600;
         }
+
         [data-theme="dark"] .seg button.active {
-            background: linear-gradient(135deg, rgba(143,168,255,.15), rgba(61,216,181,.15));
+            background: linear-gradient(135deg, rgba(143, 168, 255, .15), rgba(61, 216, 181, .15));
         }
 
         /* Input field */
@@ -213,6 +262,7 @@
             position: relative;
             width: 100%;
         }
+
         .input-group input {
             width: 100%;
             padding: 12px 16px;
@@ -223,17 +273,20 @@
             font-size: var(--fs-body);
             transition: all var(--transition-duration) ease-out;
         }
+
         .input-group input:focus {
             outline: none;
             border-color: var(--pri);
             box-shadow: var(--ring);
         }
+
         /* Chips for custom set */
         .chip-group {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
         }
+
         .chip {
             padding: 8px 12px;
             border-radius: 12px;
@@ -244,6 +297,7 @@
             font-weight: 500;
             transition: background var(--transition-duration) ease;
         }
+
         .chip.active {
             background: var(--pri);
             color: white;
@@ -257,7 +311,7 @@
             flex-direction: column;
             min-height: 100vh;
         }
-        
+
         /* Sidebar (Desktop) */
         .sidebar {
             position: fixed;
@@ -278,36 +332,86 @@
             border-right: 1px solid var(--border);
             font-size: var(--fs-body);
         }
-        .sidebar.is-open { left: 0; }
-        .sidebar .menu { list-style: none; margin: 0; padding: 0; }
-        .sidebar .menu li { position: relative; }
+
+        .sidebar.is-open {
+            left: 0;
+        }
+
+        .sidebar .menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar .menu li {
+            position: relative;
+        }
+
         .sidebar .menu li a {
-            display: flex; gap: 12px; align-items: center; padding: 12px 16px;
-            border-radius: 12px; color: var(--ink); text-decoration: none;
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            padding: 12px 16px;
+            border-radius: 12px;
+            color: var(--ink);
+            text-decoration: none;
             transition: all var(--transition-duration) ease-out;
         }
-        .sidebar .menu li a:hover { background: var(--soft); }
+
+        .sidebar .menu li a:hover {
+            background: var(--soft);
+        }
+
         .sidebar .menu li a.active {
-            background: linear-gradient(135deg, rgba(122,108,255,.12), rgba(22,198,161,.12));
+            background: linear-gradient(135deg, rgba(122, 108, 255, .12), rgba(22, 198, 161, .12));
             font-weight: 600;
         }
+
         .sidebar .menu li a.active:hover {
-            background: linear-gradient(135deg, rgba(122,108,255,.18), rgba(22,198,161,.18));
+            background: linear-gradient(135deg, rgba(122, 108, 255, .18), rgba(22, 198, 161, .18));
         }
-        .sidebar .menu li a svg { width: 24px; height: 24px; color: var(--muted); transition: color .2s; }
-        .sidebar .menu li a.active svg { color: var(--pri); }
-        
+
+        .sidebar .menu li a svg {
+            width: 24px;
+            height: 24px;
+            color: var(--muted);
+            transition: color .2s;
+        }
+
+        .sidebar .menu li a.active svg {
+            color: var(--pri);
+        }
+
         /* Sidebar Toggle Button (Mobile) */
         .sidebar-toggle-btn {
-            position: fixed; top: calc(16px + env(safe-area-inset-top)); left: calc(16px + env(safe-area-inset-left)); z-index: 1001; background: var(--btn);
-            border: 1px solid var(--border); border-radius: 50%; width: 48px; height: 48px;
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            position: fixed;
+            top: calc(16px + env(safe-area-inset-top));
+            left: calc(16px + env(safe-area-inset-left));
+            z-index: 1001;
+            background: var(--btn);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
             box-shadow: var(--shadow-sm);
             transition: all .3s ease-in-out;
         }
-        .sidebar-toggle-btn svg { color: var(--ink); width: 24px; height: 24px; }
-        .sidebar-toggle-btn:focus-visible { outline: none; box-shadow: var(--ring); }
-        
+
+        .sidebar-toggle-btn svg {
+            color: var(--ink);
+            width: 24px;
+            height: 24px;
+        }
+
+        .sidebar-toggle-btn:focus-visible {
+            outline: none;
+            box-shadow: var(--ring);
+        }
+
         /* Bottom Nav (Mobile) */
         .bottom-nav {
             display: none;
@@ -322,6 +426,7 @@
             border-top: 1px solid var(--border);
             padding-bottom: env(safe-area-inset-bottom);
         }
+
         .bottom-nav .nav-list {
             display: flex;
             justify-content: space-around;
@@ -331,6 +436,7 @@
             padding: 0;
             list-style: none;
         }
+
         .bottom-nav a {
             flex: 1;
             display: flex;
@@ -343,15 +449,18 @@
             gap: 2px;
             font-weight: 500;
         }
+
         .bottom-nav a.active {
             color: var(--pri);
         }
+
         .bottom-nav a svg {
             width: 20px;
             height: 20px;
             transition: transform .2s ease-in-out;
             color: var(--muted);
         }
+
         .bottom-nav a.active svg {
             transform: scale(1.1);
             color: var(--pri);
@@ -362,58 +471,109 @@
         /* ========================================================== */
         /* Mobile Portrait & Small Tablets (≤ 720px) */
         @media (max-width: 720px) {
-            .sidebar { display: none; }
-            .sidebar-toggle-btn { display: flex; }
-            .bottom-nav { display: block; }
-            body { padding-bottom: 56px; }
-            .kana-grid { grid-template-columns: repeat(auto-fit, minmax(min(38vw, 120px), 1fr)); }
-            .main-container { padding-left: 0; }
+            .sidebar {
+                display: none;
+            }
+
+            .sidebar-toggle-btn {
+                display: flex;
+            }
+
+            .bottom-nav {
+                display: block;
+            }
+
+            body {
+                padding-bottom: 56px;
+            }
+
+            .kana-grid {
+                grid-template-columns: repeat(auto-fit, minmax(min(38vw, 120px), 1fr));
+            }
+
+            .main-container {
+                padding-left: 0;
+            }
         }
+
         /* Mobile & Phablet (721px - 1080px) */
         @media (min-width: 721px) and (max-width: 1080px) {
-            .wrap { padding: 24px; }
-            .sidebar { display: none; }
-            .sidebar-toggle-btn { display: flex; }
-            .bottom-nav { display: block; }
-            body { padding-bottom: 56px; }
-            .kana-grid { grid-template-columns: repeat(auto-fit, minmax(min(30vw, 140px), 1fr)); }
-            .main-container { padding-left: 0; }
+            .wrap {
+                padding: 24px;
+            }
+
+            .sidebar {
+                display: none;
+            }
+
+            .sidebar-toggle-btn {
+                display: flex;
+            }
+
+            .bottom-nav {
+                display: block;
+            }
+
+            body {
+                padding-bottom: 56px;
+            }
+
+            .kana-grid {
+                grid-template-columns: repeat(auto-fit, minmax(min(30vw, 140px), 1fr));
+            }
+
+            .main-container {
+                padding-left: 0;
+            }
         }
+
         /* Desktop (≥ 1081px) */
         @media (min-width: 1081px) {
             .sidebar {
-                left: 0; /* Default open */
+                left: 0;
+                /* Default open */
                 width: 240px;
                 transition: width .3s ease-in-out;
             }
+
             .sidebar.is-collapsed {
                 width: 64px;
             }
+
             .sidebar.is-collapsed .menu li a {
                 padding: 12px 0;
                 justify-content: center;
             }
+
             .sidebar.is-collapsed .menu li a span {
                 display: none;
             }
+
             .sidebar.is-collapsed .tooltip {
                 visibility: visible;
                 opacity: 1;
             }
+
             .main-container {
                 padding-left: 240px;
                 transition: padding-left .3s ease-in-out;
             }
+
             .main-container.sidebar-collapsed {
                 padding-left: 64px;
             }
+
             .sidebar-toggle-btn {
                 display: none;
             }
+
             .bottom-nav {
                 display: none;
             }
-            .kana-grid { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+
+            .kana-grid {
+                grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            }
         }
 
         /* ========================================================== */
@@ -423,12 +583,23 @@
             display: none;
             animation: fadeIn .3s ease-in-out;
         }
-        .page.active { display: block; }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .page.active {
+            display: block;
         }
-        
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         /* Dashboard */
         .progress-circle-wrap {
             position: relative;
@@ -436,7 +607,9 @@
             height: 120px;
             margin: 0 auto;
         }
-        .progress-circle-bg, .progress-circle-bar {
+
+        .progress-circle-bg,
+        .progress-circle-bar {
             width: 100%;
             height: 100%;
             border-radius: 50%;
@@ -444,132 +617,414 @@
             top: 0;
             left: 0;
         }
-        .progress-circle-bg { background: var(--soft); }
-        .progress-circle-bar { background: conic-gradient(var(--pri) var(--p), transparent var(--p)); }
+
+        .progress-circle-bg {
+            background: var(--soft);
+        }
+
+        .progress-circle-bar {
+            background: conic-gradient(var(--pri) var(--p), transparent var(--p));
+        }
+
         .progress-circle-text {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            font-size: 2rem; font-weight: 700; color: var(--pri);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--pri);
         }
+
         .checklist-item {
-            display: flex; align-items: center; justify-content: space-between;
-            padding: 10px 0; border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
         }
-        .checklist-item:last-child { border-bottom: none; }
+
+        .checklist-item:last-child {
+            border-bottom: none;
+        }
+
         .checklist-item .checkbox {
-            width: 24px; height: 24px; border-radius: 8px; border: 2px solid var(--muted);
-            background-color: transparent; display: flex; align-items: center; justify-content: center;
+            width: 24px;
+            height: 24px;
+            border-radius: 8px;
+            border: 2px solid var(--muted);
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             transition: all .2s ease-in-out;
         }
-        .checklist-item.completed .checkbox { background-color: var(--ok); border-color: var(--ok); }
-        .checklist-item.completed .checkbox svg { color: white; opacity: 1; }
-        .checklist-item .checkbox svg { width: 16px; height: 16px; color: white; opacity: 0; }
-        .checklist-item.completed .label { color: var(--ink); }
+
+        .checklist-item.completed .checkbox {
+            background-color: var(--ok);
+            border-color: var(--ok);
+        }
+
+        .checklist-item.completed .checkbox svg {
+            color: white;
+            opacity: 1;
+        }
+
+        .checklist-item .checkbox svg {
+            width: 16px;
+            height: 16px;
+            color: white;
+            opacity: 0;
+        }
+
+        .checklist-item.completed .label {
+            color: var(--ink);
+        }
+
         .checklist-item .label {
-            flex-grow: 1; margin-left: 12px; color: var(--muted); font-weight: 500;
+            flex-grow: 1;
+            margin-left: 12px;
+            color: var(--muted);
+            font-weight: 500;
             transition: color .2s ease-in-out;
         }
+
         /* Flashcard & Mini-Game */
-        #flashcard-container, #game-container {
-            display: flex; flex-direction: column; align-items: center; gap: 20px;
+        #flashcard-container,
+        #game-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
+
         .kana-card {
-            width: 100%; max-width: 320px; min-height: 180px;
-            background: var(--soft); border-radius: var(--radius);
-            display: flex; flex-direction: column; align-items: center; justify-content: center;
-            font-family: var(--font-jp); font-size: 6rem; font-weight: 700;
-            cursor: pointer; transition: all .2s ease-out; border: 1px solid var(--border);
+            width: 100%;
+            max-width: 320px;
+            min-height: 180px;
+            background: var(--soft);
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-jp);
+            font-size: 6rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all .2s ease-out;
+            border: 1px solid var(--border);
             position: relative;
         }
+
         .kana-card .romaji-display {
-            font-family: var(--font-inter); font-size: 2rem; color: var(--muted);
-            position: absolute; bottom: 20px; opacity: 0; transform: translateY(10px);
+            font-family: var(--font-inter);
+            font-size: 2rem;
+            color: var(--muted);
+            position: absolute;
+            bottom: 20px;
+            opacity: 0;
+            transform: translateY(10px);
             transition: all .3s ease-in-out;
         }
-        .kana-card.is-revealed .romaji-display { opacity: 1; transform: translateY(0); }
-        .options-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; width: 100%; }
-        .option-btn { font-size: 1.2rem; height: 52px; font-weight: 600; }
-        .option-btn.correct { background: var(--ok); color: white; }
-        .option-btn.incorrect { background: var(--warn); color: white; }
+
+        .kana-card.is-revealed .romaji-display {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            width: 100%;
+        }
+
+        .option-btn {
+            font-size: 1.2rem;
+            height: 52px;
+            font-weight: 600;
+        }
+
+        .option-btn.correct {
+            background: var(--ok);
+            color: white;
+        }
+
+        .option-btn.incorrect {
+            background: var(--warn);
+            color: white;
+        }
+
         /* Yōon Trainer Grid */
-        .youon-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 8px; text-align: center; }
-        .youon-grid .card { padding: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-family: var(--font-jp); font-weight: 600; cursor: pointer; font-size: 2.5rem; }
-        .youon-grid .romaji-display { font-family: var(--font-inter); font-size: 1rem; font-weight: 400; color: var(--muted); }
-        .youon-grid .romaji-display.hidden { display: none; }
+        .youon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 8px;
+            text-align: center;
+        }
+
+        .youon-grid .card {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            font-family: var(--font-jp);
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 2.5rem;
+        }
+
+        .youon-grid .romaji-display {
+            font-family: var(--font-inter);
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--muted);
+        }
+
+        .youon-grid .romaji-display.hidden {
+            display: none;
+        }
 
         /* Listening & Shadowing Wave */
         .audio-wave {
-            display: flex; justify-content: center; align-items: flex-end; height: 80px; gap: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 80px;
+            gap: 4px;
             filter: grayscale(100%);
         }
+
         .audio-bar {
-            width: 8px; height: 4px; background-color: var(--pri); border-radius: 4px;
-            transform-origin: bottom; animation: waveAnimation 1.2s ease-in-out infinite;
+            width: 8px;
+            height: 4px;
+            background-color: var(--pri);
+            border-radius: 4px;
+            transform-origin: bottom;
+            animation: waveAnimation 1.2s ease-in-out infinite;
         }
-        .audio-bar:nth-child(2) { animation-delay: 0.1s; }
-        .audio-bar:nth-child(3) { animation-delay: 0.2s; }
-        .audio-bar:nth-child(4) { animation-delay: 0.3s; }
-        .audio-bar:nth-child(5) { animation-delay: 0.4s; }
+
+        .audio-bar:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .audio-bar:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .audio-bar:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .audio-bar:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
         @keyframes waveAnimation {
-            0%, 100% { transform: scaleY(1); }
-            50% { transform: scaleY(5); }
+
+            0%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            50% {
+                transform: scaleY(5);
+            }
         }
 
         /* Progress Charts */
         .chart-container {
-            width: 100%; height: 180px; display: flex; justify-content: center; align-items: center;
+            width: 100%;
+            height: 180px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
         .bar-chart {
-            display: flex; justify-content: space-around; align-items: flex-end; width: 100%; height: 100%; gap: 8px;
-            padding-top: 10px; border-bottom: 2px solid var(--border); position: relative;
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            width: 100%;
+            height: 100%;
+            gap: 8px;
+            padding-top: 10px;
+            border-bottom: 2px solid var(--border);
+            position: relative;
         }
+
         .bar {
-            flex: 1; background: var(--soft); border-radius: 8px 8px 0 0;
-            transition: all .3s ease-out; position: relative;
+            flex: 1;
+            background: var(--soft);
+            border-radius: 8px 8px 0 0;
+            transition: all .3s ease-out;
+            position: relative;
         }
-        .bar-label { position: absolute; bottom: -20px; font-size: 10px; color: var(--muted); white-space: nowrap; }
-        .bar-value { position: absolute; top: -18px; font-size: 10px; color: var(--ink); font-weight: 600; }
-        .axis-y { position: absolute; top: 0; left: 0; right: 0; display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
+
+        .bar-label {
+            position: absolute;
+            bottom: -20px;
+            font-size: 10px;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -18px;
+            font-size: 10px;
+            color: var(--ink);
+            font-weight: 600;
+        }
+
+        .axis-y {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
 
         /* Settings */
-        .settings-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--border); }
-        .settings-item:last-child { border-bottom: none; }
-        .switch { position: relative; display: inline-block; width: 48px; height: 28px; }
-        .switch input { display: none; }
-        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: var(--soft); transition: .4s; border-radius: 28px; }
-        .slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 4px; bottom: 4px; background-color: white; transition: .4s; border-radius: 50%; }
-        input:checked + .slider { background-color: var(--pri); }
-        input:checked + .slider:before { transform: translateX(20px); }
+        .settings-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .settings-item:last-child {
+            border-bottom: none;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 48px;
+            height: 28px;
+        }
+
+        .switch input {
+            display: none;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--soft);
+            transition: .4s;
+            border-radius: 28px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked+.slider {
+            background-color: var(--pri);
+        }
+
+        input:checked+.slider:before {
+            transform: translateX(20px);
+        }
 
         /* Modal */
         .modal {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5);
-            display: flex; justify-content: center; align-items: center; z-index: 10000;
-            visibility: hidden; opacity: 0; transition: visibility .3s, opacity .3s;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility .3s, opacity .3s;
         }
-        .modal.is-open { visibility: visible; opacity: 1; }
+
+        .modal.is-open {
+            visibility: visible;
+            opacity: 1;
+        }
+
         .modal-content {
-            background-color: var(--panel); padding: 24px; border-radius: var(--radius);
-            box-shadow: var(--shadow-lg); max-width: 400px; text-align: center;
-            transform: scale(0.95); transition: transform .3s ease-out;
+            background-color: var(--panel);
+            padding: 24px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-lg);
+            max-width: 400px;
+            text-align: center;
+            transform: scale(0.95);
+            transition: transform .3s ease-out;
         }
-        .modal.is-open .modal-content { transform: scale(1); }
+
+        .modal.is-open .modal-content {
+            transform: scale(1);
+        }
+
         .tooltip {
-            position: absolute; left: calc(100% + 12px); top: 50%; transform: translateY(-50%);
-            background: rgba(0,0,0,0.7); color: white; padding: 6px 10px; border-radius: 8px;
-            font-size: 12px; white-space: nowrap;
-            visibility: hidden; opacity: 0; pointer-events: none;
+            position: absolute;
+            left: calc(100% + 12px);
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            white-space: nowrap;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
             transition: opacity .2s, visibility .2s;
         }
-        .sidebar.is-collapsed .menu li a:hover .tooltip { visibility: visible; opacity: 1; }
-        
+
+        .sidebar.is-collapsed .menu li a:hover .tooltip {
+            visibility: visible;
+            opacity: 1;
+        }
+
         /* Reduced Motion */
         @media (prefers-reduced-motion: reduce) {
-            .card, .btn, .btn:hover, .btn:active, .btn:focus-visible, .sidebar, .page, .modal, .modal-content, .audio-bar, .bar {
+
+            .card,
+            .btn,
+            .btn:hover,
+            .btn:active,
+            .btn:focus-visible,
+            .sidebar,
+            .page,
+            .modal,
+            .modal-content,
+            .audio-bar,
+            .bar {
                 transition: none !important;
                 animation: none !important;
             }
         }
-        
+
         /* ========================================================== */
         /* === SVG ICONS === */
         /* ========================================================== */
@@ -580,6 +1035,7 @@
         }
     </style>
 </head>
+
 <body data-theme="light">
     <!-- Modal Konfirmasi -->
     <div id="confirmModal" class="modal">
@@ -606,35 +1062,64 @@
         <nav id="sidebar" class="sidebar">
             <div class="row" style="justify-content: center; margin-bottom: 20px;">
                 <svg width="48" height="48" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="64" height="64" rx="14" fill="url(#g)"/>
-                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" font-family="Noto Sans JP, 'Noto Serif JP', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif" font-size="38" fill="white" dy="-2">あ</text>
+                    <rect width="64" height="64" rx="14" fill="url(#g)" />
+                    <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
+                        font-family="Noto Sans JP, 'Noto Serif JP', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+                        font-size="38" fill="white" dy="-2">あ</text>
                     <defs>
-                        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#7a6cff"/><stop offset="1" stop-color="#16c6a1"/></linearGradient>
+                        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                            <stop stop-color="#7a6cff" />
+                            <stop offset="1" stop-color="#16c6a1" />
+                        </linearGradient>
                     </defs>
                 </svg>
             </div>
             <ul class="menu">
                 <li><a href="#dashboard" data-page="dashboard" aria-label="Dashboard Harian">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h1v8h18v-8h1"></path><path d="M12 2l-9 9h3v13h12v-13h3z"></path></svg>
-                    <span>Dashboard Harian</span><span class="tooltip">Dashboard Harian</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 13h1v8h18v-8h1"></path>
+                            <path d="M12 2l-9 9h3v13h12v-13h3z"></path>
+                        </svg>
+                        <span>Dashboard Harian</span><span class="tooltip">Dashboard Harian</span></a></li>
                 <li><a href="#flashcard" data-page="flashcard" aria-label="Speed Drill Flashcard">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m-2-6h6l2 2-6 6-6-6-2-2z"></path></svg>
-                    <span>Flashcard</span><span class="tooltip">Flashcard</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m-2-6h6l2 2-6 6-6-6-2-2z">
+                            </path>
+                        </svg>
+                        <span>Flashcard</span><span class="tooltip">Flashcard</span></a></li>
                 <li><a href="#youon" data-page="youon" aria-label="Yōon Trainer">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 18a.999.999 0 01-1-1v-4a.999.999 0 011-1h4a.999.999 0 011 1v4a.999.999 0 01-1 1h-4zm-6 2v-16h16v16H4zM16 4v-.5a1.5 1.5 0 00-3 0V4H7v-.5a1.5 1.5 0 00-3 0V4"></path></svg>
-                    <span>Yōon Trainer</span><span class="tooltip">Yōon Trainer</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M10 18a.999.999 0 01-1-1v-4a.999.999 0 011-1h4a.999.999 0 011 1v4a.999.999 0 01-1 1h-4zm-6 2v-16h16v16H4zM16 4v-.5a1.5 1.5 0 00-3 0V4H7v-.5a1.5 1.5 0 00-3 0V4">
+                            </path>
+                        </svg>
+                        <span>Yōon Trainer</span><span class="tooltip">Yōon Trainer</span></a></li>
                 <li><a href="#game" data-page="game" aria-label="Mini-Game">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a.998.998 0 00-1 1v2h-2v2h2v2a.998.998 0 001 1h2v-2h2v-2h-2V9h-2zm-8-3H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2a1 1 0 00-2 0v2H6V7h2a1 1 0 000-2z"></path></svg>
-                    <span>Mini-Game</span><span class="tooltip">Mini-Game</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M16 8a.998.998 0 00-1 1v2h-2v2h2v2a.998.998 0 001 1h2v-2h2v-2h-2V9h-2zm-8-3H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2a1 1 0 00-2 0v2H6V7h2a1 1 0 000-2z">
+                            </path>
+                        </svg>
+                        <span>Mini-Game</span><span class="tooltip">Mini-Game</span></a></li>
                 <li><a href="#listening" data-page="listening" aria-label="Listening & Shadowing">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-4 14a1 1 0 01-1-1v-6a1 1 0 012 0v6a1 1 0 01-1 1zm8-2a1 1 0 01-1-1v-4a1 1 0 012 0v4a1 1 0 01-1 1z"></path></svg>
-                    <span>Listening & Shadowing</span><span class="tooltip">Listening & Shadowing</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2a10 10 0 100 20 10 10 0 000-20zm-4 14a1 1 0 01-1-1v-6a1 1 0 012 0v6a1 1 0 01-1 1zm8-2a1 1 0 01-1-1v-4a1 1 0 012 0v4a1 1 0 01-1 1z">
+                            </path>
+                        </svg>
+                        <span>Listening & Shadowing</span><span class="tooltip">Listening & Shadowing</span></a></li>
                 <li><a href="#progress" data-page="progress" aria-label="Progres">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM9 16a1 1 0 01-.78-.34L4 10.7l1.56-1.57L9 12.98l7.22-7.22L17.5 7.2l-8.72 8.72A1 1 0 019 16z"></path></svg>
-                    <span>Progres</span><span class="tooltip">Progres</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2a10 10 0 100 20 10 10 0 000-20zM9 16a1 1 0 01-.78-.34L4 10.7l1.56-1.57L9 12.98l7.22-7.22L17.5 7.2l-8.72 8.72A1 1 0 019 16z">
+                            </path>
+                        </svg>
+                        <span>Progres</span><span class="tooltip">Progres</span></a></li>
                 <li><a href="#settings" data-page="settings" aria-label="Pengaturan">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 16a4 4 0 110-8 4 4 0 010 8z"></path></svg>
-                    <span>Pengaturan</span><span class="tooltip">Pengaturan</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 16a4 4 0 110-8 4 4 0 010 8z"></path>
+                        </svg>
+                        <span>Pengaturan</span><span class="tooltip">Pengaturan</span></a></li>
             </ul>
         </nav>
 
@@ -642,26 +1127,50 @@
         <nav class="bottom-nav">
             <ul class="nav-list">
                 <li><a href="#dashboard" data-page="dashboard" aria-label="Dashboard Harian">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h1v8h18v-8h1"></path><path d="M12 2l-9 9h3v13h12v-13h3z"></path></svg>
-                    <span>Home</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M3 13h1v8h18v-8h1"></path>
+                            <path d="M12 2l-9 9h3v13h12v-13h3z"></path>
+                        </svg>
+                        <span>Home</span></a></li>
                 <li><a href="#flashcard" data-page="flashcard" aria-label="Speed Drill Flashcard">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m-2-6h6l2 2-6 6-6-6-2-2z"></path></svg>
-                    <span>Kartu</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4m-2-6h6l2 2-6 6-6-6-2-2z">
+                            </path>
+                        </svg>
+                        <span>Kartu</span></a></li>
                 <li><a href="#youon" data-page="youon" aria-label="Yōon Trainer">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10 18a.999.999 0 01-1-1v-4a.999.999 0 011-1h4a.999.999 0 011 1v4a.999.999 0 01-1 1h-4zm-6 2v-16h16v16H4zM16 4v-.5a1.5 1.5 0 00-3 0V4H7v-.5a1.5 1.5 0 00-3 0V4"></path></svg>
-                    <span>Yōon</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M10 18a.999.999 0 01-1-1v-4a.999.999 0 011-1h4a.999.999 0 011 1v4a.999.999 0 01-1 1h-4zm-6 2v-16h16v16H4zM16 4v-.5a1.5 1.5 0 00-3 0V4H7v-.5a1.5 1.5 0 00-3 0V4">
+                            </path>
+                        </svg>
+                        <span>Yōon</span></a></li>
                 <li><a href="#game" data-page="game" aria-label="Mini-Game">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a.998.998 0 00-1 1v2h-2v2h2v2a.998.998 0 001 1h2v-2h2v-2h-2V9h-2zm-8-3H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2a1 1 0 00-2 0v2H6V7h2a1 1 0 000-2z"></path></svg>
-                    <span>Game</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M16 8a.998.998 0 00-1 1v2h-2v2h2v2a.998.998 0 001 1h2v-2h2v-2h-2V9h-2zm-8-3H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-2a1 1 0 00-2 0v2H6V7h2a1 1 0 000-2z">
+                            </path>
+                        </svg>
+                        <span>Game</span></a></li>
                 <li><a href="#listening" data-page="listening" aria-label="Listening & Shadowing">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm-4 14a1 1 0 01-1-1v-6a1 1 0 012 0v6a1 1 0 01-1 1zm8-2a1 1 0 01-1-1v-4a1 1 0 012 0v4a1 1 0 01-1 1z"></path></svg>
-                    <span>Listen</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2a10 10 0 100 20 10 10 0 000-20zm-4 14a1 1 0 01-1-1v-6a1 1 0 012 0v6a1 1 0 01-1 1zm8-2a1 1 0 01-1-1v-4a1 1 0 012 0v4a1 1 0 01-1 1z">
+                            </path>
+                        </svg>
+                        <span>Listen</span></a></li>
                 <li><a href="#progress" data-page="progress" aria-label="Progres">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM9 16a1 1 0 01-.78-.34L4 10.7l1.56-1.57L9 12.98l7.22-7.22L17.5 7.2l-8.72 8.72A1 1 0 019 16z"></path></svg>
-                    <span>Progres</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path
+                                d="M12 2a10 10 0 100 20 10 10 0 000-20zM9 16a1 1 0 01-.78-.34L4 10.7l1.56-1.57L9 12.98l7.22-7.22L17.5 7.2l-8.72 8.72A1 1 0 019 16z">
+                            </path>
+                        </svg>
+                        <span>Progres</span></a></li>
                 <li><a href="#settings" data-page="settings" aria-label="Pengaturan">
-                    <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 16a4 4 0 110-8 4 4 0 010 8z"></path></svg>
-                    <span>Setelan</span></a></li>
+                        <svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 16a4 4 0 110-8 4 4 0 010 8z"></path>
+                        </svg>
+                        <span>Setelan</span></a></li>
             </ul>
         </nav>
 
@@ -670,7 +1179,8 @@
             <div id="dashboard-page" class="page active">
                 <div class="card no-hover">
                     <h2>Dashboard Harian</h2>
-                    <p class="text-small">Selesaikan tantangan harian 10 menit untuk melancarkan bacaan Hiragana Anda.</p>
+                    <p class="text-small">Selesaikan tantangan harian 10 menit untuk melancarkan bacaan Hiragana Anda.
+                    </p>
                     <div class="row" style="justify-content: space-around; margin-top: 20px;">
                         <div style="text-align: center;">
                             <div class="progress-circle-wrap">
@@ -697,7 +1207,7 @@
                 </div>
 
                 <div class="spacer"></div>
-                
+
                 <div class="card no-hover">
                     <h2>Worksheet Mingguan</h2>
                     <p class="text-small">Lacak progres latihan harian Anda dalam satu minggu.</p>
@@ -705,7 +1215,12 @@
                         <!-- Worksheet table will be generated by JS -->
                     </div>
                     <div class="row" style="justify-content: center; margin-top: 16px;">
-                        <button id="reset-worksheet-btn" class="btn danger"><svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" style="width:16px; height:16px;"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1 1 0 01-1-1v-5a1 1 0 012 0v5a1 1 0 01-1 1zm-2-9a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z"></path></svg> Reset Minggu</button>
+                        <button id="reset-worksheet-btn" class="btn danger"><svg class="icon-svg" viewBox="0 0 24 24"
+                                fill="currentColor" style="width:16px; height:16px;">
+                                <path
+                                    d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1 1 0 01-1-1v-5a1 1 0 012 0v5a1 1 0 01-1 1zm-2-9a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z">
+                                </path>
+                            </svg> Reset Minggu</button>
                     </div>
                 </div>
             </div>
@@ -734,7 +1249,12 @@
                     <div id="flashcard-result" style="text-align: center; display: none;">
                         <h3>Sesi Selesai!</h3>
                         <p id="flashcard-summary"></p>
-                        <button id="restart-flashcard-btn" class="btn primary"><svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" style="width:16px; height:16px;"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1 1 0 01-1-1v-5a1 1 0 012 0v5a1 1 0 01-1 1zm-2-9a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z"></path></svg> Mulai Lagi</button>
+                        <button id="restart-flashcard-btn" class="btn primary"><svg class="icon-svg" viewBox="0 0 24 24"
+                                fill="currentColor" style="width:16px; height:16px;">
+                                <path
+                                    d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1 1 0 01-1-1v-5a1 1 0 012 0v5a1 1 0 01-1 1zm-2-9a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z">
+                                </path>
+                            </svg> Mulai Lagi</button>
                     </div>
                 </div>
             </div>
@@ -774,7 +1294,12 @@
                     <div id="game-result" style="display: none; text-align: center;">
                         <h3>Sesi Selesai!</h3>
                         <p id="game-summary"></p>
-                        <button id="restart-game-btn" class="btn primary"><svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" style="width:16px; height:16px;"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1 1 0 01-1-1v-5a1 1 0 012 0v5a1 1 0 01-1 1zm-2-9a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z"></path></svg> Main Lagi</button>
+                        <button id="restart-game-btn" class="btn primary"><svg class="icon-svg" viewBox="0 0 24 24"
+                                fill="currentColor" style="width:16px; height:16px;">
+                                <path
+                                    d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1 1 0 01-1-1v-5a1 1 0 012 0v5a1 1 0 01-1 1zm-2-9a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z">
+                                </path>
+                            </svg> Main Lagi</button>
                     </div>
                 </div>
             </div>
@@ -784,10 +1309,14 @@
                     <h2>Listening & Shadowing</h2>
                     <p class="text-small">Dengarkan dan ulangi pelafalan. Pilih subset latihan di pengaturan.</p>
                     <div class="row" style="justify-content: center; margin-top: 20px;">
-                        <button id="play-listening-btn" class="btn primary"><svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" style="width:16px; height:16px;"><path d="M10 16.5l6-4.5-6-4.5zM12 2a10 10 0 100 20 10 10 0 000-20z"></path></svg> Mulai</button>
+                        <button id="play-listening-btn" class="btn primary"><svg class="icon-svg" viewBox="0 0 24 24"
+                                fill="currentColor" style="width:16px; height:16px;">
+                                <path d="M10 16.5l6-4.5-6-4.5zM12 2a10 10 0 100 20 10 10 0 000-20z"></path>
+                            </svg> Mulai</button>
                     </div>
                     <div id="listening-display" style="text-align: center; margin-top: 20px; display: none;">
-                        <div id="listening-prompt" class="kana-card no-hover" style="font-size: 4rem; max-width: 200px;"></div>
+                        <div id="listening-prompt" class="kana-card no-hover"
+                            style="font-size: 4rem; max-width: 200px;"></div>
                         <div class="audio-wave" style="margin-top: 20px;">
                             <div class="audio-bar"></div>
                             <div class="audio-bar"></div>
@@ -813,7 +1342,7 @@
                     </div>
                     <h3>10 Huruf Paling Sulit</h3>
                     <div id="difficult-kana-list" class="chip-group">
-                         <!-- Chips will be generated by JS -->
+                        <!-- Chips will be generated by JS -->
                     </div>
                 </div>
             </div>
@@ -848,7 +1377,12 @@
                     </div>
                     <div class="settings-item">
                         <span>Reset Semua Data</span>
-                        <button id="reset-data-btn" class="btn danger"><svg class="icon-svg" viewBox="0 0 24 24" fill="currentColor" style="width:16px; height:16px;"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1 1 0 01-1-1v-5a1 1 0 012 0v5a1 1 0 01-1 1zm-2-9a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z"></path></svg> Reset</button>
+                        <button id="reset-data-btn" class="btn danger"><svg class="icon-svg" viewBox="0 0 24 24"
+                                fill="currentColor" style="width:16px; height:16px;">
+                                <path
+                                    d="M12 2a10 10 0 100 20 10 10 0 000-20zM12 18a1 1 0 01-1-1v-5a1 1 0 012 0v5a1 1 0 01-1 1zm-2-9a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 01-1 1h-2a1 1 0 01-1-1V9z">
+                                </path>
+                            </svg> Reset</button>
                     </div>
                 </div>
             </div>
@@ -937,7 +1471,7 @@
                 ]
             },
             katakana: {
-                 basic: [], dakuten: [], youon: []
+                basic: [], dakuten: [], youon: []
             }
         };
 
@@ -953,7 +1487,7 @@
         const CUSTOM_SET_CHIPS = [
             'あ〜お', 'か〜こ', 'さ〜そ', 'た〜と', 'な〜の', 'は〜ほ', 'ま〜も', 'や〜よ', 'ら〜ろ', 'わ〜ん'
         ];
-        
+
         // ==========================================================
         // === CORE FUNCTIONS ===
         // ==========================================================
@@ -1045,7 +1579,7 @@
                 pageRenderFunction();
             }
         }
-        
+
         function getFilteredKanaSet() {
             let set = [...KANA_DATA.hiragana.basic];
             if (state.settings.filterDakuten) {
@@ -1098,7 +1632,7 @@
             const modal = document.getElementById('confirmModal');
             document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-message').textContent = message;
-            
+
             const confirmBtn = document.getElementById('modal-confirm-btn');
             const cancelBtn = document.getElementById('modal-cancel-btn');
 
@@ -1125,7 +1659,7 @@
                 console.error("Error speaking text:", e);
             }
         }
-        
+
         // ==========================================================
         // === PAGE-SPECIFIC LOGIC & RENDERING ===
         // ==========================================================
@@ -1168,7 +1702,7 @@
                             </tr>
                         </thead>
                         <tbody>`;
-                
+
                 days.forEach((day, index) => {
                     const dayData = state.progress.weekly.data[index];
                     tableHtml += `<tr style="text-align:center;">
@@ -1179,7 +1713,7 @@
                     });
                     tableHtml += `</tr>`;
                 });
-                
+
                 tableHtml += `</tbody></table>`;
                 worksheetEl.innerHTML = tableHtml;
             }
@@ -1230,14 +1764,14 @@
                     romajiAnswer.textContent = currentKana.kana;
                 }
             }
-            
+
             function endSession() {
                 clearTimeout(sessionTimer);
                 cardUI.style.display = 'none';
                 resultUI.style.display = 'block';
-                const avgTime = state.ui.flashcard.sessionTimes.length > 0 ? 
+                const avgTime = state.ui.flashcard.sessionTimes.length > 0 ?
                     (state.ui.flashcard.sessionTimes.reduce((a, b) => a + b, 0) / state.ui.flashcard.sessionTimes.length).toFixed(2) : 0;
-                
+
                 document.getElementById('flashcard-summary').textContent = `Skor Anda: ${state.ui.flashcard.score} dari ${state.ui.flashcard.total}. Waktu rata-rata: ${avgTime} detik/kartu.`;
                 state.progress.metrics.flashcardSpeed.push(Number(avgTime));
                 saveState();
@@ -1301,10 +1835,10 @@
             function pickQuestion() {
                 const allKana = getFilteredKanaSet();
                 const correctKana = shuffle(allKana)[0];
-                
+
                 gamePromptEl.textContent = state.ui.game.mode === 'mcq' ? correctKana.kana : correctKana.romaji;
                 gameFeedbackEl.textContent = '';
-                
+
                 if (state.ui.game.mode === 'mcq') {
                     const wrongOptions = [];
                     while (wrongOptions.length < 3) {
@@ -1340,14 +1874,14 @@
             function checkAnswer(answer) {
                 state.ui.game.total++;
                 const isCorrect = answer.toLowerCase() === currentQuestion.romaji.toLowerCase();
-                
+
                 if (isCorrect) {
                     state.ui.game.score++;
                     gameFeedbackEl.innerHTML = '<span style="color:var(--ok);">Benar!</span>';
                 } else {
                     gameFeedbackEl.innerHTML = `<span style="color:var(--warn);">Salah. Jawaban yang benar adalah <span style="font-weight:600;">${currentQuestion.romaji}</span>.</span>`;
                 }
-                
+
                 if (state.ui.game.mode === 'mcq') {
                     gameOptionsEl.querySelectorAll('.option-btn').forEach(btn => {
                         btn.disabled = true;
@@ -1358,7 +1892,7 @@
                         }
                     });
                 }
-                
+
                 applySRS(currentQuestion, isCorrect);
                 nextBtn.style.display = 'block';
             }
@@ -1380,7 +1914,7 @@
                 state.progress.metrics.gameAccuracy.push(Number(accuracy));
                 saveState();
             }
-            
+
             document.getElementById('mcq-mode-btn').onclick = () => {
                 state.ui.game.mode = 'mcq';
                 document.getElementById('mcq-mode-btn').classList.add('active');
@@ -1415,7 +1949,7 @@
             const displayEl = document.getElementById('listening-display');
             const promptEl = document.getElementById('listening-prompt');
             const feedbackEl = document.getElementById('listening-feedback');
-            
+
             let audioQueue = [];
 
             function startSession() {
@@ -1435,11 +1969,11 @@
                     renderDashboard();
                     return;
                 }
-                
+
                 const item = audioQueue.shift();
                 promptEl.textContent = item.kana;
                 feedbackEl.textContent = 'Mendengarkan...';
-                
+
                 setTimeout(() => {
                     speak(item.kana);
                     feedbackEl.textContent = 'Ulangi setelah audio!';
@@ -1459,7 +1993,7 @@
                     container.textContent = 'Tidak ada data untuk ditampilkan.';
                     return;
                 }
-                
+
                 const maxVal = Math.max(...data) + 10;
                 const chart = document.createElement('div');
                 chart.className = 'bar-chart';
@@ -1542,7 +2076,7 @@
                 });
             };
         }
-        
+
         // ==========================================================
         // === INITIALIZATION & EVENT LISTENERS ===
         // ==========================================================
@@ -1556,7 +2090,7 @@
             const sidebarToggle = document.getElementById('sidebar-toggle-btn');
             const mainContainer = document.querySelector('.main-container');
             const pageContent = document.getElementById('page-content');
-            
+
             function openSidebar() {
                 sidebar.classList.add('is-open');
                 document.body.style.overflow = 'hidden';
@@ -1607,4 +2141,5 @@
         });
     </script>
 </body>
+
 </html>

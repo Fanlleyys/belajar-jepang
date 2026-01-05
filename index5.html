@@ -1,76 +1,216 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="pastel">
+
 <head>
     <meta charset="utf-8">
+    <script src="theme-sync.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Ungkapan Bahasa Jepang — Latihan</title>
-    <meta name="description" content="Daftar ungkapan dan frasa umum dalam bahasa Jepang untuk percakapan sehari-hari. Lengkap dengan arti dan audio pelafalan." />
+    <meta name="description"
+        content="Daftar ungkapan dan frasa umum dalam bahasa Jepang untuk percakapan sehari-hari. Lengkap dengan arti dan audio pelafalan." />
     <meta name="theme-color" content="#7a6cff">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         /* Menggunakan style yang sama dari file lain untuk konsistensi */
-        :root{
-            --bg:#f8fbff; --panel:#ffffff; --soft:#f2f6ff; --ink:#132030; --muted:#76849c;
-            --pri:#7a6cff; --sec:#16c6a1; --warn:#ff7b7b; --ok:#2fb875; --accent:#ffd166;
-            --btn:#e9eefc; --btnText:#0b101a; --border:rgba(19,32,48,.10);
-            --radius:18px; --shadow:0 6px 18px rgba(15,23,34,.08);
-            --ring: 0 0 0 3px rgba(122,108,255,.28);
+        :root {
+            --bg: #f8fbff;
+            --panel: #ffffff;
+            --soft: #f2f6ff;
+            --ink: #132030;
+            --muted: #76849c;
+            --pri: #7a6cff;
+            --sec: #16c6a1;
+            --warn: #ff7b7b;
+            --ok: #2fb875;
+            --accent: #ffd166;
+            --btn: #e9eefc;
+            --btnText: #0b101a;
+            --border: rgba(19, 32, 48, .10);
+            --radius: 18px;
+            --shadow: 0 6px 18px rgba(15, 23, 34, .08);
+            --ring: 0 0 0 3px rgba(122, 108, 255, .28);
             --iconColor: var(--muted);
             --transition-duration: 0.2s;
         }
-        [data-theme="hc"]{
-            --bg:#0a0f1a; --panel:#0f1626; --soft:#0c1220; --ink:#e6efff; --muted:#9fb0cc;
-            --pri:#8fa8ff; --sec:#3dd8b5; --warn:#ff8c8c; --ok:#7be0b3; --accent:#ffd98a;
-            --btn:#18243a;
-            --btnText:#e6efff;
-            --border:rgba(230,239,255,.12);
-            --ring: 0 0 0 3px rgba(143,168,255,.35);
+
+        [data-theme="hc"] {
+            --bg: #0a0f1a;
+            --panel: #0f1626;
+            --soft: #0c1220;
+            --ink: #e6efff;
+            --muted: #9fb0cc;
+            --pri: #8fa8ff;
+            --sec: #3dd8b5;
+            --warn: #ff8c8c;
+            --ok: #7be0b3;
+            --accent: #ffd98a;
+            --btn: #18243a;
+            --btnText: #e6efff;
+            --border: rgba(230, 239, 255, .12);
+            --ring: 0 0 0 3px rgba(143, 168, 255, .35);
             --iconColor: var(--ink);
         }
-        *{box-sizing:border-box}
-        html, body { max-width: 100%; overflow-x: hidden; }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             min-height: 100svh;
-            margin:0;font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;background:
-            radial-gradient(900px 420px at -10% -20%, rgba(122,108,255,.10), transparent),
-            radial-gradient(900px 420px at 110% -30%, rgba(22,198,161,.12), transparent),
-            var(--bg);color:var(--ink);
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background:
+                radial-gradient(900px 420px at -10% -20%, rgba(122, 108, 255, .10), transparent),
+                radial-gradient(900px 420px at 110% -30%, rgba(22, 198, 161, .12), transparent),
+                var(--bg);
+            color: var(--ink);
             transition: background-color var(--transition-duration) ease-out, color var(--transition-duration) ease-out;
         }
-        .wrap{
+
+        .wrap {
             max-width: 960px;
             margin: auto;
             padding: 16px;
             padding-left: calc(16px + env(safe-area-inset-left));
             padding-right: calc(16px + env(safe-area-inset-right));
         }
-        header{position:sticky;top:0;z-index:30;background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));backdrop-filter: blur(8px);border-bottom:1px solid var(--border); padding-top:env(safe-area-inset-top);
-        transition: background var(--transition-duration) ease-out, backdrop-filter var(--transition-duration) ease-out, border-bottom-color var(--transition-duration) ease-out;}
-        [data-theme="hc"] header{background:linear-gradient(180deg, rgba(15,22,38,.86), rgba(15,22,38,.66))}
-        
-        .brand{ display:flex; align-items:center; gap:12px; justify-content: space-between; flex-wrap: wrap; }
-        .logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--pri),var(--sec));box-shadow:var(--shadow);
-        transition: box-shadow var(--transition-duration) ease-out, background var(--transition-duration) ease-out;}
-        h1{font-size:20px;margin:0}
-        .small{font-size:12px;color:var(--muted)}
-        .card{background:var(--panel);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--border);
-        transition: background-color var(--transition-duration) ease-out, border-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;}
-        .card h2{font-size:16px;margin:0 0 10px 0; display: flex; align-items: center; gap: 8px;}
-        .card h2 .icon { color: var(--iconColor); transition: color var(--transition-duration) ease-out;}
-        .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-        .btn{ min-height:52px; padding: 0 16px; border-radius: 12px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: all var(--transition-duration) ease-out; color: var(--ink); background: var(--btn); display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-        .btn:active{transform:translateY(1px)}
-        .btn.primary{ background:linear-gradient(135deg, var(--pri), var(--sec)); color:white; }
-        .btn.ghost{background:transparent;outline:1px solid var(--border); color: var(--ink);}
-        .btn:focus-visible{outline:none; box-shadow:var(--ring); outline-offset: 3px;}
-        .spacer{height:16px}
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(255, 255, 255, .72));
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            padding-top: env(safe-area-inset-top);
+            transition: background var(--transition-duration) ease-out, backdrop-filter var(--transition-duration) ease-out, border-bottom-color var(--transition-duration) ease-out;
+        }
+
+        [data-theme="hc"] header {
+            background: linear-gradient(180deg, rgba(15, 22, 38, .86), rgba(15, 22, 38, .66))
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--pri), var(--sec));
+            box-shadow: var(--shadow);
+            transition: box-shadow var(--transition-duration) ease-out, background var(--transition-duration) ease-out;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0
+        }
+
+        .small {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .card {
+            background: var(--panel);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            border: 1px solid var(--border);
+            transition: background-color var(--transition-duration) ease-out, border-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h2 .icon {
+            color: var(--iconColor);
+            transition: color var(--transition-duration) ease-out;
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .btn {
+            min-height: 52px;
+            padding: 0 16px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all var(--transition-duration) ease-out;
+            color: var(--ink);
+            background: var(--btn);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, var(--pri), var(--sec));
+            color: white;
+        }
+
+        .btn.ghost {
+            background: transparent;
+            outline: 1px solid var(--border);
+            color: var(--ink);
+        }
+
+        .btn:focus-visible {
+            outline: none;
+            box-shadow: var(--ring);
+            outline-offset: 3px;
+        }
+
+        .spacer {
+            height: 16px
+        }
+
         /* Hilangkan nav lama (kalau ada) */
-        .main-nav{ display:none !important; }
-        @media (min-width: 768px) { .main-nav .btn { flex-grow: 0; } }
+        .main-nav {
+            display: none !important;
+        }
+
+        @media (min-width: 768px) {
+            .main-nav .btn {
+                flex-grow: 0;
+            }
+        }
 
         /* Style khusus untuk Daftar Ungkapan */
         .phrase-list {
@@ -78,41 +218,53 @@
             padding: 0;
             margin: 0;
         }
+
         .phrase-item {
             display: flex;
-            flex-direction: column; /* Ubah menjadi kolom agar AI contoh ada di bawah */
+            flex-direction: column;
+            /* Ubah menjadi kolom agar AI contoh ada di bawah */
             padding: 16px 8px;
             border-bottom: 1px solid var(--border);
             transition: background-color var(--transition-duration) ease-out;
         }
+
         .phrase-item:hover {
             background-color: var(--soft);
         }
+
         .phrase-item:last-child {
             border-bottom: none;
         }
+
         .phrase-main-info {
             display: flex;
             justify-content: space-between;
             align-items: center;
             width: 100%;
-            cursor: pointer; /* Agar bisa diklik untuk play audio */
+            cursor: pointer;
+            /* Agar bisa diklik untuk play audio */
         }
+
         .phrase-jp {
             font-family: 'Noto Sans JP', sans-serif;
             font-size: 22px;
             font-weight: 500;
         }
+
         .phrase-id {
             text-align: right;
             font-size: 16px;
         }
+
         .phrase-actions {
             display: flex;
-            gap: 8px; /* Jarak antar tombol */
-            margin-left: 16px; /* Jarak dari phrase-id */
+            gap: 8px;
+            /* Jarak antar tombol */
+            margin-left: 16px;
+            /* Jarak dari phrase-id */
             flex-shrink: 0;
         }
+
         .phrase-actions .btn-small {
             min-height: 36px;
             padding: 0 10px;
@@ -126,10 +278,12 @@
             justify-content: center;
             gap: 4px;
         }
+
         .phrase-actions .btn-small:hover {
             background: var(--btn);
             color: var(--ink);
         }
+
         .phrase-ai-examples {
             margin-top: 12px;
             padding: 12px;
@@ -138,23 +292,30 @@
             border: 1px solid var(--border);
             font-size: 14px;
             line-height: 1.5;
-            display: none; /* Default hidden */
+            display: none;
+            /* Default hidden */
             opacity: 0;
             max-height: 0;
             overflow: hidden;
             transition: opacity var(--transition-duration) ease-out, max-height var(--transition-duration) ease-out;
         }
+
         .phrase-ai-examples.show {
-            display: block; /* Tampilkan block saat show */
+            display: block;
+            /* Tampilkan block saat show */
             opacity: 1;
-            max-height: 500px; /* Nilai max-height yang cukup besar untuk transisi */
+            max-height: 500px;
+            /* Nilai max-height yang cukup besar untuk transisi */
         }
+
         .phrase-ai-examples p {
             margin: 0 0 8px 0;
         }
+
         .phrase-ai-examples p:last-child {
             margin-bottom: 0;
         }
+
         .phrase-ai-examples .loading-spinner {
             display: flex;
             align-items: center;
@@ -162,65 +323,145 @@
             color: var(--muted);
             justify-content: center;
         }
+
         .phrase-ai-examples .loading-spinner .fa-spinner {
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* === Sidebar === */
-        .sidebar{
-            position:fixed; top:0; left:-300px; width:280px; height:100%;
-            background:var(--panel); box-shadow:var(--shadow); z-index:1000;
-            transition:left .3s ease-in-out; padding:20px; padding-top:calc(20px + env(safe-area-inset-top));
-            display:flex; flex-direction:column; gap:10px; overflow-y:auto; border-right:1px solid var(--border);
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background: var(--panel);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: left .3s ease-in-out;
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top));
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
         }
-        .sidebar.is-open{ left:0; }
-        .sidebar .menu{ list-style:none; margin:0; padding:0; }
-        .sidebar .menu li a{ display:flex; gap:.5rem; align-items:center; padding:.75rem 1rem; border-radius:12px; color:var(--ink); text-decoration:none; }
-        .sidebar .menu li a:hover{ background:var(--soft); }
-        .sidebar .menu li a.active{ background:rgba(122,108,255,.12); font-weight:600; }
-        .sidebar-toggle-btn{
-            position:fixed; top:16px; left:16px; z-index:1001; background:var(--btn); border:1px solid var(--border);
-            border-radius:50%; width:44px; height:44px; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow);
+
+        .sidebar.is-open {
+            left: 0;
         }
-        .sidebar-toggle-btn i{ color:var(--ink); font-size:20px; }
-        @media (min-width:768px){ body.sidebar-open{ padding-left:280px; } }
-        @media (max-width:640px){ .sidebar{ width:84vw; max-width:320px; } }
+
+        .sidebar .menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar .menu li a {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            padding: .75rem 1rem;
+            border-radius: 12px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .sidebar .menu li a:hover {
+            background: var(--soft);
+        }
+
+        .sidebar .menu li a.active {
+            background: rgba(122, 108, 255, .12);
+            font-weight: 600;
+        }
+
+        .sidebar-toggle-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            background: var(--btn);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+        }
+
+        .sidebar-toggle-btn i {
+            color: var(--ink);
+            font-size: 20px;
+        }
+
+        @media (min-width:768px) {
+            body.sidebar-open {
+                padding-left: 280px;
+            }
+        }
+
+        @media (max-width:640px) {
+            .sidebar {
+                width: 84vw;
+                max-width: 320px;
+            }
+        }
+
         /* Biar header gak ketutup tombol */
-        header .brand{ position:relative; z-index:1002; padding-left:60px; }
-        @media (max-width:767px){
-            header .brand{ padding-left:0; }
-            .sidebar-toggle-btn{ top:calc(16px + env(safe-area-inset-top)); }
+        header .brand {
+            position: relative;
+            z-index: 1002;
+            padding-left: 60px;
+        }
+
+        @media (max-width:767px) {
+            header .brand {
+                padding-left: 0;
+            }
+
+            .sidebar-toggle-btn {
+                top: calc(16px + env(safe-area-inset-top));
+            }
         }
     </style>
 </head>
+
 <body>
     <!-- Tombol untuk membuka/menutup sidebar -->
     <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar">
-      <i class="fa-solid fa-bars"></i>
+        <i class="fa-solid fa-bars"></i>
     </button>
 
     <!-- Sidebar navigasi -->
     <nav id="sidebar" class="sidebar">
-      <div class="row" style="justify-content: space-between; align-items: center;">
-        <h3 style="margin:0;">Navigasi</h3>
-        <button class="btn ghost" id="closeSidebar" aria-label="Tutup Sidebar">
-          <i class="fa-solid fa-times"></i>
-        </button>
-      </div>
-      <hr style="border:none;border-top:1px solid var(--border);width:100%;">
-      <ul class="menu">
-        <li><a href="index.html">📘 Latihan</a></li>
-        <li><a href="index2.html">🗂️ Flashcard</a></li>
-        <li><a href="index3.html">🧮 Tabel Kana</a></li>
-        <li><a href="index4.html">🗒️ Kosakata</a></li>
-        <li><a href="index5.html" class="active">💬 Ungkapan</a></li>
-        <li><a href="index7.html">🧠 Tebak Arti</a></li>
-        <li><a href="index6.html">✍️ Menulis</a></li>
-        <li><a href="index8.html">📚 Pelatih Membaca</a></li> <!-- Menambahkan link ke index8.html -->
-      </ul>
+        <div class="row" style="justify-content: space-between; align-items: center;">
+            <h3 style="margin:0;">Navigasi</h3>
+            <button class="btn ghost" id="closeSidebar" aria-label="Tutup Sidebar">
+                <i class="fa-solid fa-times"></i>
+            </button>
+        </div>
+        <hr style="border:none;border-top:1px solid var(--border);width:100%;">
+        <ul class="menu">
+            <li><a href="index.html">📘 Latihan</a></li>
+            <li><a href="index2.html">🗂️ Flashcard</a></li>
+            <li><a href="index3.html">🧮 Tabel Kana</a></li>
+            <li><a href="index4.html">🗒️ Kosakata</a></li>
+            <li><a href="index5.html" class="active">💬 Ungkapan</a></li>
+            <li><a href="index7.html">🧠 Tebak Arti</a></li>
+            <li><a href="index6.html">✍️ Menulis</a></li>
+            <li><a href="index8.html">📚 Pelatih Membaca</a></li> <!-- Menambahkan link ke index8.html -->
+        </ul>
     </nav>
 
     <header>
@@ -229,13 +470,14 @@
                 <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="36" height="36">
                     <defs>
                         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                            <stop stop-color="#7a6cff"/><stop offset="1" stop-color="#16c6a1"/>
+                            <stop stop-color="#7a6cff" />
+                            <stop offset="1" stop-color="#16c6a1" />
                         </linearGradient>
                     </defs>
-                    <rect width="64" height="64" rx="14" fill="url(#g)"/>
+                    <rect width="64" height="64" rx="14" fill="url(#g)" />
                     <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
-                          font-family="Noto Sans JP, 'Noto Serif JP', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
-                          font-size="38" fill="white" dy="-2">あ</text>
+                        font-family="Noto Sans JP, 'Noto Serif JP', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+                        font-size="38" fill="white" dy="-2">あ</text>
                 </svg>
                 <div>
                     <h1>Pelatih Kana Jepang</h1>
@@ -248,20 +490,21 @@
     <main class="wrap">
         <div class="card">
             <h2><i class="fa-solid fa-comments icon"></i> Ungkapan (表現)</h2>
-            <div class="small">Daftar ungkapan umum yang berguna dalam percakapan sehari-hari. Klik pada ungkapan untuk mendengarkan. Klik "Contoh AI" untuk melihat penggunaan dalam kalimat.</div>
+            <div class="small">Daftar ungkapan umum yang berguna dalam percakapan sehari-hari. Klik pada ungkapan untuk
+                mendengarkan. Klik "Contoh AI" untuk melihat penggunaan dalam kalimat.</div>
         </div>
 
         <div class="spacer"></div>
 
         <!-- Penambahan: CTA card "Tebak Arti" -->
         <div class="card" id="cta-tebak-arti">
-          <h2><i class="fa-solid fa-brain icon"></i> Tebak Arti (JP→ID)</h2>
-          <div class="small">Kuis arti Jepang → Indonesia (A–D). Pilih kategori & jumlah soal.</div>
-          <div class="spacer"></div>
-          <div class="row" style="gap:8px;flex-wrap:wrap">
-            <a class="btn primary" href="index7.html"><i class="fa-solid fa-play"></i> Mulai Tebak Arti</a>
-            <a class="btn ghost" href="index7.html#kategori"><i class="fa-solid fa-list"></i> Pilih Kategori</a>
-          </div>
+            <h2><i class="fa-solid fa-brain icon"></i> Tebak Arti (JP→ID)</h2>
+            <div class="small">Kuis arti Jepang → Indonesia (A–D). Pilih kategori & jumlah soal.</div>
+            <div class="spacer"></div>
+            <div class="row" style="gap:8px;flex-wrap:wrap">
+                <a class="btn primary" href="index7.html"><i class="fa-solid fa-play"></i> Mulai Tebak Arti</a>
+                <a class="btn ghost" href="index7.html#kategori"><i class="fa-solid fa-list"></i> Pilih Kategori</a>
+            </div>
         </div>
 
         <div class="spacer"></div>
@@ -460,7 +703,7 @@
 
         // --- INTEGRASI API GEMINI ---
         // Menggunakan API Key yang Anda berikan
-        const GEMINI_API_KEY = "AIzaSyCZVyGLZrlJW-bQFSYfIgVgWhVWQ6icaeE"; 
+        const GEMINI_API_KEY = "AIzaSyCZVyGLZrlJW-bQFSYfIgVgWhVWQ6icaeE";
         const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
 
         // Cache untuk menyimpan hasil Gemini agar tidak perlu memanggil API berulang
@@ -559,7 +802,7 @@ Do not include any other text, greetings, or explanations.`;
                 if (lines.length >= 2) {
                     for (let i = 0; i < lines.length; i += 2) {
                         const jpLine = lines[i];
-                        const idLine = lines[i+1] || '';
+                        const idLine = lines[i + 1] || '';
                         if (jpLine) {
                             formattedHtml += `<p class="phrase-jp" style="font-size: 16px; margin-bottom: 4px;">${jpLine}</p>`;
                             if (idLine) {
@@ -687,30 +930,31 @@ Do not include any other text, greetings, or explanations.`;
         });
     </script>
     <script>
-    (() => {
-      const sidebar  = document.getElementById('sidebar');
-      const toggle   = document.getElementById('sidebarToggle');
-      const closeBtn = document.getElementById('closeSidebar');
+        (() => {
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
+            const closeBtn = document.getElementById('closeSidebar');
 
-      function open(){ sidebar.classList.add('is-open'); document.body.classList.add('sidebar-open'); }
-      function close(){ sidebar.classList.remove('is-open'); document.body.classList.remove('sidebar-open'); }
+            function open() { sidebar.classList.add('is-open'); document.body.classList.add('sidebar-open'); }
+            function close() { sidebar.classList.remove('is-open'); document.body.classList.remove('sidebar-open'); }
 
-      toggle?.addEventListener('click', open);
-      closeBtn?.addEventListener('click', close);
+            toggle?.addEventListener('click', open);
+            closeBtn?.addEventListener('click', close);
 
-      document.addEventListener('click', (e)=>{
-        if(!sidebar.classList.contains('is-open')) return;
-        const hit = sidebar.contains(e.target) || toggle.contains(e.target);
-        if(!hit) close();
-      });
-      document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+            document.addEventListener('click', (e) => {
+                if (!sidebar.classList.contains('is-open')) return;
+                const hit = sidebar.contains(e.target) || toggle.contains(e.target);
+                if (!hit) close();
+            });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
-      // Tandai link aktif
-      document.querySelectorAll('#sidebar a').forEach(a=>{
-        const href = a.getAttribute('href');
-        if(href && location.pathname.endsWith(href)) a.classList.add('active');
-      });
-    })();
+            // Tandai link aktif
+            document.querySelectorAll('#sidebar a').forEach(a => {
+                const href = a.getAttribute('href');
+                if (href && location.pathname.endsWith(href)) a.classList.add('active');
+            });
+        })();
     </script>
 </body>
+
 </html>

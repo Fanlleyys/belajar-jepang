@@ -1,99 +1,263 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="pastel">
+
 <head>
     <meta charset="utf-8">
+    <script src="theme-sync.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Kosakata Bahasa Jepang (N5/N4) — Latihan</title>
-    <meta name="description" content="Daftar kosakata dasar bahasa Jepang N5 dan N4 berdasarkan level dan kategori. Lengkap dengan kana, romaji, arti, dan audio pelafalan." />
+    <meta name="description"
+        content="Daftar kosakata dasar bahasa Jepang N5 dan N4 berdasarkan level dan kategori. Lengkap dengan kana, romaji, arti, dan audio pelafalan." />
     <meta name="theme-color" content="#7a6cff">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         /* Menggunakan style yang sama dari index.html untuk konsistensi */
-        :root{
-            --bg:#f8fbff; --panel:#ffffff; --soft:#f2f6ff; --ink:#132030; --muted:#76849c;
-            --pri:#7a6cff; --sec:#16c6a1; --warn:#ff7b7b; --ok:#2fb875; --accent:#ffd166;
-            --btn:#e9eefc; --btnText:#0b101a; --border:rgba(19,32,48,.10);
-            --radius:18px; --shadow:0 6px 18px rgba(15,23,34,.08);
-            --ring: 0 0 0 3px rgba(122,108,255,.28);
+        :root {
+            --bg: #f8fbff;
+            --panel: #ffffff;
+            --soft: #f2f6ff;
+            --ink: #132030;
+            --muted: #76849c;
+            --pri: #7a6cff;
+            --sec: #16c6a1;
+            --warn: #ff7b7b;
+            --ok: #2fb875;
+            --accent: #ffd166;
+            --btn: #e9eefc;
+            --btnText: #0b101a;
+            --border: rgba(19, 32, 48, .10);
+            --radius: 18px;
+            --shadow: 0 6px 18px rgba(15, 23, 34, .08);
+            --ring: 0 0 0 3px rgba(122, 108, 255, .28);
             --iconColor: var(--muted);
             --transition-duration: 0.2s;
         }
-        [data-theme="hc"]{
-            --bg:#0a0f1a; --panel:#0f1626; --soft:#0c1220; --ink:#e6efff; --muted:#9fb0cc;
-            --pri:#8fa8ff; --sec:#3dd8b5; --warn:#ff8c8c; --ok:#7be0b3; --accent:#ffd98a;
-            --btn:#18243a;
-            --btnText:#e6efff;
-            --border:rgba(230,239,255,.12);
-            --ring: 0 0 0 3px rgba(143,168,255,.35);
-            --okBg:#1a3a2e;
-            --warnBg:#3a1a1a;
+
+        [data-theme="hc"] {
+            --bg: #0a0f1a;
+            --panel: #0f1626;
+            --soft: #0c1220;
+            --ink: #e6efff;
+            --muted: #9fb0cc;
+            --pri: #8fa8ff;
+            --sec: #3dd8b5;
+            --warn: #ff8c8c;
+            --ok: #7be0b3;
+            --accent: #ffd98a;
+            --btn: #18243a;
+            --btnText: #e6efff;
+            --border: rgba(230, 239, 255, .12);
+            --ring: 0 0 0 3px rgba(143, 168, 255, .35);
+            --okBg: #1a3a2e;
+            --warnBg: #3a1a1a;
             --iconColor: var(--ink);
         }
-        *{box-sizing:border-box}
-        html, body { max-width: 100%; overflow-x: hidden; }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             min-height: 100svh;
-            margin:0;font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;background:
-            radial-gradient(900px 420px at -10% -20%, rgba(122,108,255,.10), transparent),
-            radial-gradient(900px 420px at 110% -30%, rgba(22,198,161,.12), transparent),
-            var(--bg);color:var(--ink);
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background:
+                radial-gradient(900px 420px at -10% -20%, rgba(122, 108, 255, .10), transparent),
+                radial-gradient(900px 420px at 110% -30%, rgba(22, 198, 161, .12), transparent),
+                var(--bg);
+            color: var(--ink);
             transition: background-color var(--transition-duration) ease-out, color var(--transition-duration) ease-out;
         }
-        .wrap{
+
+        .wrap {
             /* Memastikan konten tidak terlalu lebar di layar besar */
             max-width: 960px;
-            margin: auto; /* Memposisikan konten di tengah */
+            margin: auto;
+            /* Memposisikan konten di tengah */
             padding: 16px;
             /* Menyesuaikan padding untuk area aman pada perangkat mobile (notch, dll) */
             padding-left: calc(16px + env(safe-area-inset-left));
             padding-right: calc(16px + env(safe-area-inset-right));
         }
-        header{
-            position:sticky;top:0;z-index:30;
-            background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(255, 255, 255, .72));
             backdrop-filter: blur(8px);
-            border-bottom:1px solid var(--border);
-            padding-top:env(safe-area-inset-top);
+            border-bottom: 1px solid var(--border);
+            padding-top: env(safe-area-inset-top);
             transition: background var(--transition-duration) ease-out, backdrop-filter var(--transition-duration) ease-out, border-bottom-color var(--transition-duration) ease-out;
         }
-        [data-theme="hc"] header{background:linear-gradient(180deg, rgba(15,22,38,.86), rgba(15,22,38,.66))}
-        
-        .brand{ display:flex; align-items:center; gap:12px; justify-content: space-between; flex-wrap: wrap; }
-        .logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--pri),var(--sec));box-shadow:var(--shadow);
-        transition: box-shadow var(--transition-duration) ease-out, background var(--transition-duration) ease-out;}
-        h1{font-size:20px;margin:0}
-        .small{font-size:12px;color:var(--muted)}
-        .card{background:var(--panel);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--border);
-        transition: background-color var(--transition-duration) ease-out, border-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;}
-        .card h2{font-size:16px;margin:0 0 10px 0; display: flex; align-items: center; gap: 8px;}
-        .card h2 .icon { color: var(--iconColor); transition: color var(--transition-duration) ease-out;}
-        .card h3.filter-label { font-size: 14px; margin: 12px 0 8px 0; color: var(--muted); font-weight: 500;} /* Gaya baru untuk label filter */
-        .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-        .btn{ min-height:52px; padding: 0 16px; border-radius: 12px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: all var(--transition-duration) ease-out; color: var(--ink); background: var(--btn); display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-        .btn:active{transform:translateY(1px)}
-        .btn.primary{ background:linear-gradient(135deg, var(--pri), var(--sec)); color:white; }
-        .btn.ghost{background:transparent;outline:1px solid var(--border); color: var(--ink);}
-        .btn:focus-visible{outline:none; box-shadow:var(--ring); outline-offset: 3px;}
-        .spacer{height:16px}
-        /* Sembunyikan nav/header lama kalau ada */
-        .main-nav{ display:none !important; }
 
-        input[type="search"]{
-            width:100%; /* Memastikan input selalu memenuhi lebar container */
-            padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--soft);color:var(--ink);
+        [data-theme="hc"] header {
+            background: linear-gradient(180deg, rgba(15, 22, 38, .86), rgba(15, 22, 38, .66))
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--pri), var(--sec));
+            box-shadow: var(--shadow);
+            transition: box-shadow var(--transition-duration) ease-out, background var(--transition-duration) ease-out;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0
+        }
+
+        .small {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .card {
+            background: var(--panel);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            border: 1px solid var(--border);
+            transition: background-color var(--transition-duration) ease-out, border-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h2 .icon {
+            color: var(--iconColor);
+            transition: color var(--transition-duration) ease-out;
+        }
+
+        .card h3.filter-label {
+            font-size: 14px;
+            margin: 12px 0 8px 0;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        /* Gaya baru untuk label filter */
+        .row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .btn {
+            min-height: 52px;
+            padding: 0 16px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all var(--transition-duration) ease-out;
+            color: var(--ink);
+            background: var(--btn);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, var(--pri), var(--sec));
+            color: white;
+        }
+
+        .btn.ghost {
+            background: transparent;
+            outline: 1px solid var(--border);
+            color: var(--ink);
+        }
+
+        .btn:focus-visible {
+            outline: none;
+            box-shadow: var(--ring);
+            outline-offset: 3px;
+        }
+
+        .spacer {
+            height: 16px
+        }
+
+        /* Sembunyikan nav/header lama kalau ada */
+        .main-nav {
+            display: none !important;
+        }
+
+        input[type="search"] {
+            width: 100%;
+            /* Memastikan input selalu memenuhi lebar container */
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--soft);
+            color: var(--ink);
             transition: border-color var(--transition-duration) ease-out, background-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;
         }
-        input[type="search"]:focus { border-color: var(--pri); outline: none; box-shadow: var(--ring); }
-        .chips{
-            display:flex; flex-wrap: wrap; /* Memastikan chip-chip akan melipat ke baris baru jika tidak cukup ruang */
-            gap:8px;
+
+        input[type="search"]:focus {
+            border-color: var(--pri);
+            outline: none;
+            box-shadow: var(--ring);
         }
-        .chip{ padding:8px 12px; border-radius:999px; background:var(--soft); border:1px solid var(--border); cursor:pointer; font-size: 14px; transition: all var(--transition-duration) ease-out; color: var(--ink); }
-        .chip.active{ background:linear-gradient(135deg, rgba(122,108,255,.18), rgba(22,198,161,.18)); border-color: var(--pri); }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            /* Memastikan chip-chip akan melipat ke baris baru jika tidak cukup ruang */
+            gap: 8px;
+        }
+
+        .chip {
+            padding: 8px 12px;
+            border-radius: 999px;
+            background: var(--soft);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            font-size: 14px;
+            transition: all var(--transition-duration) ease-out;
+            color: var(--ink);
+        }
+
+        .chip.active {
+            background: linear-gradient(135deg, rgba(122, 108, 255, .18), rgba(22, 198, 161, .18));
+            border-color: var(--pri);
+        }
 
         /* Style khusus untuk Daftar Kosakata */
         .vocab-list {
@@ -101,99 +265,201 @@
             padding: 0;
             margin: 0;
         }
+
         .vocab-item {
             display: flex;
-            justify-content: space-between; /* Memisahkan konten Jepang dan Indonesia */
+            justify-content: space-between;
+            /* Memisahkan konten Jepang dan Indonesia */
             align-items: center;
             padding: 12px 8px;
             border-bottom: 1px solid var(--border);
             cursor: pointer;
             transition: background-color var(--transition-duration) ease-out;
         }
+
         .vocab-item:hover {
             background-color: var(--soft);
         }
+
         .vocab-item:last-child {
             border-bottom: none;
         }
+
         .vocab-jp {
             font-family: 'Noto Sans JP', sans-serif;
             font-size: 20px;
-            flex-shrink: 0; /* Mencegah bagian Jepang menyusut terlalu banyak */
+            flex-shrink: 0;
+            /* Mencegah bagian Jepang menyusut terlalu banyak */
         }
+
         .vocab-jp .kanji {
             font-weight: 600;
         }
+
         .vocab-jp .kana {
             font-size: 14px;
             color: var(--muted);
             margin-left: 8px;
         }
+
         .vocab-id {
             text-align: right;
-            flex-grow: 1; /* Memungkinkan bagian Indonesia mengisi ruang yang tersisa */
-            min-width: 0; /* Penting untuk flexbox agar konten bisa memendek */
-            white-space: normal; /* Mengizinkan teks untuk melipat (wrap) */
-            word-break: break-word; /* Memecah kata panjang jika diperlukan */
+            flex-grow: 1;
+            /* Memungkinkan bagian Indonesia mengisi ruang yang tersisa */
+            min-width: 0;
+            /* Penting untuk flexbox agar konten bisa memendek */
+            white-space: normal;
+            /* Mengizinkan teks untuk melipat (wrap) */
+            word-break: break-word;
+            /* Memecah kata panjang jika diperlukan */
         }
+
         .vocab-id .romaji {
             font-size: 12px;
             color: var(--muted);
             display: block;
         }
+
         .vocab-id .arti {
             font-size: 16px;
         }
+
         .vocab-item i {
             color: var(--muted);
             margin-left: 16px;
             font-size: 16px;
-            flex-shrink: 0; /* Mencegah ikon menyusut */
+            flex-shrink: 0;
+            /* Mencegah ikon menyusut */
         }
 
         /* === Sidebar === */
-        .sidebar{
-            position:fixed; top:0; left:-300px; width:280px; height:100%;
-            background:var(--panel); box-shadow:var(--shadow); z-index:1000;
-            transition:left .3s ease-in-out; padding:20px; padding-top:calc(20px + env(safe-area-inset-top));
-            display:flex; flex-direction:column; gap:10px; overflow-y:auto; border-right:1px solid var(--border);
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background: var(--panel);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: left .3s ease-in-out;
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top));
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
         }
-        .sidebar.is-open{ left:0; }
-        .sidebar .menu{ list-style:none; margin:0; padding:0; }
-        .sidebar .menu li a{
-            display:flex; gap:.5rem; align-items:center; padding:.75rem 1rem;
-            border-radius:12px; color:var(--ink); text-decoration:none;
+
+        .sidebar.is-open {
+            left: 0;
         }
-        .sidebar .menu li a:hover{ background:var(--soft); }
-        .sidebar .menu li a.active{ background:rgba(122,108,255,.12); font-weight:600; }
+
+        .sidebar .menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar .menu li a {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            padding: .75rem 1rem;
+            border-radius: 12px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .sidebar .menu li a:hover {
+            background: var(--soft);
+        }
+
+        .sidebar .menu li a.active {
+            background: rgba(122, 108, 255, .12);
+            font-weight: 600;
+        }
 
         /* Toggle button */
-        .sidebar-toggle-btn{
-            position:fixed; top:16px; left:16px; z-index:1001; background:var(--btn);
-            border:1px solid var(--border); border-radius:50%; width:44px; height:44px;
-            display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow);
-            transition: all 0.3s ease-in-out; /* Added transition for smooth movement */
+        .sidebar-toggle-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            background: var(--btn);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease-in-out;
+            /* Added transition for smooth movement */
         }
-        .sidebar-toggle-btn i{ color:var(--ink); font-size:20px; }
 
-        @media (min-width:768px){ 
-            body.sidebar-open{ padding-left:280px; } 
-            .sidebar-toggle-btn { left: 16px; } /* Stays on the left */
-            .sidebar.is-open + .sidebar-toggle-btn { left: 296px; } /* Moves with the sidebar */
+        .sidebar-toggle-btn i {
+            color: var(--ink);
+            font-size: 20px;
         }
-        @media (max-width:640px){ .sidebar{ width:84vw; max-width:320px; } }
+
+        @media (min-width:768px) {
+            body.sidebar-open {
+                padding-left: 280px;
+            }
+
+            .sidebar-toggle-btn {
+                left: 16px;
+            }
+
+            /* Stays on the left */
+            .sidebar.is-open+.sidebar-toggle-btn {
+                left: 296px;
+            }
+
+            /* Moves with the sidebar */
+        }
+
+        @media (max-width:640px) {
+            .sidebar {
+                width: 84vw;
+                max-width: 320px;
+            }
+        }
 
         /* Amanin layout */
-        header .brand{ position:relative; z-index:1002; padding-left:60px; }
-        @media (max-width:767px){
-            header .brand{ padding-left:0; }
-            .sidebar-toggle-btn{ top:calc(16px + env(safe-area-inset-top)); }
+        header .brand {
+            position: relative;
+            z-index: 1002;
+            padding-left: 60px;
+        }
+
+        @media (max-width:767px) {
+            header .brand {
+                padding-left: 0;
+            }
+
+            .sidebar-toggle-btn {
+                top: calc(16px + env(safe-area-inset-top));
+            }
         }
 
         /* CSS untuk ujian ketik jawaban */
-        #fcPrompt{ word-break:keep-all }
-        #fcFeedback.ok{ color:var(--ok) }
-        #fcFeedback.bad{ color:var(--warn) }
+        #fcPrompt {
+            word-break: keep-all
+        }
+
+        #fcFeedback.ok {
+            color: var(--ok)
+        }
+
+        #fcFeedback.bad {
+            color: var(--warn)
+        }
+
         #fcFeedback .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             border-left-color: var(--pri);
@@ -205,33 +471,62 @@
             vertical-align: middle;
             margin-right: 8px;
         }
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* Form look & feel */
-        input, select, textarea, input[type="number"], input[type="text"]{
-            height:52px; padding:0 14px; border:1px solid var(--border);
-            border-radius:12px; background:var(--panel); color:var(--ink);
+        input,
+        select,
+        textarea,
+        input[type="number"],
+        input[type="text"] {
+            height: 52px;
+            padding: 0 14px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            background: var(--panel);
+            color: var(--ink);
             box-shadow: var(--shadow);
             transition: box-shadow var(--transition-duration) ease, border-color var(--transition-duration) ease, background var(--transition-duration) ease;
         }
-        input::placeholder{ color: var(--muted); }
+
+        input::placeholder {
+            color: var(--muted);
+        }
 
         /* Focus ring */
-        input:focus, select:focus, textarea:focus, input[type="number"]:focus, input[type="text"]:focus{
-            outline:none; box-shadow: var(--ring); border-color: transparent;
+        input:focus,
+        select:focus,
+        textarea:focus,
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: var(--ring);
+            border-color: transparent;
         }
 
         /* Number tidy (hapus spinner di mobile/Chromium) */
         input[type=number]::-webkit-outer-spin-button,
-        input[type=number]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
-        input[type=number]{ -moz-appearance:textfield; }
+        input[type=number]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
 
         /* Select arrow padding sudah di CSS; tambahkan height konsisten */
-        select{ height:52px; }
+        select {
+            height: 52px;
+        }
     </style>
 </head>
+
 <body>
     <!-- Toggle Button (burger) -->
     <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar">
@@ -266,21 +561,22 @@
                 <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="36" height="36">
                     <defs>
                         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                            <stop stop-color="#7a6cff"/><stop offset="1" stop-color="#16c6a1"/>
+                            <stop stop-color="#7a6cff" />
+                            <stop offset="1" stop-color="#16c6a1" />
                         </linearGradient>
                     </defs>
-                    <rect width="64" height="64" rx="14" fill="url(#g)"/>
+                    <rect width="64" height="64" rx="14" fill="url(#g)" />
                     <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
-                          font-family="Noto Sans JP, 'Noto Serif JP', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
-                          font-size="38" fill="white" dy="-2">あ</text>
+                        font-family="Noto Sans JP, 'Noto Serif JP', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+                        font-size="38" fill="white" dy="-2">あ</text>
                 </svg>
                 <div>
                     <h1>Pelatih Kana Jepang</h1>
                     <div class="small">Daftar Kosakata (N5 & N4)</div>
                 </div>
             </div>
-             <!-- NAVIGASI UTAMA (LAMA - TERSEMBUNYI) -->
-             <nav class="main-nav">
+            <!-- NAVIGASI UTAMA (LAMA - TERSEMBUNYI) -->
+            <nav class="main-nav">
                 <div class="row">
                     <a href="index.html" class="btn ghost"><i class="fa-solid fa-home"></i> Latihan</a>
                     <a href="index2.html" class="btn ghost"><i class="fa-solid fa-clone"></i> Flashcard</a>
@@ -295,16 +591,17 @@
     <main class="wrap">
         <div class="card">
             <h2><i class="fa-solid fa-book-open icon"></i> Kosakata (単語)</h2>
-            <div class="small">Cari kosakata atau filter berdasarkan level dan kategori. Klik pada kata untuk mendengarkan pelafalannya.</div>
+            <div class="small">Cari kosakata atau filter berdasarkan level dan kategori. Klik pada kata untuk
+                mendengarkan pelafalannya.</div>
             <div class="spacer"></div>
             <input type="search" id="searchInput" placeholder="Cari kata (e.g., 'neko', 'kucing', 'ねこ')...">
-            
+
             <!-- Filter Level (Baru) -->
             <h3 class="filter-label" style="margin-top: 16px;">Filter Level</h3>
             <div id="levelChips" class="chips">
                 <!-- Level akan digenerate oleh JavaScript -->
             </div>
-            
+
             <!-- Filter Kategori (Lama, tapi sekarang dinamis) -->
             <h3 class="filter-label">Filter Kategori</h3>
             <div id="categoryChips" class="chips">
@@ -316,13 +613,13 @@
 
         <!-- Penambahan: CTA card "Tebak Arti" -->
         <div class="card" id="cta-tebak-arti">
-          <h2><i class="fa-solid fa-brain icon"></i> Tebak Arti (JP→ID)</h2>
-          <div class="small">Kuis arti Jepang → Indonesia (A–D). Pilih kategori & jumlah soal.</div>
-          <div class="spacer"></div>
-          <div class="row" style="gap:8px;flex-wrap:wrap">
-            <a class="btn primary" href="index7.html"><i class="fa-solid fa-play"></i> Mulai Tebak Arti</a>
-            <a class="btn ghost" href="index7.html#kategori"><i class="fa-solid fa-list"></i> Pilih Kategori</a>
-          </div>
+            <h2><i class="fa-solid fa-brain icon"></i> Tebak Arti (JP→ID)</h2>
+            <div class="small">Kuis arti Jepang → Indonesia (A–D). Pilih kategori & jumlah soal.</div>
+            <div class="spacer"></div>
+            <div class="row" style="gap:8px;flex-wrap:wrap">
+                <a class="btn primary" href="index7.html"><i class="fa-solid fa-play"></i> Mulai Tebak Arti</a>
+                <a class="btn ghost" href="index7.html#kategori"><i class="fa-solid fa-list"></i> Pilih Kategori</a>
+            </div>
         </div>
 
         <div class="spacer"></div>
@@ -363,7 +660,8 @@
                 <div id="fcPrompt" class="center" style="font-size:28px;margin:10px 0 16px"></div>
 
                 <div style="max-width:520px;margin:0 auto">
-                    <input id="fcInput" class="input" placeholder="Ketik jawaban…" autocomplete="off" autocapitalize="none" aria-label="Jawaban">
+                    <input id="fcInput" class="input" placeholder="Ketik jawaban…" autocomplete="off"
+                        autocapitalize="none" aria-label="Jawaban">
                     <div class="row" style="justify-content:center;margin-top:10px;gap:8px">
                         <button class="btn" id="fcCheck">Cek (Enter)</button>
                         <button class="btn ghost" id="fcReveal">Lihat jawaban</button>
@@ -557,7 +855,7 @@
             { id: 'neko', kana: 'ねこ', kanji: '猫', romaji: 'neko', arti: 'Kucing', kategori: 'hewan', level: 'n5' },
             { id: 'inu', kana: 'いぬ', kanji: '犬', romaji: 'inu', arti: 'Anjing', kategori: 'hewan', level: 'n5' },
             { id: 'tori', kana: 'とり', kanji: '鳥', romaji: 'tori', arti: 'Burung', kategori: 'hewan', level: 'n5' },
-            
+
             // --- N5: Cuaca ---
             { id: 'tenki', kana: 'てんき', kanji: '天気', romaji: 'tenki', arti: 'Cuaca', kategori: 'cuaca', level: 'n5' },
             { id: 'hare', kana: 'はれ', kanji: '晴れ', romaji: 'hare', arti: 'Cerah', kategori: 'cuaca', level: 'n5' },
@@ -731,7 +1029,7 @@
         };
 
         // Function to mark SRS progress
-        window.srsMark = function(vocabId, isCorrect) {
+        window.srsMark = function (vocabId, isCorrect) {
             const now = Math.floor(Date.now() / 1000);
             const currentBox = state.srs[vocabId] ? state.srs[vocabId].box : 1;
             let nextBox = currentBox;
@@ -749,7 +1047,7 @@
             saveVocabState();
         };
 
-        window.dueToday = function() {
+        window.dueToday = function () {
             const now = Math.floor(Date.now() / 1000);
             return vocabulary.filter(item => {
                 const srsData = state.srs[item.id];
@@ -779,7 +1077,7 @@
                 // Capitalize
                 let text = level.charAt(0).toUpperCase() + level.slice(1);
                 if (level === 'semua') text = 'Semua Level';
-                
+
                 chip.textContent = text;
                 chip.dataset.level = level;
                 if (level === activeLevel) {
@@ -804,13 +1102,13 @@
 
             // 2. Dapatkan kategori unik dari vocab yang sudah difilter
             const categories = ['semua', ...new Set(vocabByLevel.map(item => item.kategori))].sort();
-            
+
             categoryChips.innerHTML = '';
-            
+
             // Jangan tampilkan filter kategori jika level 'semua' dan kategori hanya 'semua' (tidak ada data)
             if (categories.length <= 1) {
-                 categoryChips.innerHTML = '<div class="small">Tidak ada kategori untuk level ini.</div>';
-                 return;
+                categoryChips.innerHTML = '<div class="small">Tidak ada kategori untuk level ini.</div>';
+                return;
             }
 
             categories.forEach(category => {
@@ -833,19 +1131,19 @@
 
         function renderVocabList() {
             const searchTerm = searchInput.value.toLowerCase();
-            
+
             currentFilteredVocab = vocabulary.filter(item => {
                 // Filter berdasarkan Level
                 const inLevel = activeLevel === 'semua' || item.level === activeLevel;
                 // Filter berdasarkan Kategori
                 const inCategory = activeCategory === 'semua' || item.kategori === activeCategory;
-                
+
                 // Filter berdasarkan Search
                 const matchesSearch = item.kana.includes(searchTerm) ||
-                                            item.romaji.includes(searchTerm) ||
-                                            item.arti.toLowerCase().includes(searchTerm) ||
-                                            (item.kanji && item.kanji.includes(searchTerm));
-                
+                    item.romaji.includes(searchTerm) ||
+                    item.arti.toLowerCase().includes(searchTerm) ||
+                    (item.kanji && item.kanji.includes(searchTerm));
+
                 return inLevel && inCategory && matchesSearch;
             });
 
@@ -897,7 +1195,7 @@
             // Hapus dulu jika ada message box lama
             const oldBox = document.getElementById('customMessageBox');
             if (oldBox) oldBox.remove();
-            
+
             const messageBox = document.createElement('div');
             messageBox.id = 'customMessageBox'; // Beri ID agar mudah dihapus
             messageBox.style.cssText = `
@@ -952,30 +1250,30 @@
 
         // --- SIDEBAR JS ---
         (() => {
-            const sidebar  = document.getElementById('sidebar');
-            const toggle   = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
             const closeBtn = document.getElementById('closeSidebar');
 
-            function open(){ sidebar.classList.add('is-open'); document.body.classList.add('sidebar-open'); }
-            function close(){ sidebar.classList.remove('is-open'); document.body.classList.remove('sidebar-open'); }
+            function open() { sidebar.classList.add('is-open'); document.body.classList.add('sidebar-open'); }
+            function close() { sidebar.classList.remove('is-open'); document.body.classList.remove('sidebar-open'); }
 
             toggle?.addEventListener('click', open);
             closeBtn?.addEventListener('click', close);
 
             // Klik luar = tutup (mobile)
-            document.addEventListener('click', (e)=>{
-                if(!sidebar.classList.contains('is-open')) return;
+            document.addEventListener('click', (e) => {
+                if (!sidebar.classList.contains('is-open')) return;
                 const hit = sidebar.contains(e.target) || toggle.contains(e.target);
-                if(!hit) close();
+                if (!hit) close();
             });
             // ESC = tutup
-            document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
             // Tandai link aktif sesuai pathname
-            document.querySelectorAll('#sidebar a').forEach(a=>{
+            document.querySelectorAll('#sidebar a').forEach(a => {
                 const href = a.getAttribute('href');
                 // Use endsWith for robustness with different base paths
-                if(href && location.pathname.endsWith(href)) {
+                if (href && location.pathname.endsWith(href)) {
                     a.classList.add('active');
                 } else {
                     a.classList.remove('active'); // Ensure other links are not active
@@ -985,55 +1283,55 @@
 
         // --- UJIAN / FLASHCARD “KETIK JAWABAN” (KHUSUS index4.html) ---
         (() => {
-            const fcMode   = document.getElementById('fcMode');
+            const fcMode = document.getElementById('fcMode');
             const fcSource = document.getElementById('fcSource');
-            const fcStart  = document.getElementById('fcStart');
-            const fcArea   = document.getElementById('fcArea');
+            const fcStart = document.getElementById('fcStart');
+            const fcArea = document.getElementById('fcArea');
             const fcPrompt = document.getElementById('fcPrompt');
-            const fcInput  = document.getElementById('fcInput');
-            const fcCheck  = document.getElementById('fcCheck');
+            const fcInput = document.getElementById('fcInput');
+            const fcCheck = document.getElementById('fcCheck');
             const fcReveal = document.getElementById('fcReveal');
-            const fcNext   = document.getElementById('fcNext');
-            const fcProg   = document.getElementById('fcProgress');
-            const fcFeed   = document.getElementById('fcFeedback');
+            const fcNext = document.getElementById('fcNext');
+            const fcProg = document.getElementById('fcProgress');
+            const fcFeed = document.getElementById('fcFeedback');
 
             // --- Gemini API Configuration ---
             // Dibiarkan kosong, Canvas akan menyediakannya saat runtime.
-            const GEMINI_API_KEY = ""; 
+            const GEMINI_API_KEY = "";
             const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
 
             // Ambil list sesuai pilihan sumber
-            function getPool(){
+            function getPool() {
                 // Gunakan currentFilteredVocab yang sudah ter-update
                 let list = (window.currentFilteredVocab && currentFilteredVocab.length) ? currentFilteredVocab.slice() : (vocabulary || []);
-                
+
                 // Jika sumbernya "fav", filter ulang berdasarkan favorit
-                if(fcSource.value === 'fav' && state?.fav){ 
-                    list = vocabulary.filter(v => state.fav.has(v.id)); 
+                if (fcSource.value === 'fav' && state?.fav) {
+                    list = vocabulary.filter(v => state.fav.has(v.id));
                 }
-                
+
                 // Jika sumbernya "rand20", acak dari semua vocab (bukan hanya yg terfilter)
-                if(fcSource.value === 'rand20'){ 
-                    list = shuffle(vocabulary.slice()).slice(0,20); 
+                if (fcSource.value === 'rand20') {
+                    list = shuffle(vocabulary.slice()).slice(0, 20);
                 }
-                
+
                 // Jika sumbernya "filter", kita gunakan list yg sudah difilter di awal
                 // (tidak perlu melakukan apa-apa lagi)
-                
+
                 return list;
             }
 
-            function norm(s){ return (s||'').toString().trim().toLowerCase().replace(/\s+/g,' ').replace(/[－–—]/g,'-'); }
+            function norm(s) { return (s || '').toString().trim().toLowerCase().replace(/\s+/g, ' ').replace(/[－–—]/g, '-'); }
 
-            function buildQA(item){
+            function buildQA(item) {
                 const conf = {
                     'jp_idn': { q: item.kanji || item.kana, accept: [item.arti] },
-                    'jp_ro' : { q: item.kanji || item.kana, accept: [item.romaji] },
-                    'idn_jp': { q: item.arti,                accept: [item.kanji || item.kana] },
-                    'ro_jp' : { q: item.romaji,              accept: [item.kanji || item.kana] },
+                    'jp_ro': { q: item.kanji || item.kana, accept: [item.romaji] },
+                    'idn_jp': { q: item.arti, accept: [item.kanji || item.kana] },
+                    'ro_jp': { q: item.romaji, accept: [item.kanji || item.kana] },
                     'ai_gen_jp_idn': { q: item.kana, accept: [item.arti] } // For AI generated questions
                 }[fcMode.value];
-                
+
                 // Tambahkan kana sebagai jawaban alternatif jika ada kanji
                 if (fcMode.value === 'idn_jp' || fcMode.value === 'ro_jp') {
                     if (item.kanji && item.kana && item.kanji !== item.kana) {
@@ -1042,33 +1340,33 @@
                 }
                 // Tambahkan romaji sebagai jawaban alternatif jika targetnya adalah JP
                 if (fcMode.value === 'idn_jp' || fcMode.value === 'ro_jp') {
-                     conf.accept.push(item.romaji);
+                    conf.accept.push(item.romaji);
                 }
-                
+
                 return { q: conf.q, a: conf.accept };
             }
 
             let deck = []; let idx = 0; let correct = 0;
 
-            function updateProg(){ fcProg.textContent = `${Math.min(idx + 1, deck.length)} / ${deck.length}`; }
+            function updateProg() { fcProg.textContent = `${Math.min(idx + 1, deck.length)} / ${deck.length}`; }
 
-            async function showCard(){
+            async function showCard() {
                 const it = deck[idx];
-                if(!it){ finish(); return; }
+                if (!it) { finish(); return; }
 
                 if (fcSource.value === 'ai_gen') { // Check fcSource value
                     fcPrompt.innerHTML = '<div class="spinner"></div><span>Membuat soal AI...</span>';
                     fcInput.value = ''; fcInput.disabled = true;
                     fcCheck.disabled = true; fcReveal.disabled = true; fcNext.disabled = true;
                     fcFeed.textContent = '';
-                    
+
                     try {
                         // Gunakan level dan kategori yang aktif untuk prompt AI
                         let categoryPrompt = activeCategory === 'semua' ? 'acak' : activeCategory;
                         let levelPrompt = activeLevel === 'semua' ? 'N5 atau N4' : activeLevel;
-                        
+
                         const generatedQuestion = await generateQuestionWithAI(categoryPrompt, levelPrompt);
-                        
+
                         deck[idx] = { // Update current item with AI-generated data
                             id: generatedQuestion.id,
                             kana: generatedQuestion.kana,
@@ -1100,19 +1398,19 @@
                 updateProg();
             }
 
-            function check(){
-                const it = deck[idx]; if(!it) return;
+            function check() {
+                const it = deck[idx]; if (!it) return;
                 const qa = buildQA(it);
                 const answer = norm(fcInput.value);
                 const ok = qa.a.some(x => norm(x) === answer); // Cek jawaban
-                
-                if(ok){
+
+                if (ok) {
                     correct++;
                     fcFeed.textContent = 'Benar! ✅'; fcFeed.className = 'small center ok';
-                    try{ if(window.srsMark) { srsMark(it.id, true); /* Update SRS */ } }catch(e){}
-                }else{
+                    try { if (window.srsMark) { srsMark(it.id, true); /* Update SRS */ } } catch (e) { }
+                } else {
                     fcFeed.innerHTML = `Salah. Jawaban: <b>${qa.a[0]}</b> ❌`; fcFeed.className = 'small center bad';
-                    try{ if(window.srsMark) { srsMark(it.id, false); /* Update SRS */ } }catch(e){}
+                    try { if (window.srsMark) { srsMark(it.id, false); /* Update SRS */ } } catch (e) { }
                 }
                 fcNext.disabled = false;
                 fcCheck.disabled = true;
@@ -1120,8 +1418,8 @@
                 fcNext.focus(); // Fokus ke tombol berikutnya
             }
 
-            function reveal(){
-                const it = deck[idx]; if(!it) return;
+            function reveal() {
+                const it = deck[idx]; if (!it) return;
                 const qa = buildQA(it);
                 fcFeed.innerHTML = `Jawaban: <b>${qa.a[0]}</b>`;
                 fcFeed.className = 'small center';
@@ -1131,16 +1429,16 @@
                 fcNext.focus(); // Fokus ke tombol berikutnya
             }
 
-            function next(){ 
-                idx++; 
+            function next() {
+                idx++;
                 if (idx >= deck.length) {
                     finish();
                 } else {
-                    showCard(); 
+                    showCard();
                 }
             }
 
-            function finish(){
+            function finish() {
                 fcPrompt.textContent = 'Selesai! 🎉';
                 fcInput.value = '';
                 fcInput.disabled = true;
@@ -1159,45 +1457,45 @@
                 } else {
                     pool = getPool();
                 }
-                
-                if(!pool.length){ 
-                    fcArea.hidden = false; 
-                    fcPrompt.textContent = 'Kosong. Atur filter atau tambahkan favorit dulu ya 🙏'; 
-                    fcFeed.textContent = ''; 
+
+                if (!pool.length) {
+                    fcArea.hidden = false;
+                    fcPrompt.textContent = 'Kosong. Atur filter atau tambahkan favorit dulu ya 🙏';
+                    fcFeed.textContent = '';
                     fcInput.disabled = true;
-                    return; 
+                    return;
                 }
-                
+
                 deck = shuffle(pool).slice(0, Math.min(30, pool.length)); // Batasi maks 30 soal
-                idx = 0; correct = 0; 
-                fcArea.hidden = false; 
+                idx = 0; correct = 0;
+                fcArea.hidden = false;
                 fcInput.disabled = false;
                 showCard();
             });
-            
+
             fcCheck.addEventListener('click', check);
             fcReveal.addEventListener('click', reveal);
             fcNext.addEventListener('click', next);
-            
-            fcInput.addEventListener('keydown', (e)=>{ 
-                if(e.key==='Enter'){ 
-                    e.preventDefault(); 
+
+            fcInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
                     if (!fcCheck.disabled) check(); // Hanya cek jika tombol aktif
-                } 
+                }
                 // Ganti Tab dengan Enter untuk pindah ke soal berikutnya
-                if(e.key==='Enter' && fcCheck.disabled){ 
+                if (e.key === 'Enter' && fcCheck.disabled) {
                     e.preventDefault();
                     if (!fcNext.disabled) next(); // Pindah jika tombol Next aktif
-                } 
+                }
             });
 
-            function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+            function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1));[a[i], a[j]] = [a[j], a[i]]; } return a; }
 
             // --- Gemini API Call Function ---
             async function generateQuestionWithAI(category, level, retries = 0) {
                 // Prompt diperbarui untuk meminta level dan kategori
                 const prompt = `Generate a Japanese vocabulary word for level ${level}, related to the category "${category}", its romaji, kanji (if applicable, otherwise use kana), and Indonesian meaning. Provide the output in JSON format, like this: {"id": "unique_id", "kana": "kana_form", "kanji": "kanji_form", "romaji": "romaji_form", "arti": "indonesian_meaning", "kategori": "category_name"}. Ensure the word is not already in the N5 list.`;
-                
+
                 const payload = {
                     contents: [{ role: "user", parts: [{ text: prompt }] }],
                     generationConfig: {
@@ -1286,4 +1584,5 @@
         })();
     </script>
 </body>
+
 </html>

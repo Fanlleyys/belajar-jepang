@@ -1,113 +1,328 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="pastel">
+
 <head>
     <meta charset="utf-8">
+    <script src="theme-sync.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <title>Latihan Menulis Kana — Pelatih Jepang</title>
-    <meta name="description" content="Latih goresan Hiragana dan Katakana Anda dengan kanvas menulis interaktif. Gunakan panduan untuk meniru bentuk dan simpan hasil karya Anda." />
+    <meta name="description"
+        content="Latih goresan Hiragana dan Katakana Anda dengan kanvas menulis interaktif. Gunakan panduan untuk meniru bentuk dan simpan hasil karya Anda." />
     <meta name="theme-color" content="#7a6cff">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;700&family=Noto+Serif+JP:wght@700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <style>
         /* Menggunakan style yang sama dari file lain untuk konsistensi */
-        :root{
-            --bg:#f8fbff; --panel:#ffffff; --soft:#f2f6ff; --ink:#132030; --muted:#76849c;
-            --pri:#7a6cff; --sec:#16c6a1; --warn:#ff7b7b; --ok:#2fb875; --accent:#ffd166;
-            --btn:#e9eefc; --btnText:#0b101a; --border:rgba(19,32,48,.10);
-            --radius:18px; --shadow:0 6px 18px rgba(15,23,34,.08);
-            --ring: 0 0 0 3px rgba(122,108,255,.28);
+        :root {
+            --bg: #f8fbff;
+            --panel: #ffffff;
+            --soft: #f2f6ff;
+            --ink: #132030;
+            --muted: #76849c;
+            --pri: #7a6cff;
+            --sec: #16c6a1;
+            --warn: #ff7b7b;
+            --ok: #2fb875;
+            --accent: #ffd166;
+            --btn: #e9eefc;
+            --btnText: #0b101a;
+            --border: rgba(19, 32, 48, .10);
+            --radius: 18px;
+            --shadow: 0 6px 18px rgba(15, 23, 34, .08);
+            --ring: 0 0 0 3px rgba(122, 108, 255, .28);
             --iconColor: var(--muted);
             --transition-duration: 0.2s;
             /* Tambahan untuk warna latar tombol ok/warn */
-            --okBg: rgba(47,184,117,.18);
-            --warnBg: rgba(255,123,123,.15);
+            --okBg: rgba(47, 184, 117, .18);
+            --warnBg: rgba(255, 123, 123, .15);
         }
-        [data-theme="hc"]{
-            --bg:#0a0f1a; --panel:#0f1626; --soft:#0c1220; --ink:#e6efff; --muted:#9fb0cc;
-            --pri:#8fa8ff; --sec:#3dd8b5; --warn:#ff8c8c; --ok:#7be0b3; --accent:#ffd98a;
-            --btn:#18243a;
-            --btnText:#e6efff;
-            --border:rgba(230,239,255,.12);
-            --ring: 0 0 0 3px rgba(143,168,255,.35);
+
+        [data-theme="hc"] {
+            --bg: #0a0f1a;
+            --panel: #0f1626;
+            --soft: #0c1220;
+            --ink: #e6efff;
+            --muted: #9fb0cc;
+            --pri: #8fa8ff;
+            --sec: #3dd8b5;
+            --warn: #ff8c8c;
+            --ok: #7be0b3;
+            --accent: #ffd98a;
+            --btn: #18243a;
+            --btnText: #e6efff;
+            --border: rgba(230, 239, 255, .12);
+            --ring: 0 0 0 3px rgba(143, 168, 255, .35);
             --iconColor: var(--ink);
         }
-        *{box-sizing:border-box}
-        html, body { max-width: 100%; overflow-x: hidden; }
+
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
         body {
             min-height: 100svh;
-            margin:0;font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;background:
-            radial-gradient(900px 420px at -10% -20%, rgba(122,108,255,.10), transparent),
-            radial-gradient(900px 420px at 110% -30%, rgba(22,198,161,.12), transparent),
-            var(--bg);color:var(--ink);
+            margin: 0;
+            font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+            background:
+                radial-gradient(900px 420px at -10% -20%, rgba(122, 108, 255, .10), transparent),
+                radial-gradient(900px 420px at 110% -30%, rgba(22, 198, 161, .12), transparent),
+                var(--bg);
+            color: var(--ink);
             transition: background-color var(--transition-duration) ease-out, color var(--transition-duration) ease-out;
-            line-height: 1.6; /* Tambahan untuk keterbacaan */
+            line-height: 1.6;
+            /* Tambahan untuk keterbacaan */
         }
-        .wrap{
+
+        .wrap {
             max-width: 960px;
             margin: auto;
             padding: 16px;
             padding-left: calc(16px + env(safe-area-inset-left));
             padding-right: calc(16px + env(safe-area-inset-right));
         }
-        header{position:sticky;top:0;z-index:30;background:linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.72));backdrop-filter: blur(8px);border-bottom:1px solid var(--border); padding-top:env(safe-area-inset-top);
-        transition: background var(--transition-duration) ease-out, backdrop-filter var(--transition-duration) ease-out, border-bottom-color var(--transition-duration) ease-out;}
-        [data-theme="hc"] header{background:linear-gradient(180deg, rgba(15,22,38,.86), rgba(15,22,38,.66))}
-        
-        .brand{ display:flex; align-items:center; gap:12px; justify-content: space-between; flex-wrap: wrap; }
-        .logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg,var(--pri),var(--sec));box-shadow:var(--shadow);
-        transition: box-shadow var(--transition-duration) ease-out, background var(--transition-duration) ease-out;}
-        h1{font-size:20px;margin:0}
-        .small{font-size:12px;color:var(--muted)}
-        .card{background:var(--panel);border-radius:var(--radius);box-shadow:var(--shadow);padding:16px;border:1px solid var(--border);
-        transition: background-color var(--transition-duration) ease-out, border-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;}
-        .card h2{font-size:16px;margin:0 0 10px 0; display: flex; align-items: center; gap: 8px;}
-        .card h3{font-size:14px; margin: 16px 0 8px 0; color: var(--muted);}
-        .card h2 .icon { color: var(--iconColor); transition: color var(--transition-duration) ease-out;}
-        .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-        .btn{ min-height:52px; padding: 0 16px; border-radius: 12px; border: none; cursor: pointer; font-size: 14px; font-weight: 500; transition: all var(--transition-duration) ease-out; color: var(--ink); background: var(--btn); display: flex; align-items: center; justify-content: center; gap: 8px; text-decoration: none; }
-        .btn:active{transform:translateY(1px)}
-        .btn.primary{ background:linear-gradient(135deg, var(--pri), var(--sec)); color:white; }
-        .btn.ghost{background:transparent;outline:1px solid var(--border); color: var(--ink);}
-        .btn.ok   { background: var(--okBg);  color: var(--ink); } /* Diperbarui: Menggunakan variabel --okBg */
-        .btn.warn { background: var(--warnBg); color: var(--ink); } /* Diperbarui: Menggunakan variabel --warnBg */
-        .btn:focus-visible{outline:none; box-shadow:var(--ring); outline-offset: 3px;}
-        .spacer{height:16px}
-        /* Hilangkan nav lama (kalau ada) */
-        .main-nav{ display:none !important; }
 
-        select{ width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--soft);color:var(--ink); transition: border-color var(--transition-duration) ease-out, background-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out; -webkit-appearance: none; -moz-appearance: none; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2376849c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; background-size: 16px; padding-right: 36px; }
-        select:focus { border-color: var(--pri); outline: none; box-shadow: var(--ring); }
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: linear-gradient(180deg, rgba(255, 255, 255, .92), rgba(255, 255, 255, .72));
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--border);
+            padding-top: env(safe-area-inset-top);
+            transition: background var(--transition-duration) ease-out, backdrop-filter var(--transition-duration) ease-out, border-bottom-color var(--transition-duration) ease-out;
+        }
+
+        [data-theme="hc"] header {
+            background: linear-gradient(180deg, rgba(15, 22, 38, .86), rgba(15, 22, 38, .66))
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--pri), var(--sec));
+            box-shadow: var(--shadow);
+            transition: box-shadow var(--transition-duration) ease-out, background var(--transition-duration) ease-out;
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0
+        }
+
+        .small {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .card {
+            background: var(--panel);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            border: 1px solid var(--border);
+            transition: background-color var(--transition-duration) ease-out, border-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;
+        }
+
+        .card h2 {
+            font-size: 16px;
+            margin: 0 0 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card h3 {
+            font-size: 14px;
+            margin: 16px 0 8px 0;
+            color: var(--muted);
+        }
+
+        .card h2 .icon {
+            color: var(--iconColor);
+            transition: color var(--transition-duration) ease-out;
+        }
+
+        .row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .btn {
+            min-height: 52px;
+            padding: 0 16px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all var(--transition-duration) ease-out;
+            color: var(--ink);
+            background: var(--btn);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:active {
+            transform: translateY(1px)
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, var(--pri), var(--sec));
+            color: white;
+        }
+
+        .btn.ghost {
+            background: transparent;
+            outline: 1px solid var(--border);
+            color: var(--ink);
+        }
+
+        .btn.ok {
+            background: var(--okBg);
+            color: var(--ink);
+        }
+
+        /* Diperbarui: Menggunakan variabel --okBg */
+        .btn.warn {
+            background: var(--warnBg);
+            color: var(--ink);
+        }
+
+        /* Diperbarui: Menggunakan variabel --warnBg */
+        .btn:focus-visible {
+            outline: none;
+            box-shadow: var(--ring);
+            outline-offset: 3px;
+        }
+
+        .spacer {
+            height: 16px
+        }
+
+        /* Hilangkan nav lama (kalau ada) */
+        .main-nav {
+            display: none !important;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            background: var(--soft);
+            color: var(--ink);
+            transition: border-color var(--transition-duration) ease-out, background-color var(--transition-duration) ease-out, box-shadow var(--transition-duration) ease-out;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2376849c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 16px;
+            padding-right: 36px;
+        }
+
+        select:focus {
+            border-color: var(--pri);
+            outline: none;
+            box-shadow: var(--ring);
+        }
 
         /* Style khusus untuk Latihan Menulis */
-        .writer-toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center }
-        .writer-toolbar .slider { display:flex; align-items:center; gap:6px; font-size:13px; color:var(--muted) }
-        .writer-wrap { position: relative; width: 100%; border:1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); background: var(--soft); overflow: hidden; }
-        #writerCanvas { position: relative; z-index: 1; background: transparent; width: 100%; height: auto; display:block; touch-action: none; }
+        .writer-toolbar {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center
+        }
+
+        .writer-toolbar .slider {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .writer-wrap {
+            position: relative;
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            background: var(--soft);
+            overflow: hidden;
+        }
+
+        #writerCanvas {
+            position: relative;
+            z-index: 1;
+            background: transparent;
+            width: 100%;
+            height: auto;
+            display: block;
+            touch-action: none;
+        }
+
         .writer-wrap.grid {
             background-image:
-                repeating-linear-gradient(0deg, rgba(0,0,0,.06) 0, rgba(0,0,0,.06) 1px, transparent 1px, transparent 24px),
-                repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0, rgba(0,0,0,.06) 1px, transparent 1px, transparent 24px);
+                repeating-linear-gradient(0deg, rgba(0, 0, 0, .06) 0, rgba(0, 0, 0, .06) 1px, transparent 1px, transparent 24px),
+                repeating-linear-gradient(90deg, rgba(0, 0, 0, .06) 0, rgba(0, 0, 0, .06) 1px, transparent 1px, transparent 24px);
         }
+
         [data-theme="hc"] .writer-wrap.grid {
             background-image:
-                repeating-linear-gradient(0deg, rgba(230,239,255,.15) 0, rgba(230,239,255,.15) 1px, transparent 1px, transparent 24px),
-                repeating-linear-gradient(90deg, rgba(230,239,255,.15) 0, rgba(230,239,255,.15) 1px, transparent 1px, transparent 24px);
+                repeating-linear-gradient(0deg, rgba(230, 239, 255, .15) 0, rgba(230, 239, 255, .15) 1px, transparent 1px, transparent 24px),
+                repeating-linear-gradient(90deg, rgba(230, 239, 255, .15) 0, rgba(230, 239, 255, .15) 1px, transparent 1px, transparent 24px);
         }
+
         .writer-ghost {
-            position:absolute; inset:0; pointer-events:none; display:flex; align-items:center; justify-content:center;
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             font-size: clamp(200px, 55vw, 380px);
-            line-height:1; user-select:none;
+            line-height: 1;
+            user-select: none;
             color: var(--muted);
             opacity: .12;
             filter: saturate(70%);
-            z-index: 2; /* Diperbarui: Menaikkan z-index agar ghost di atas kanvas */
+            z-index: 2;
+            /* Diperbarui: Menaikkan z-index agar ghost di atas kanvas */
             pointer-events: none;
             transition: opacity var(--transition-duration) ease-out;
         }
-        .writer-ghost.hidden { display:none; }
+
+        .writer-ghost.hidden {
+            display: none;
+        }
 
         /* Feedback Area */
         #feedbackArea {
@@ -125,18 +340,21 @@
             font-size: 14px;
             transition: background-color var(--transition-duration) ease-out, border-color var(--transition-duration) ease-out;
         }
+
         #feedbackArea.correct {
             background-color: var(--okBg);
             border-color: var(--ok);
             color: var(--ok);
             font-weight: 600;
         }
+
         #feedbackArea.wrong {
             background-color: var(--warnBg);
             border-color: var(--warn);
             color: var(--warn);
             font-weight: 600;
         }
+
         #feedbackArea .spinner {
             border: 4px solid rgba(0, 0, 0, 0.1);
             border-left-color: var(--pri);
@@ -145,47 +363,126 @@
             height: 24px;
             animation: spin 1s linear infinite;
         }
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
 
         /* === Sidebar === */
-        .sidebar{
-            position:fixed; top:0; left:-300px; width:280px; height:100%;
-            background:var(--panel); box-shadow:var(--shadow); z-index:1000;
-            transition:left .3s ease-in-out; padding:20px; padding-top:calc(20px + env(safe-area-inset-top));
-            display:flex; flex-direction:column; gap:10px; overflow-y:auto; border-right:1px solid var(--border);
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: -300px;
+            width: 280px;
+            height: 100%;
+            background: var(--panel);
+            box-shadow: var(--shadow);
+            z-index: 1000;
+            transition: left .3s ease-in-out;
+            padding: 20px;
+            padding-top: calc(20px + env(safe-area-inset-top));
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            border-right: 1px solid var(--border);
         }
-        .sidebar.is-open{ left:0; }
-        .sidebar .menu{ list-style:none; margin:0; padding:0; }
-        .sidebar .menu li a{
-            display:flex; gap:.5rem; align-items:center; padding:.75rem 1rem;
-            border-radius:12px; color:var(--ink); text-decoration:none;
+
+        .sidebar.is-open {
+            left: 0;
         }
-        .sidebar .menu li a:hover{ background:var(--soft); }
-        .sidebar .menu li a.active{ background:rgba(122,108,255,.12); font-weight:600; }
+
+        .sidebar .menu {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sidebar .menu li a {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            padding: .75rem 1rem;
+            border-radius: 12px;
+            color: var(--ink);
+            text-decoration: none;
+        }
+
+        .sidebar .menu li a:hover {
+            background: var(--soft);
+        }
+
+        .sidebar .menu li a.active {
+            background: rgba(122, 108, 255, .12);
+            font-weight: 600;
+        }
 
         /* Toggle button */
-        .sidebar-toggle-btn{
-            position:fixed; top:16px; left:16px; z-index:1001; background:var(--btn);
-            border:1px solid var(--border); border-radius:50%; width:44px; height:44px;
-            display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow:var(--shadow);
-            transition: all 0.3s ease-in-out; /* Added transition for smooth movement */
+        .sidebar-toggle-btn {
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 1001;
+            background: var(--btn);
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease-in-out;
+            /* Added transition for smooth movement */
         }
-        .sidebar-toggle-btn i{ color:var(--ink); font-size:20px; }
 
-        @media (min-width:768px){ 
-            body.sidebar-open{ padding-left:280px; } 
-            .sidebar-toggle-btn { left: 16px; } /* Stays on the left */
-            .sidebar.is-open + .sidebar-toggle-btn { left: 296px; } /* Moves with the sidebar */
+        .sidebar-toggle-btn i {
+            color: var(--ink);
+            font-size: 20px;
         }
-        @media (max-width:640px){ .sidebar{ width:84vw; max-width:320px; } }
+
+        @media (min-width:768px) {
+            body.sidebar-open {
+                padding-left: 280px;
+            }
+
+            .sidebar-toggle-btn {
+                left: 16px;
+            }
+
+            /* Stays on the left */
+            .sidebar.is-open+.sidebar-toggle-btn {
+                left: 296px;
+            }
+
+            /* Moves with the sidebar */
+        }
+
+        @media (max-width:640px) {
+            .sidebar {
+                width: 84vw;
+                max-width: 320px;
+            }
+        }
 
         /* Amanin layout */
-        header .brand{ position:relative; z-index:1002; padding-left:60px; }
-        @media (max-width:767px){
-            header .brand{ padding-left:0; }
-            .sidebar-toggle-btn{ top:calc(16px + env(safe-area-inset-top)); }
+        header .brand {
+            position: relative;
+            z-index: 1002;
+            padding-left: 60px;
+        }
+
+        @media (max-width:767px) {
+            header .brand {
+                padding-left: 0;
+            }
+
+            .sidebar-toggle-btn {
+                top: calc(16px + env(safe-area-inset-top));
+            }
         }
 
         /* Media Queries untuk Responsivitas */
@@ -193,43 +490,67 @@
         /* Untuk layar kecil (ponsel), e.g., lebar < 768px */
         @media (max-width: 767px) {
             .wrap {
-                padding: 12px; /* Mengurangi padding wrap di mobile */
+                padding: 12px;
+                /* Mengurangi padding wrap di mobile */
                 padding-left: calc(12px + env(safe-area-inset-left));
                 padding-right: calc(12px + env(safe-area-inset-right));
             }
+
             .card {
-                padding: 12px; /* Mengurangi padding kartu di mobile */
+                padding: 12px;
+                /* Mengurangi padding kartu di mobile */
             }
+
             .card h2 {
-                font-size: 18px; /* Mengurangi ukuran judul kartu */
+                font-size: 18px;
+                /* Mengurangi ukuran judul kartu */
             }
+
             h1 {
-                font-size: 18px; /* Mengurangi ukuran judul utama */
+                font-size: 18px;
+                /* Mengurangi ukuran judul utama */
             }
+
             .small {
-                font-size: 11px; /* Mengurangi ukuran teks kecil */
+                font-size: 11px;
+                /* Mengurangi ukuran teks kecil */
             }
+
             .btn {
-                min-height: 48px; /* Mengurangi tinggi tombol */
+                min-height: 48px;
+                /* Mengurangi tinggi tombol */
                 padding: 0 12px;
-                font-size: 13px; /* Mengurangi ukuran font tombol */
+                font-size: 13px;
+                /* Mengurangi ukuran font tombol */
             }
+
             .main-nav .row {
-                gap: 6px; /* Mengurangi jarak antar tombol navigasi */
+                gap: 6px;
+                /* Mengurangi jarak antar tombol navigasi */
             }
+
             .seg button {
-                padding: 10px 12px; /* Mengurangi padding tombol segmen */
+                padding: 10px 12px;
+                /* Mengurangi padding tombol segmen */
                 font-size: 13px;
             }
-            .kana-table th, .kana-table td {
-                padding: 6px 4px; /* Mengurangi padding sel tabel di mobile */
-                min-width: 45px; /* Minimal lebar sel tabel di mobile */
+
+            .kana-table th,
+            .kana-table td {
+                padding: 6px 4px;
+                /* Mengurangi padding sel tabel di mobile */
+                min-width: 45px;
+                /* Minimal lebar sel tabel di mobile */
             }
+
             .kana-char {
-                font-size: 20px; /* Mengurangi ukuran font karakter Kana */
+                font-size: 20px;
+                /* Mengurangi ukuran font karakter Kana */
             }
+
             .romaji-char {
-                font-size: 10px; /* Mengurangi ukuran font karakter Romaji */
+                font-size: 10px;
+                /* Mengurangi ukuran font karakter Romaji */
             }
         }
 
@@ -238,13 +559,17 @@
             .wrap {
                 padding: 24px;
             }
-            .kana-table th, .kana-table td {
+
+            .kana-table th,
+            .kana-table td {
                 padding: 8px 6px;
                 min-width: 60px;
             }
+
             .kana-char {
                 font-size: 26px;
             }
+
             .romaji-char {
                 font-size: 12px;
             }
@@ -253,21 +578,27 @@
         /* Untuk layar besar (laptop, desktop), e.g., >= 1024px */
         @media (min-width: 1024px) {
             .main-nav .row {
-                justify-content: flex-end; /* Navigasi rata kanan di layar besar */
+                justify-content: flex-end;
+                /* Navigasi rata kanan di layar besar */
             }
-            .kana-table th, .kana-table td {
+
+            .kana-table th,
+            .kana-table td {
                 padding: 10px;
                 min-width: 70px;
             }
+
             .kana-char {
                 font-size: 28px;
             }
+
             .romaji-char {
                 font-size: 12px;
             }
         }
     </style>
 </head>
+
 <body>
     <!-- Toggle Button (burger) -->
     <button id="sidebarToggle" class="sidebar-toggle-btn" aria-label="Toggle Sidebar">
@@ -301,21 +632,22 @@
                 <svg class="logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="36" height="36">
                     <defs>
                         <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-                            <stop stop-color="#7a6cff"/><stop offset="1" stop-color="#16c6a1"/>
+                            <stop stop-color="#7a6cff" />
+                            <stop offset="1" stop-color="#16c6a1" />
                         </linearGradient>
                     </defs>
-                    <rect width="64" height="64" rx="14" fill="url(#g)"/>
+                    <rect width="64" height="64" rx="14" fill="url(#g)" />
                     <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
-                          font-family="Noto Sans JP, 'Noto Serif JP', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
-                          font-size="38" fill="white" dy="-2">あ</text>
+                        font-family="Noto Sans JP, 'Noto Serif JP', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif"
+                        font-size="38" fill="white" dy="-2">あ</text>
                 </svg>
                 <div>
                     <h1>Pelatih Kana Jepang</h1>
                     <div class="small">Latihan Menulis</div>
                 </div>
             </div>
-             <!-- NAVIGASI UTAMA (LAMA - TERSEMBUNYI) -->
-             <nav class="main-nav">
+            <!-- NAVIGASI UTAMA (LAMA - TERSEMBUNYI) -->
+            <nav class="main-nav">
                 <div class="row">
                     <a href="index.html" class="btn ghost"><i class="fa-solid fa-home"></i> Latihan</a>
                     <a href="index2.html" class="btn ghost"><i class="fa-solid fa-clone"></i> Flashcard</a>
@@ -340,10 +672,14 @@
                     <option value="kata">Katakana</option>
                 </select>
                 <select id="writeKana" aria-label="Pilih kana"></select>
-                <button class="btn" id="writePrev" type="button" title="Sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
-                <button class="btn" id="writeNext" type="button" title="Berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
-                <button class="btn" id="writeRand" type="button" title="Acak"><i class="fa-solid fa-shuffle"></i></button>
-                <button class="btn" id="writeSpeak" type="button" title="Dengar pelafalan kana"><i class="fa-solid fa-volume-up"></i></button>
+                <button class="btn" id="writePrev" type="button" title="Sebelumnya"><i
+                        class="fa-solid fa-chevron-left"></i></button>
+                <button class="btn" id="writeNext" type="button" title="Berikutnya"><i
+                        class="fa-solid fa-chevron-right"></i></button>
+                <button class="btn" id="writeRand" type="button" title="Acak"><i
+                        class="fa-solid fa-shuffle"></i></button>
+                <button class="btn" id="writeSpeak" type="button" title="Dengar pelafalan kana"><i
+                        class="fa-solid fa-volume-up"></i></button>
             </div>
 
             <div class="spacer"></div>
@@ -354,7 +690,7 @@
                 <div class="slider">
                     <label for="penSize">Ukuran</label>
                     <input id="penSize" type="range" min="2" max="28" value="10" style="width:140px">
-                </div >
+                </div>
                 <label class="btn ghost" style="gap:8px">
                     <input id="gridToggle" type="checkbox"> Grid
                 </label>
@@ -362,10 +698,14 @@
                     <input id="ghostToggle" type="checkbox"> Panduan
                 </label>
                 <div style="flex:1"></div>
-                <button class="btn" id="undoStroke" type="button" title="Undo (Ctrl+Z)"><i class="fa-solid fa-undo"></i></button>
-                <button class="btn warn" id="clearCanvas" type="button"><i class="fa-solid fa-trash-alt"></i> Hapus Semua</button>
-                <button class="btn primary" id="checkDrawingBtn" type="button"><i class="fa-solid fa-robot"></i> Cek Gambar</button> <!-- New button -->
-                <button class="btn primary" id="savePNG" type="button"><i class="fa-solid fa-download"></i> Simpan PNG</button>
+                <button class="btn" id="undoStroke" type="button" title="Undo (Ctrl+Z)"><i
+                        class="fa-solid fa-undo"></i></button>
+                <button class="btn warn" id="clearCanvas" type="button"><i class="fa-solid fa-trash-alt"></i> Hapus
+                    Semua</button>
+                <button class="btn primary" id="checkDrawingBtn" type="button"><i class="fa-solid fa-robot"></i> Cek
+                    Gambar</button> <!-- New button -->
+                <button class="btn primary" id="savePNG" type="button"><i class="fa-solid fa-download"></i> Simpan
+                    PNG</button>
             </div>
 
             <div class="spacer"></div>
@@ -374,8 +714,9 @@
                 <canvas id="writerCanvas" width="900" height="900" aria-label="Kanvas menulis"></canvas>
                 <div id="writerGhost" class="writer-ghost" aria-hidden="true">あ</div>
             </div>
-            <div class="small center" style="margin-top: 8px;">Tips: Tarik cepat untuk garis tipis, pelan untuk lebih tebal.</div>
-            
+            <div class="small center" style="margin-top: 8px;">Tips: Tarik cepat untuk garis tipis, pelan untuk lebih
+                tebal.</div>
+
             <div id="feedbackArea" aria-live="polite">
                 <!-- Umpan balik dari AI akan muncul di sini -->
             </div>
@@ -385,37 +726,37 @@
 
         <!-- Penambahan: CTA card "Tebak Arti" -->
         <div class="card" id="cta-tebak-arti">
-          <h2><i class="fa-solid fa-brain icon"></i> Tebak Arti (JP→ID)</h2>
-          <div class="small">Kuis arti Jepang → Indonesia (A–D). Pilih kategori & jumlah soal.</div>
-          <div class="spacer"></div>
-          <div class="row" style="gap:8px;flex-wrap:wrap">
-            <a class="btn primary" href="index7.html"><i class="fa-solid fa-play"></i> Mulai Tebak Arti</a>
-            <a class="btn ghost" href="index7.html#kategori"><i class="fa-solid fa-list"></i> Pilih Kategori</a>
-          </div>
+            <h2><i class="fa-solid fa-brain icon"></i> Tebak Arti (JP→ID)</h2>
+            <div class="small">Kuis arti Jepang → Indonesia (A–D). Pilih kategori & jumlah soal.</div>
+            <div class="spacer"></div>
+            <div class="row" style="gap:8px;flex-wrap:wrap">
+                <a class="btn primary" href="index7.html"><i class="fa-solid fa-play"></i> Mulai Tebak Arti</a>
+                <a class="btn ghost" href="index7.html#kategori"><i class="fa-solid fa-list"></i> Pilih Kategori</a>
+            </div>
         </div>
     </main>
 
     <script>
         // DATA KANA
-        const BASE = ['a','i','u','e','o','ka','ki','ku','ke','ko','sa','shi','su','se','so','ta','chi','tsu','te','to','na','ni','nu','ne','no','ha','hi','fu','he','ho','ma','mi','mu','me','mo','ya','yu','yo','ra','ri','ru','re','ro','wa','wo','n'];
-        const DAKUON = ['ga','gi','gu','ge','go','za','ji','zu','ze','zo','da','dji','dzu','de','do','ba','bi','bu','be','bo','pa','pi','pu','pe','po'];
-        const YOUON = ['kya','kyu','kyo','sha','shu','sho','cha','chu','cho','nya','nyu','nyo','hya','hyu','hyo','mya','myu','myo','rya','ryu','ryo','gya','gyu','gyo','ja','ju','jo','bya','byu','byo','pya','pyu','pyo'];
-        const HIRA_BASE = ['あ','い','う','え','お','か','き','く','け','こ','さ','し','す','せ','そ','た','ち','つ','て','と','な','に','ぬ','ね','の','は','ひ','ふ','へ','ほ','ま','み','む','め','も','や','ゆ','よ','ら','り','る','れ','ろ','わ','を','ん'];
-        const KATA_BASE = ['ア','イ','ウ','エ','オ','カ','キ','ク','ケ','コ','サ','シ','ス','セ','ソ','タ','チ','ツ','テ','ト','ナ','ニ','ヌ','ネ','ノ','ハ','ヒ','フ','ヘ','ホ','マ','ミ','ム','メ','モ','ヤ','ユ','ヨ','ラ','リ','ル','レ','ロ','ワ','ヲ','ン'];
-        const HIRA_DAKU = ['が','ぎ','ぐ','げ','ご','ざ','じ','ず','ぜ','ぞ','だ','ぢ','づ','で','ど','ば','び','ぶ','べ','ぼ','ぱ','ぴ','ぷ','ぺ','ぽ'];
-        const KATA_DAKU = ['ガ','ギ','グ','ゲ','ゴ','ザ','ジ','ズ','ゼ','ゾ','ダ','ヂ','ヅ','デ','ド','バ','ビ','ブ','ベ','ボ','パ','ピ','プ','ペ','ポ'];
-        const HIRA_YOU = ['きゃ','きゅ','きょ','しゃ','しゅ','しょ','ちゃ','ちゅ','ちょ','にゃ','にゅ','にょ','ひゃ','ひゅ','ひょ','みゃ','みゅ','みょ','りゃ','りゅ','りょ','ぎゃ','ぎゅ','ぎょ','じゃ','じゅ','じょ','びゃ','びゅ','びょ','ぴゃ','ぴゅ','ぴょ'];
-        const KATA_YOU = ['キャ','キュ','キョ','シャ','シュ','ショ','チャ','チュ','チョ','ニャ','ニュ','ニョ','ヒャ','ヒュ','ヒョ','ミャ','ミュ','ミョ','リャ','リュ','リョ','ギャ','ギュ','ギョ','ジャ','ジュ','ジョ','ビャ','ビュ','ビョ','ピャ','ピュ','ピョ'];
-        
+        const BASE = ['a', 'i', 'u', 'e', 'o', 'ka', 'ki', 'ku', 'ke', 'ko', 'sa', 'shi', 'su', 'se', 'so', 'ta', 'chi', 'tsu', 'te', 'to', 'na', 'ni', 'nu', 'ne', 'no', 'ha', 'hi', 'fu', 'he', 'ho', 'ma', 'mi', 'mu', 'me', 'mo', 'ya', 'yu', 'yo', 'ra', 'ri', 'ru', 're', 'ro', 'wa', 'wo', 'n'];
+        const DAKUON = ['ga', 'gi', 'gu', 'ge', 'go', 'za', 'ji', 'zu', 'ze', 'zo', 'da', 'dji', 'dzu', 'de', 'do', 'ba', 'bi', 'bu', 'be', 'bo', 'pa', 'pi', 'pu', 'pe', 'po'];
+        const YOUON = ['kya', 'kyu', 'kyo', 'sha', 'shu', 'sho', 'cha', 'chu', 'cho', 'nya', 'nyu', 'nyo', 'hya', 'hyu', 'hyo', 'mya', 'myu', 'myo', 'rya', 'ryu', 'ryo', 'gya', 'gyu', 'gyo', 'ja', 'ju', 'jo', 'bya', 'byu', 'byo', 'pya', 'pyu', 'pyo'];
+        const HIRA_BASE = ['あ', 'い', 'う', 'え', 'お', 'か', 'き', 'く', 'け', 'こ', 'さ', 'し', 'す', 'せ', 'そ', 'た', 'ち', 'つ', 'て', 'と', 'な', 'に', 'ぬ', 'ね', 'の', 'は', 'ひ', 'ふ', 'へ', 'ほ', 'ま', 'み', 'む', 'め', 'も', 'や', 'ゆ', 'よ', 'ら', 'り', 'る', 'れ', 'ろ', 'わ', 'を', 'ん'];
+        const KATA_BASE = ['ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'キ', 'ク', 'ケ', 'コ', 'サ', 'シ', 'ス', 'セ', 'ソ', 'タ', 'チ', 'ツ', 'テ', 'ト', 'ナ', 'ニ', 'ヌ', 'ネ', 'ノ', 'ハ', 'ヒ', 'フ', 'ヘ', 'ホ', 'マ', 'ミ', 'ム', 'メ', 'モ', 'ヤ', 'ユ', 'ヨ', 'ラ', 'リ', 'ル', 'レ', 'ロ', 'ワ', 'ヲ', 'ン'];
+        const HIRA_DAKU = ['が', 'ぎ', 'ぐ', 'げ', 'ご', 'ざ', 'じ', 'ず', 'ぜ', 'ぞ', 'だ', 'ぢ', 'づ', 'で', 'ど', 'ば', 'び', 'ぶ', 'べ', 'ぼ', 'ぱ', 'ぴ', 'ぷ', 'ぺ', 'ぽ'];
+        const KATA_DAKU = ['ガ', 'ギ', 'グ', 'ゲ', 'ゴ', 'ザ', 'ジ', 'ズ', 'ゼ', 'ゾ', 'ダ', 'ヂ', 'ヅ', 'デ', 'ド', 'バ', 'ビ', 'ブ', 'ベ', 'ボ', 'パ', 'ピ', 'プ', 'ペ', 'ポ'];
+        const HIRA_YOU = ['きゃ', 'きゅ', 'きょ', 'しゃ', 'しゅ', 'しょ', 'ちゃ', 'ちゅ', 'ちょ', 'にゃ', 'にゅ', 'にょ', 'ひゃ', 'ひゅ', 'ひょ', 'みゃ', 'みゅ', 'みょ', 'りゃ', 'りゅ', 'りょ', 'ぎゃ', 'ぎゅ', 'ぎょ', 'じゃ', 'じゅ', 'じょ', 'びゃ', 'びゅ', 'びょ', 'ぴゃ', 'ぴゅ', 'ぴょ'];
+        const KATA_YOU = ['キャ', 'キュ', 'キョ', 'シャ', 'シュ', 'ショ', 'チャ', 'チュ', 'チョ', 'ニャ', 'ニュ', 'ニョ', 'ヒャ', 'ヒュ', 'ヒョ', 'ミャ', 'ミュ', 'ミョ', 'リャ', 'リュ', 'リョ', 'ギャ', 'ギュ', 'ギョ', 'ジャ', 'ジュ', 'ジョ', 'ビャ', 'ビュ', 'ビョ', 'ピャ', 'ピュ', 'ピョ'];
+
         const HIRA_MAP = new Map();
         const KATA_MAP = new Map();
-        BASE.forEach((r,i)=>{HIRA_MAP.set(r,HIRA_BASE[i]);KATA_MAP.set(r,KATA_BASE[i])});
-        DAKUON.forEach((r,i)=>{HIRA_MAP.set(r,HIRA_DAKU[i]);KATA_MAP.set(r,KATA_DAKU[i])});
-        YOUON.forEach((r,i)=>{HIRA_MAP.set(r,HIRA_YOU[i]);KATA_MAP.set(r,KATA_YOU[i])});
-        const ALL_ROMAJI = [...new Set([...BASE,...DAKUON,...YOUON])];
+        BASE.forEach((r, i) => { HIRA_MAP.set(r, HIRA_BASE[i]); KATA_MAP.set(r, KATA_BASE[i]) });
+        DAKUON.forEach((r, i) => { HIRA_MAP.set(r, HIRA_DAKU[i]); KATA_MAP.set(r, KATA_DAKU[i]) });
+        YOUON.forEach((r, i) => { HIRA_MAP.set(r, HIRA_YOU[i]); KATA_MAP.set(r, KATA_YOU[i]) });
+        const ALL_ROMAJI = [...new Set([...BASE, ...DAKUON, ...YOUON])];
 
         // UI HELPERS
-        const qs = (s,el=document)=>el.querySelector(s);
+        const qs = (s, el = document) => el.querySelector(s);
         function bind(selector, eventType, handler, options) {
             const element = qs(selector);
             if (element) {
@@ -447,51 +788,51 @@
                     if (loaded.theme) state.theme = loaded.theme;
                     if (loaded.writer) state.writer = { ...state.writer, ...loaded.writer };
                 }
-            } catch(e) {
+            } catch (e) {
                 console.error("Gagal memuat state:", e);
             }
         }
         function saveState() {
-             try {
+            try {
                 const raw = localStorage.getItem(KEY);
                 const fullState = raw ? JSON.parse(raw) : {};
                 fullState.theme = state.theme;
                 fullState.writer = state.writer;
                 localStorage.setItem(KEY, JSON.stringify(fullState));
-            } catch(e) {
+            } catch (e) {
                 console.error("Gagal menyimpan state:", e);
             }
         }
-        
+
         // THEME
-        function applyTheme(){
-            document.documentElement.setAttribute('data-theme', state.theme==='hc'?'hc':'pastel');
+        function applyTheme() {
+            document.documentElement.setAttribute('data-theme', state.theme === 'hc' ? 'hc' : 'pastel');
             if (typeof writerSetGhostChar === 'function') writerSetGhostChar();
             if (typeof writerRedrawAll === 'function') writerRedrawAll();
         }
 
         // AUDIO
-        function speak(text){
-            try{
-                if(!('speechSynthesis' in window)) return;
+        function speak(text) {
+            try {
+                if (!('speechSynthesis' in window)) return;
                 speechSynthesis.cancel();
-                const u=new SpeechSynthesisUtterance(text);
-                u.lang='ja-JP';
-                u.rate=.9;
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'ja-JP';
+                u.rate = .9;
                 speechSynthesis.speak(u);
-            }catch(error){ console.error('Gagal memutar audio:', error); }
+            } catch (error) { console.error('Gagal memutar audio:', error); }
         }
 
         // WRITER LOGIC
-        let wCanvas, wCtx, wWrap, wGhost, isDrawing=false, lastX=0, lastY=0, dpr=1;
+        let wCanvas, wCtx, wWrap, wGhost, isDrawing = false, lastX = 0, lastY = 0, dpr = 1;
         const wStrokes = [];
         let _writerBound = false;
 
         function writerInitDOMRefs() {
             wCanvas = qs('#writerCanvas');
-            wWrap   = qs('#writerWrap');
-            wGhost  = qs('#writerGhost');
-            wCtx    = wCanvas?.getContext('2d'); 
+            wWrap = qs('#writerWrap');
+            wGhost = qs('#writerGhost');
+            wCtx = wCanvas?.getContext('2d');
         }
         function writerSetupCanvasSize() {
             if (!wCanvas || !wWrap || !wCtx) return;
@@ -504,15 +845,15 @@
             const size = Math.floor(rect.width);
             wCanvas.style.width = size + 'px';
             wCanvas.style.height = size + 'px';
-            wCanvas.width  = Math.floor(size * dpr);
+            wCanvas.width = Math.floor(size * dpr);
             wCanvas.height = Math.floor(size * dpr);
-            wCtx.setTransform(1,0,0,1,0,0);
+            wCtx.setTransform(1, 0, 0, 1, 0, 0);
             wCtx.scale(dpr, dpr);
             writerRedrawAll();
         }
         function writerCurrentChar() {
             const r = state.writer.kana;
-            return state.writer.set==='hira' ? HIRA_MAP.get(r) : KATA_MAP.get(r);
+            return state.writer.set === 'hira' ? HIRA_MAP.get(r) : KATA_MAP.get(r);
         }
         function writerSetGhostChar() {
             if (!wGhost) return;
@@ -532,7 +873,7 @@
             wCtx.lineWidth = state.writer.penSize;
         }
         function writerPointerPos(e) {
-            if (!wCanvas) return {x:0, y:0};
+            if (!wCanvas) return { x: 0, y: 0 };
             const rect = wCanvas.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
@@ -545,10 +886,10 @@
             const p = writerPointerPos(e);
             isDrawing = true;
             lastX = p.x; lastY = p.y;
-            wStrokes.push({ ops: state.writer.eraser ? 'destination-out' : 'source-over', size: state.writer.penSize, points: [{x:lastX, y:lastY}] });
+            wStrokes.push({ ops: state.writer.eraser ? 'destination-out' : 'source-over', size: state.writer.penSize, points: [{ x: lastX, y: lastY }] });
         }
         function writerMove(e) {
-            if(!isDrawing || !wCtx) return;
+            if (!isDrawing || !wCtx) return;
             const p = writerPointerPos(e);
             writerStrokeStyle();
             wCtx.beginPath();
@@ -556,37 +897,37 @@
             wCtx.lineTo(p.x, p.y);
             wCtx.stroke();
             lastX = p.x; lastY = p.y;
-            const s = wStrokes[wStrokes.length-1];
-            if (s && s.points) s.points.push({x:p.x, y:p.y});
+            const s = wStrokes[wStrokes.length - 1];
+            if (s && s.points) s.points.push({ x: p.x, y: p.y });
         }
         function writerEnd(e) { // Patch: Menerima event e
-            isDrawing=false;
+            isDrawing = false;
             wCanvas?.releasePointerCapture?.(e?.pointerId); // Patch: Melepas pointer capture
         }
         function writerRedrawAll() {
-            if(!wCtx || !wCanvas) return;
-            wCtx.setTransform(1,0,0,1,0,0);
-            wCtx.clearRect(0,0,wCanvas.width,wCanvas.height);
+            if (!wCtx || !wCanvas) return;
+            wCtx.setTransform(1, 0, 0, 1, 0, 0);
+            wCtx.clearRect(0, 0, wCanvas.width, wCanvas.height);
             wCtx.scale(dpr, dpr);
             // HAPUS dua baris di bawah ini: (Patch: Menghapus fillRect)
             // wCtx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--soft').trim();
             // wCtx.fillRect(0, 0, wCanvas.width, wCanvas.height);
-            for(const s of wStrokes){
+            for (const s of wStrokes) {
                 wCtx.globalCompositeOperation = s.ops;
                 wCtx.lineWidth = s.size;
-                wCtx.lineCap='round'; wCtx.lineJoin='round';
+                wCtx.lineCap = 'round'; wCtx.lineJoin = 'round';
                 wCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--ink').trim();
                 wCtx.beginPath();
                 if (s.points.length > 0) {
                     wCtx.moveTo(s.points[0].x, s.points[0].y);
-                    for(let i=1;i<s.points.length;i++) wCtx.lineTo(s.points[i].x, s.points[i].y);
+                    for (let i = 1; i < s.points.length; i++) wCtx.lineTo(s.points[i].x, s.points[i].y);
                 }
                 wCtx.stroke();
             }
         }
-        function writerUndo() { if(!wStrokes.length) return; wStrokes.pop(); writerRedrawAll(); }
+        function writerUndo() { if (!wStrokes.length) return; wStrokes.pop(); writerRedrawAll(); }
         function writerClear() { wStrokes.length = 0; writerRedrawAll(); }
-        
+
         // Modified to get base64 image data
         function getCanvasBase64Image() {
             if (!wCanvas) return '';
@@ -596,7 +937,7 @@
             if (!tctx) return '';
             // Isi latar belakang dengan warna panel untuk gambar yang diekspor
             tctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--panel').trim();
-            tctx.fillRect(0,0,tmp.width,tmp.height);
+            tctx.fillRect(0, 0, tmp.width, tmp.height);
             tctx.drawImage(wCanvas, 0, 0);
             return tmp.toDataURL('image/png').split(',')[1]; // Ambil hanya bagian base64
         }
@@ -612,8 +953,8 @@
             const sel = qs('#writeKana');
             if (!sel) return;
             sel.innerHTML = '';
-            ALL_ROMAJI.forEach(r=>{
-                const map = state.writer.set==='hira' ? HIRA_MAP : KATA_MAP;
+            ALL_ROMAJI.forEach(r => {
+                const map = state.writer.set === 'hira' ? HIRA_MAP : KATA_MAP;
                 const o = new Option(`${r.toUpperCase()} — ${map.get(r)}`, r);
                 sel.add(o);
             });
@@ -625,7 +966,7 @@
             if (qs('#penSize')) qs('#penSize').value = state.writer.penSize;
             if (qs('#gridToggle')) qs('#gridToggle').checked = state.writer.grid;
             if (qs('#ghostToggle')) qs('#ghostToggle').checked = state.writer.ghost;
-            
+
             // Patch: Memastikan tombol pena aktif saat start
             if (state.writer.eraser) {
                 qs('#eraserBtn')?.classList.add('ok');
@@ -652,7 +993,7 @@
             updateFeedback(''); // Clear feedback
         }
         function writerRandom() {
-            state.writer.kana = ALL_ROMAJI[Math.floor(Math.random()*ALL_ROMAJI.length)];
+            state.writer.kana = ALL_ROMAJI[Math.floor(Math.random() * ALL_ROMAJI.length)];
             saveState();
             writerFillKanaOptions();
             writerSetGhostChar();
@@ -670,26 +1011,26 @@
                 wCanvas.addEventListener('pointercancel', writerEnd);
                 wCanvas.addEventListener('pointerleave', writerEnd);
             }
-            bind('#writeSet', 'change', (e)=>{ state.writer.set=e.target.value; saveState(); writerFillKanaOptions(); writerSetGhostChar(); writerClear(); updateFeedback(''); });
-            bind('#writeKana', 'change', (e)=>{ state.writer.kana=e.target.value; saveState(); writerSetGhostChar(); writerClear(); updateFeedback(''); });
-            bind('#writePrev', 'click', ()=>{ writerPick(-1); });
-            bind('#writeNext', 'click', ()=>{ writerPick(1); });
-            bind('#writeRand', 'click', ()=>{ writerRandom(); });
-            bind('#writeSpeak', 'click', ()=>{ speak(writerCurrentChar()); });
-            bind('#penSize', 'input', (e)=>{ state.writer.penSize = parseInt(e.target.value,10)||10; saveState(); });
-            bind('#gridToggle', 'change', (e)=>{ state.writer.grid = e.target.checked; saveState(); writerSetGrid(state.writer.grid); writerRedrawAll(); });
-            bind('#ghostToggle', 'change', (e)=>{ state.writer.ghost = e.target.checked; saveState(); writerSetGhostChar(); });
-            bind('#penBtn', 'click', ()=>{ state.writer.eraser=false; saveState(); qs('#penBtn')?.classList.add('ok'); qs('#eraserBtn')?.classList.remove('ok'); });
-            bind('#eraserBtn', 'click', ()=>{ state.writer.eraser=true; saveState(); qs('#eraserBtn')?.classList.add('ok'); qs('#penBtn')?.classList.remove('ok'); });
+            bind('#writeSet', 'change', (e) => { state.writer.set = e.target.value; saveState(); writerFillKanaOptions(); writerSetGhostChar(); writerClear(); updateFeedback(''); });
+            bind('#writeKana', 'change', (e) => { state.writer.kana = e.target.value; saveState(); writerSetGhostChar(); writerClear(); updateFeedback(''); });
+            bind('#writePrev', 'click', () => { writerPick(-1); });
+            bind('#writeNext', 'click', () => { writerPick(1); });
+            bind('#writeRand', 'click', () => { writerRandom(); });
+            bind('#writeSpeak', 'click', () => { speak(writerCurrentChar()); });
+            bind('#penSize', 'input', (e) => { state.writer.penSize = parseInt(e.target.value, 10) || 10; saveState(); });
+            bind('#gridToggle', 'change', (e) => { state.writer.grid = e.target.checked; saveState(); writerSetGrid(state.writer.grid); writerRedrawAll(); });
+            bind('#ghostToggle', 'change', (e) => { state.writer.ghost = e.target.checked; saveState(); writerSetGhostChar(); });
+            bind('#penBtn', 'click', () => { state.writer.eraser = false; saveState(); qs('#penBtn')?.classList.add('ok'); qs('#eraserBtn')?.classList.remove('ok'); });
+            bind('#eraserBtn', 'click', () => { state.writer.eraser = true; saveState(); qs('#eraserBtn')?.classList.add('ok'); qs('#penBtn')?.classList.remove('ok'); });
             bind('#undoStroke', 'click', writerUndo);
             bind('#clearCanvas', 'click', writerClear);
             bind('#savePNG', 'click', writerSavePNG);
-            
+
             // New: Bind checkDrawingBtn
             bind('#checkDrawingBtn', 'click', checkDrawing);
 
-            document.addEventListener('keydown', (e)=>{
-                if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='z'){
+            document.addEventListener('keydown', (e) => {
+                if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'z') {
                     e.preventDefault();
                     writerUndo();
                 }
@@ -706,7 +1047,7 @@
         }
 
         // Patch: Fungsi untuk memaksa mode pena saat halaman dimuat
-        function writerForcePenAtLoad(){
+        function writerForcePenAtLoad() {
             state.writer.eraser = false;
             saveState();
             qs('#penBtn')?.classList.add('ok');
@@ -902,30 +1243,30 @@
 
         // --- SIDEBAR JS ---
         (() => {
-            const sidebar  = document.getElementById('sidebar');
-            const toggle   = document.getElementById('sidebarToggle');
+            const sidebar = document.getElementById('sidebar');
+            const toggle = document.getElementById('sidebarToggle');
             const closeBtn = document.getElementById('closeSidebar');
 
-            function open(){ sidebar.classList.add('is-open'); document.body.classList.add('sidebar-open'); }
-            function close(){ sidebar.classList.remove('is-open'); document.body.classList.remove('sidebar-open'); }
+            function open() { sidebar.classList.add('is-open'); document.body.classList.add('sidebar-open'); }
+            function close() { sidebar.classList.remove('is-open'); document.body.classList.remove('sidebar-open'); }
 
             toggle?.addEventListener('click', open);
             closeBtn?.addEventListener('click', close);
 
             // Klik luar = tutup (mobile)
-            document.addEventListener('click', (e)=>{
-                if(!sidebar.classList.contains('is-open')) return;
+            document.addEventListener('click', (e) => {
+                if (!sidebar.classList.contains('is-open')) return;
                 const hit = sidebar.contains(e.target) || toggle.contains(e.target);
-                if(!hit) close();
+                if (!hit) close();
             });
             // ESC = tutup
-            document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') close(); });
+            document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
 
             // Tandai link aktif sesuai pathname
-            document.querySelectorAll('#sidebar a').forEach(a=>{
+            document.querySelectorAll('#sidebar a').forEach(a => {
                 const href = a.getAttribute('href');
                 // Use endsWith for robustness with different base paths
-                if(href && location.pathname.endsWith(href)) {
+                if (href && location.pathname.endsWith(href)) {
                     a.classList.add('active');
                 } else {
                     a.classList.remove('active'); // Ensure other links are not active
@@ -934,4 +1275,5 @@
         })();
     </script>
 </body>
+
 </html>
