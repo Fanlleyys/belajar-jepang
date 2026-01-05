@@ -4,10 +4,16 @@
   "description": "Pelatih Kana Jepang - Aplikasi belajar Hiragana & Katakana",
   "scripts": {
     "dev": "npx serve .",
-    "build": "echo 'Static site - no build needed'",
+    "build": "node build.js",
     "start": "npx serve ."
   },
-  "keywords": ["japanese", "kana", "hiragana", "katakana", "learning"],
+  "keywords": [
+    "japanese",
+    "kana",
+    "hiragana",
+    "katakana",
+    "learning"
+  ],
   "author": "Alfan",
   "license": "MIT"
 }
