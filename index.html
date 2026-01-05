@@ -4423,7 +4423,9 @@
             safe.test.mode = ['type', 'mc'].includes(safe.test.mode) ? safe.test.mode : 'type';
             safe.test.qType = ['k2r', 'r2k', 'seq', 'audio_k2r', 'audio_r2k', 'kseq'].includes(safe.test.qType) ? safe.test.qType : 'k2r';
             safe.test.rangeMode = ['range', 'single'].includes(safe.test.rangeMode) ? safe.test.rangeMode : 'range';
-            safe.test.subset = ['all', 'base-all', 'dakuon-all', 'youon-all', ...GROUPS.map(g => g.key), 'confusion', 'srs_due', 'jft-drill', 'custom'].includes(safe.test.subset) ? safe.test.subset : 'all'; // Updated for Custom Set
+            // FIX: Hardcode valid subset keys instead of referencing GROUPS (not yet defined at load time)
+            const VALID_SUBSETS = ['all', 'base-all', 'dakuon-all', 'youon-all', 'aiueo', 'k', 's', 't', 'n', 'h', 'm', 'y', 'r', 'w', 'g', 'z', 'dj', 'd', 'b', 'p', 'ky', 'gy', 'sh', 'jy', 'ch', 'ny', 'hy', 'by', 'py', 'my', 'ry', 'confusion', 'srs_due', 'jft-drill', 'custom'];
+            safe.test.subset = VALID_SUBSETS.includes(safe.test.subset) ? safe.test.subset : 'all';
 
             if (!safe.confusionLog) safe.confusionLog = { hira: {}, kata: {} };
             if (typeof safe.confusionLog.hira !== 'object') safe.confusionLog.hira = {};
