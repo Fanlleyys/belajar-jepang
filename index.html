@@ -266,13 +266,6 @@
         /* ========================================================== */
         @media (max-width: 767px) {
 
-            /* Sembunyikan tombol sekunder di mobile - pindahkan ke sidebar */
-            #exportBtn,
-            #importBtn,
-            #resetBtn {
-                display: none !important;
-            }
-
             /* Header controls lebih compact */
             .header-controls-row {
                 gap: 4px !important;
@@ -1759,14 +1752,8 @@
                     <label class="btn ghost" id="liteModeToggleBtn" style="display:flex;align-items:center;gap:8px">
                         <input id="liteToggle" type="checkbox" aria-label="Mode Ringan" /> Lite Mode
                     </label>
-                    <button id="exportBtn" class="btn ghost" type="button" title="Simpan progres ke file"><i
-                            class="fa-solid fa-download"></i> Simpan Progres ke File</button>
                     <input type="file" id="importFile" accept=".json" style="display:none;"
                         aria-label="Pulihkan progres dari file">
-                    <button id="importBtn" class="btn ghost" type="button" title="Pulihkan progres dari file"><i
-                            class="fa-solid fa-upload"></i> Pulihkan Progres dari File</button>
-                    <button id="resetBtn" class="btn ghost" type="button" title="Atur ulang semua progres">Atur Ulang
-                        Semua</button>
                     <label class="btn ghost" style="display:flex;align-items:center;gap:8px">
                         <input id="streakToggle" type="checkbox" aria-label="Notifikasi streak 10x" />
                         Notifikasi Streak 10x
@@ -4751,7 +4738,8 @@
         bind('#audToggle', 'change', (e) => { state.audio = e.target.checked; save(); });
         bind('#liteToggle', 'change', (e) => { state.lite = e.target.checked; save(); applyPerfMode(); });
 
-        bind('#resetBtn', 'click', () => {
+        // Fungsi reset progress
+        const resetAllProgress = () => {
             showCustomConfirm(t('confirm_reset_title'), (confirmed) => {
                 if (confirmed) {
                     localStorage.removeItem(KEY);
@@ -4764,7 +4752,11 @@
                     showToast('Semua progres telah direset.');
                 }
             });
-        });
+        };
+
+        // Binding untuk tombol reset (jika ada) dan sidebar reset
+        bind('#resetBtn', 'click', resetAllProgress);
+        bind('#sidebarResetBtn', 'click', resetAllProgress);
 
         bind('#resetConfusionBtn', 'click', () => {
             showCustomConfirm(t('confirm_reset_title'), (confirmed) => {
@@ -4852,8 +4844,8 @@
         // Hubungkan ke tombol 🔊 (sekali saja) - kini menggunakan .btn-audio-current
         // Logic ini sekarang berada di `bindAudioButtonToCurrent()` yang dipanggil di `afterRenderQuestion`
 
-        bind('#exportBtn', 'click', exportProgress);
-        bind('#importBtn', 'click', () => { qs('#importFile')?.click(); });
+        // bind('#exportBtn', 'click', exportProgress); // Removed (button removed)
+        // bind('#importBtn', 'click', () => { qs('#importFile')?.click(); }); // Removed (button removed)
         bind('#importFile', 'change', (e) => {
             if (e.target.files && e.target.files.length > 0) {
                 importProgress(e.target.files[0]);
@@ -4864,7 +4856,7 @@
         // Sidebar settings buttons (mobile access)
         bind('#sidebarExportBtn', 'click', exportProgress);
         bind('#sidebarImportBtn', 'click', () => { qs('#importFile')?.click(); });
-        bind('#sidebarResetBtn', 'click', () => { qs('#resetBtn')?.click(); });
+        // bind('#sidebarResetBtn', ...) already handled above
 
         // Sidebar functions - now integrated with router
         function toggleSidebar() {
