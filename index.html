@@ -1199,14 +1199,14 @@
         .sidebar {
             position: fixed;
             top: 0;
-            left: -300px;
+            left: -100%;
             /* Hidden by default */
             width: 280px;
             height: 100%;
-            background: var(--panel);
+            background: var(--panel) !important;
             box-shadow: var(--shadow);
             /* Z-INDEX FINAL */
-            z-index: 1000;
+            z-index: 9999 !important;
             transition: left 0.3s ease-in-out;
             padding: 20px;
             padding-top: calc(20px + env(safe-area-inset-top));

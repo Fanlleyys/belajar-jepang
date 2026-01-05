@@ -423,9 +423,9 @@
             /* FIX: Completely hide sidebar */
             width: 280px;
             height: 100%;
-            background: var(--panel);
+            background: var(--panel) !important;
             box-shadow: var(--shadow);
-            z-index: 1000;
+            z-index: 9999 !important;
             transition: left .3s ease-in-out;
             padding: 20px;
             padding-top: calc(20px + env(safe-area-inset-top));
