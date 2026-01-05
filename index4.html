@@ -275,6 +275,7 @@
             border-bottom: 1px solid var(--border);
             cursor: pointer;
             transition: background-color var(--transition-duration) ease-out;
+            position: relative;
         }
 
         .vocab-item:hover {
@@ -523,6 +524,76 @@
         /* Select arrow padding sudah di CSS; tambahkan height konsisten */
         select {
             height: 52px;
+        }
+
+        /* ========================================================== */
+        /* === MOBILE 720p OPTIMIZATIONS === */
+        /* ========================================================== */
+        @media (max-width: 767px) {
+
+            /* Vocab item jadi column di mobile */
+            .vocab-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 4px;
+                padding: 10px 8px;
+            }
+
+            .vocab-jp {
+                flex-shrink: 1;
+                font-size: 18px;
+                word-break: break-word;
+                max-width: 100%;
+            }
+
+            .vocab-jp .kana {
+                display: block;
+                margin-left: 0;
+                margin-top: 2px;
+            }
+
+            .vocab-id {
+                text-align: left;
+                width: 100%;
+            }
+
+            .vocab-id .arti {
+                font-size: 14px;
+            }
+
+            .vocab-item i {
+                position: absolute;
+                right: 8px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            /* Card dan button lebih compact */
+            .card {
+                padding: 12px !important;
+            }
+
+            .btn {
+                min-height: 44px;
+                padding: 0 12px;
+                font-size: 13px;
+            }
+
+            /* Filter chips lebih kecil */
+            .chip-filter {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .vocab-jp {
+                font-size: 16px;
+            }
+
+            .vocab-id .arti {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
