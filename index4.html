@@ -1382,6 +1382,12 @@
             let GEMINI_API_KEY = localStorage.getItem('user_gemini_api_key') || "";
 
             function getGeminiApiUrl() {
+                // Validasi format key (harus berawalan "AIza")
+                if (GEMINI_API_KEY && !GEMINI_API_KEY.startsWith('AIza')) {
+                    console.warn("API Key invalid (missing 'AIza' prefix). Resetting.");
+                    GEMINI_API_KEY = ""; // Reset agar meminta input ulang
+                }
+
                 if (!GEMINI_API_KEY) {
                     const input = prompt("Fitur ini membutuhkan Google Gemini API Key. Masukkan Key Anda (akan disimpan di browser):");
                     if (input && input.trim()) {
