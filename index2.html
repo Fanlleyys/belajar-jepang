@@ -720,7 +720,7 @@
         // SECURITY FIX: API Key sebaiknya disimpan di backend/environment variable
         // Untuk production, gunakan serverless function atau proxy server
         const GEMINI_API_KEY = "GANTI_DENGAN_API_KEY_KAMU"; // ⚠️ JANGAN COMMIT KEY ASLI!
-        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${GEMINI_API_KEY}`;
+        const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
         const geminiCache = new Map(); // Cache untuk contoh AI
 
         // Fungsi untuk menangani percobaan ulang dengan exponential backoff dan timeout
