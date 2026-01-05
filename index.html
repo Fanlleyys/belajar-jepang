@@ -261,6 +261,78 @@
             }
         }
 
+        /* ========================================================== */
+        /* === MOBILE 720p OPTIMIZATIONS === */
+        /* ========================================================== */
+        @media (max-width: 767px) {
+
+            /* Sembunyikan tombol sekunder di mobile - pindahkan ke sidebar */
+            #exportBtn,
+            #importBtn,
+            #resetBtn {
+                display: none !important;
+            }
+
+            /* Header controls lebih compact */
+            .header-controls-row {
+                gap: 4px !important;
+                flex-wrap: wrap;
+            }
+
+            .header-controls-row .seg {
+                flex: 1 1 100%;
+            }
+
+            .header-controls-row .seg button {
+                padding: 8px 10px;
+                font-size: 12px;
+            }
+
+            .header-controls-row label.btn {
+                padding: 8px 10px;
+                font-size: 12px;
+                flex: 0 1 auto;
+            }
+
+            /* Card padding lebih kecil */
+            .card {
+                padding: 12px !important;
+            }
+
+            /* Gap grid lebih kecil */
+            .grid {
+                gap: 10px !important;
+            }
+
+            /* Button height lebih kecil */
+            .btn {
+                min-height: 44px;
+                padding: 0 12px;
+                font-size: 13px;
+            }
+
+            /* Tebak Arti CTA card lebih compact */
+            .card h2 {
+                font-size: 16px;
+            }
+
+            .card .small {
+                font-size: 12px;
+            }
+        }
+
+        /* Extra small phones (360px) - lebih compact lagi */
+        @media (max-width: 400px) {
+            .header-controls-row label.btn {
+                flex: 1 1 45%;
+            }
+
+            .seg button {
+                padding: 8px 6px;
+                font-size: 11px;
+            }
+        }
+
 
         h1 {
             font-size: 20px;
@@ -1637,6 +1709,20 @@
             <li><a href="index6.html">✍️ Menulis</a></li>
             <li><a href="index8.html">📚 Pelatih Membaca</a></li> <!-- Added link to index8.html -->
         </ul>
+        <!-- Settings section (visible on mobile) -->
+        <hr style="border: none; border-top: 1px solid var(--border); width: 100%;">
+        <h4 style="margin:8px 0;font-size:13px;color:var(--muted);">⚙️ Pengaturan</h4>
+        <div class="sidebar-settings" style="display:flex;flex-direction:column;gap:8px;">
+            <button id="sidebarExportBtn" class="btn ghost" style="justify-content:flex-start;">
+                <i class="fa-solid fa-download"></i> Simpan Progres
+            </button>
+            <button id="sidebarImportBtn" class="btn ghost" style="justify-content:flex-start;">
+                <i class="fa-solid fa-upload"></i> Pulihkan Progres
+            </button>
+            <button id="sidebarResetBtn" class="btn ghost" style="justify-content:flex-start;">
+                <i class="fa-solid fa-trash-alt"></i> Atur Ulang Semua
+            </button>
+        </div>
     </nav>
 
     <header>
@@ -4774,6 +4860,11 @@
                 e.target.value = null;
             }
         });
+
+        // Sidebar settings buttons (mobile access)
+        bind('#sidebarExportBtn', 'click', exportProgress);
+        bind('#sidebarImportBtn', 'click', () => { qs('#importFile')?.click(); });
+        bind('#sidebarResetBtn', 'click', () => { qs('#resetBtn')?.click(); });
 
         // Sidebar functions - now integrated with router
         function toggleSidebar() {
